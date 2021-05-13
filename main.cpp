@@ -33,6 +33,8 @@ int main(void)
         // stmt->execute("CREATE DATABASE proton");
         stmt->execute("INSERT INTO domains(name) VALUES('sproton.com')");
         domains = get_domains_names();
+        for (auto domain: domains)
+            stmt->execute("INSERT INTO domains(name) VALUES('" + domain + "')");
 
         // delete res;
         delete stmt;
