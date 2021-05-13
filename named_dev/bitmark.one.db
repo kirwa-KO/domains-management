@@ -1,0 +1,137 @@
+;-----------------------------------------------------------------------------------------
+; BitMark.one
+;-----------------------------------------------------------------------------------------
+$ORIGIN one.
+$TTL    3h5m
+bitmark		IN      SOA     ns0.dsmx.com. admin.internam.com. (
+
+                ;2014120300 ;2014121800 ;2015011201 ;2015012101 ;2015012402 ;2015021600; 2015030400; 2015080400; 2016013101; 
+	 	;2016030501; ;2016031002; ;2017111801;
+	 	;2017112207;      SERIAL NUMBER  yyyymmddnn
+	 	;2017120901 ;2018071801 ;2018081201 2018102601 2019072357 2019080500 2019081400 2019091109 2019091200 2020100100 2020100500
+		;2020100809
+		;2020102100 uk.bitmark.one temporarily activated at j2 / post.dsmx.com  (DNS Seeder !)
+		;2020111700 jw.bitmrk.one as NS for shdo.bitmark.one DNS-seeder; 2020112003
+		;2020112700
+		;2020120100	; jiyu.bitmark.one subdom serverd by explorer.bitmario.io (ben) ; unofficial, unlisted
+		;2020120101	; explorer.bitmark.one -> j3.dsmx.com NS for subdomain shido.bitmark.one
+		;2021010500	; shido.bitmark.one NS'd by jp.bitmark.co
+		 2021042200	; ninja.bitmark.one
+
+                7h23m           ; Slaves:       * refresh every 7 hours
+                12m             ;               * if no answer try back first in 12 minutes
+                3d55m           ;               * keep previous info 3 days 55 minutes
+                17m             ;               * keep trying for new info every 17 minutes
+)
+
+                IN      NS      ns0.dsmx.com.
+                IN      NS      ns1.dsmx.com.
+
+;               IN      A       192.64.80.50    ; j2
+;               IN      A       208.73.206.109  ; j3
+                IN      A       172.104.157.27  ; Willem: Web Hoster / Europe
+
+; Receiving
+		IN	MX	10	mail.dsmx.com.
+;               IN      MX      20      explorer.bitmark.one.
+
+;               IN      MX      20	ns1.internam.com.
+;               IN      MX      30i	mail.kriptomint.com.
+
+; Sending
+;				explorer.bitmark.one (willem)
+						; -all strict	~all marked	?all neutral
+		IN 	TXT 	"v=spf1 mx a ip4:172.104.157.27 -all"
+; 				UK in London	 (Britannia) britannia	 Linode 	uk.bitmark.one 	139.162.232.242
+;		IN	TXT	"v=spf1 mx a ip4:139.162.232.242 -all"
+
+;		IN	TXT 	"v=spf1 ip4:204.68.122.21/32 a:postal.dsmx.com -all"
+
+;;default._domainkey      IN      TXT     ( "v=DKIM1; k=rsa; "
+;		IN      TXT     ( "v=DKIM1; k=rsa; "
+;          "p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDh1ZWk5HkAMIHj+LBuKagmqZxESuYnckm91Pu89HxwevZotJoqf/lJwxq70YXy3HbKlABfr+YKZHmYjKGiH7I+sV4yYYaKjKlL/Y+ZALyTlD+Wyz6hoirm1xTfLB+Ndrqx1uZ4Pewu3e8UkW4kXyRSS9zChO4TRGJcNc17XeqgQQIDAQAB" )
+;; ----- DKIM key default for bitmark.one
+;
+;;dkim._publickey        IN      TXT     ("v=DKIM1; t=s; p="
+;;default._domainkey	IN      TXT     ("v=DKIM1; t=s; p="
+;;			IN      TXT     ("v=DKIM1; t=s; p="
+;		IN      TXT     ("v=DKIM1; t=s; "
+;"p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAn8RCiu/yN8vI4f6Ej8jPd+5B1b7mo233JvC4fcxz+/rdYXlwV1+KAFkJ8ataYMcDn6PX/eSocFeM3UXfNCKm"
+;"6/AGx5OomtxQNaYBC3O+VlobFb3LSoT34uGjlVAUDX/aMxbrAdUaShMwQkJC5HPpKy2AsFL9SBk68BpE6IzDQIcPSTW4RvE/rHvG1Sr/CQVKLmGyz59XnW+hQ/xRwYtX"
+;"tQV9MyDTjbk6H5iHKB5s1xXqpMY6y/kEUSEvbZ6EyAKS7hAeQ/vUPmr8Z83npmkrHdWarYNAp3AxcGJaNl3OeB5VL2NEzhtxyBf+J+lNRoV/x1VMTetOsfu6I4KKPk9s"
+;"UwIDAQAB")
+
+;-----BEGIN PUBLIC KEY-----
+;MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnPw+TIZ/PTvcA3AlwiKR
+;rkvnQgfl/rny3eqlj9yfttvp5mxuqwNUuvIYFzZeSsUmY8Ua9F/dhKO19oarjCoE
+;O6R5bp8g8ZN6eymElEGXvDxmdXYge+3DCCmQ8EAPIvxkWG0hzJZ+xSr3CfoS+PQU
+;B2/nNR2cf4mf2kgc+gwQo5iUj0gYLckH9cc7Srg1kncPMM/Dwg1nCexJBF/eIMX0
+;d1uqB7H6BlEu4ZESSqWUfKfSbZ4ohb6bZMRjr/Cw+PUGmi6sAd+gpTZaVXRiPuiu
+;5GvaqUPiwMrAHlznLaSpt85tsDD350BBTKEw1R0vydYJm+E2TYUMDnpf+sZajoxo
+;7QIDAQAB
+;----END PUBLIC KEY-----
+;_domainkey	 	IN TXT "o=~"
+_domainkey.bitmark.one. 		IN 	TXT 	"o=~"
+MARKS._domainkey.bitmark.one.		IN	TXT	("v=DKIM1; t=s; k=rsa;"
+"p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnPw+TIZ/PTvcA3AlwiKRrkvnQgfl/rny3eqlj9yfttvp5mxuqwNUuvIYFzZeSsUmY8Ua9F/dhKO19oarjCoE"
+"O6R5bp8g8ZN6eymElEGXvDxmdXYge+3DCCmQ8EAPIvxkWG0hzJZ+xSr3CfoS+PQUB2/nNR2cf4mf2kgc+gwQo5iUj0gYLckH9cc7Srg1kncPMM/Dwg1nCexJBF/eIMX0"
+"d1uqB7H6BlEu4ZESSqWUfKfSbZ4ohb6bZMRjr/Cw+PUGmi6sAd+gpTZaVXRiPuiu5GvaqUPiwMrAHlznLaSpt85tsDD350BBTKEw1R0vydYJm+E2TYUMDnpf+sZajoxo"
+"7QIDAQAB")
+ 
+$ORIGIN bitmark.one.
+www             IN      A	172.104.157.27	; Willem Web Hoster
+;www            IN      A	204.68.122.6	; TReed @ AIS (decomissioned)
+;www            IN      A	173.255.212.141 ; Zappa / Calendar 
+j2              IN      A       192.64.80.50    ; j2
+j3              IN      A       208.73.206.109  ; j3
+jw              IN      A       172.104.157.27  ; Willem: Web Hoster / Europe
+explorer        IN      A	208.73.206.109	; j3
+xpl		IN	A	208.73.206.109
+bitcoin         IN      A       192.168.33.146
+bristol         IN      A       178.79.142.53
+calendar        IN      A       173.255.212.141	; zappa
+cameron         IN      A       192.168.33.131
+ecotlan		IN	A	173.255.212.141
+guide           IN      A       192.168.33.146
+mine		IN	A	206.72.198.107
+timestamp	IN	A	172.104.157.27
+timestamps	IN	A	172.104.157.27
+uk              IN      A       192.64.80.50
+;uk              IN      A       139.162.232.242
+zappa           IN      A       173.255.212.141
+;biji		IN	A	NS	explorer.bitmark.io
+ninja		IN	A	195.90.208.175	
+lukas		IN	A	195.90.208.175
+;; Thank you: http://www.zytrax.com/books/dns/ch9/delegate.html
+;; --------------------------------------------------------------------------------------------------------------------
+;$ORIGIN biji.bitmark.one.
+;; Name server explorer.bitmark.io serves biji.bitmark.one sub-domain
+;; Don't forget the dot '.' after the name of the "foreign" name server, to make them FQDN (fully qualified domain names) ! 
+;		IN	NS	explorer.bitmark.io.
+;$ORIGIN	shido.bitmark.one.
+;		IN	NS	jp.bitmark.io.
+biji		IN	NS	marks.chaindynamics.com.; was: explorer.bitmark.io.
+shido		IN	NS	jp.bitmark.co.		; akio it is S2, Second Seed of Bitmark. co'd instead of io'd ; ex:explorer.bitmark.one. ; j3
+jiyu		IN	NS	explorer.bitmark.io.	; ben
+guide		IN	NS	mining.mymarks.co.
+suma		IN	NS	eu.bitmark.io.
+aikwerika       IN      NS      seeder.chainetics.com.
+;bitcoin         IN      NS      bitcoin.bitmark.one. // are you high; circular reference
+
+;-----BEGIN PUBLIC KEY-----
+;MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnPw+TIZ/PTvcA3AlwiKR
+;rkvnQgfl/rny3eqlj9yfttvp5mxuqwNUuvIYFzZeSsUmY8Ua9F/dhKO19oarjCoE
+;O6R5bp8g8ZN6eymElEGXvDxmdXYge+3DCCmQ8EAPIvxkWG0hzJZ+xSr3CfoS+PQU
+;B2/nNR2cf4mf2kgc+gwQo5iUj0gYLckH9cc7Srg1kncPMM/Dwg1nCexJBF/eIMX0
+;d1uqB7H6BlEu4ZESSqWUfKfSbZ4ohb6bZMRjr/Cw+PUGmi6sAd+gpTZaVXRiPuiu
+;5GvaqUPiwMrAHlznLaSpt85tsDD350BBTKEw1R0vydYJm+E2TYUMDnpf+sZajoxo
+;7QIDAQAB
+;----END PUBLIC KEY-----
+;			IN TXT "o=~"
+;;_domainkey	 		IN 	TXT 	"o=~"
+;;
+;;dkim.MARKS_public._domainkey	IN	TXT	("v=DKIM1; t=y; k=rsa;"
+;;	"p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnPw+TIZ/PTvcA3AlwiKRrkvnQgfl/rny3eqlj9yfttvp5mxuqwNUuvIYFzZeSsUmY8Ua9F/dhKO19oarjCoE"
+;;"O6R5bp8g8ZN6eymElEGXvDxmdXYge+3DCCmQ8EAPIvxkWG0hzJZ+xSr3CfoS+PQUB2/nNR2cf4mf2kgc+gwQo5iUj0gYLckH9cc7Srg1kncPMM/Dwg1nCexJBF/eIMX0"
+;;"d1uqB7H6BlEu4ZESSqWUfKfSbZ4ohb6bZMRjr/Cw+PUGmi6sAd+gpTZaVXRiPuiu5GvaqUPiwMrAHlznLaSpt85tsDD350BBTKEw1R0vydYJm+E2TYUMDnpf+sZajoxo"
+;;"7QIDAQAB")

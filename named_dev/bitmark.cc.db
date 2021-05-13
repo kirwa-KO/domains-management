@@ -1,0 +1,60 @@
+;-----------------------------------------------------------------------------------------
+; bitmark.cc 
+;-----------------------------------------------------------------------------------------
+$ORIGIN cc.
+$TTL    4h
+bitmark		IN	SOA	ns0.dsmx.com.	admin.internam.com. (
+
+                ;2020121000;      SERIAL NUMBER  yyyymmddnn
+                2020122300	; dnsseed.bitmark.cc  NS'd marks.chainetics.com
+
+                7h23m           ; Slaves:       * refresh every 7 hours
+                12m             ;               * if no answer try back first in 12 minutes
+                3d55m           ;               * keep previous info 3 days 55 minutes
+                17m )           ;               * keep trying for new info every 17 minutes
+
+                IN      NS      ns0.dsmx.com.
+                IN      NS      ns1.dsmx.com.
+
+;		IN      A       ipnm0		; j2              192.64.80.50    ; Apache2	Seacaucus, NJ	(j2.dsmx.com)
+;		IN      A       ipnm1		; j3              208.73.206.109  ; Apache2	Seacaucus, NJ	(j3.dsmx.com)
+;		IN      A       ipnm2		; vinny           206.72.198.107  ; Nginx	Seacaucus, NJ	(openmarks.bitmark.co)
+;		IN      A       ipnm3		; willem          172.104.157.27  ; Apache2	Frankfurt, DE	(explorer.bitmark.one)
+;		IN      A       ipnm4	 	; zappa           173.255.212.141 ; Lighttpd	Fremont, CA	(calendar.bitmark.one)
+                IN      A       208.73.206.109
+		
+				; Receiving
+                IN      MX      10      mail.dsmx.com.          ; 172.105.53.42   mail.dsmx.com         Mumbai
+;		IN	MX	20	post.dsmx.com.		; 45.79.64.196    mx.internam.com       Fremont  
+;	        IN      MX      30      rell.mubot.com.         ; 172.105.43.211  rg.intersim.org       Atlanta
+
+
+                                ; Receptors
+;               IN      MX      10      mail.dsmx.com.          ; 172.105.53.42   mail.dsmx.com         Mumbai
+;               IN      MX      15      post.dsmx.com.		; 45.79.64.196    post.dsmx.com		Fremont  
+;               IN      MX      20      rell.mubot.com.         ; 172.105.43.211  rg.intersim.org       Atlanta
+;               IN      MX      30      explorer.bitmark.one.   ; 172.104.157.27  explorer.bitmark.one  Frankfurt
+;               IN      MX      40      postal.dsmx.com.        ; 178.79.142.53   postal.dsmx.com       London
+;               IN      MX      50      zeit.cronobit.com.      ; 172.105.93.215  zeit.cronobit.com     Frankfurt
+
+ 				; Sending
+		IN	TXT	"v=spf1 -all" ;	( Not sending at all. )`
+;		IN      TXT     "v=spf1 mx a ip4:45.79.64.196/32 ip4:172.105.53.42/32 ~all"
+;               IN      TXT     "v=spf1 mx a -all"
+;               IN      TXT     "v=spf1 mx a ip4:172.104.157.27 ip4:178.79.142.53 ip4:172.105.93.215 -all"
+;               IN      TXT     "v=spf1 mx a ip4:178.79.142.53/24 ip4:172.104.157.27/24 ?all"
+
+
+$ORIGIN bitmark.cc.
+				; Web Hosters
+;www             IN      A       ipnm0		; vinny           206.72.198.107  ; Seacaucus, NJ  (openmarks.bitmark.co)
+;www             IN      A       ipnm1		; willem          172.104.157.27  ; Frankfurt, DE  (explorer.bitmark.one)
+;www             IN      A       ipnm2	 	; zappa           173.255.212.141 ; Fremont, CA	   (calendar.bitmark.one)
+
+www             IN      CNAME       	bitmark.cc.
+dnsseed		IN	NS		marks.chainetics.com.
+
+; ### https://serverfault.com/questions/293117/are-spf-needed-for-bitmarks-that-do-not-send-mails-and-do-not-have-mx-record
+;		IN 	TXT 	“v=spf1 -all”
+;_dmarc  IN      TXT     "v=DMARC1; p=reject; aspf=s; adkim=s;"
+

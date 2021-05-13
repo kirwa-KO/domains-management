@@ -1,0 +1,118 @@
+;-----------------------------------------------------------------------------------------
+; bitmark.io 								172.104.157.27
+;-----------------------------------------------------------------------------------------
+$ORIGIN io.
+$TTL    4h
+bitmark		IN	SOA	ns0.dsmx.com.	admin.internam.com. (
+
+                ;2019101405;      SERIAL NUMBER  yyyymmddnn ;2019111401 2019110201
+		;2020083001 2020093003
+		;2020101100
+		;2020112900	; mx.bitmark.io  "speedy" in Dallas, TX
+		;2020120101	; de.bitmark.io  "willem" in Frankfurt, Deutschland
+		;2020120801	; de,fr,it,es,pt;   ru;   cn,tw; in,jp,kr,th
+		;2020122503	; .ru for Russia dev'ing on vinny
+		2020123000	; .es for Spain  dev'ing on j3
+
+                7h23m           ; Slaves:       * refresh every 7 hours
+                12m             ;               * if no answer try back first in 12 minutes
+                3d55m           ;               * keep previous info 3 days 55 minutes
+                17m )           ;               * keep trying for new info every 17 minutes
+
+                IN      NS      ns0.dsmx.com.
+                IN      NS      ns1.dsmx.com.
+
+;		IN      A       ipnm0		; vinny         206.72.198.107  ; Seacaucus, NJ  (openmarks.bitmark.co)
+;		IN      A       ipnm1		; willem        172.104.157.27  ; Frankfurt, DE  (explorer.bitmark.one)
+;		IN      A       ipnm2	 	; zappa         173.255.212.141 ; Fremont, CA	   (calendar.bitmark.one)
+;               IN      A       192.64.80.50    ; j2		(post.dsmx.com)
+		IN      A       208.73.206.109  ; j3		(j3.dsmx.com)
+; 		IN      A       172.104.157.27  ; willem
+		
+				; Receiving
+                IN      MX      10      mail.dsmx.com.          ; 50.116.29.162	  mail.dsmx.com		Fremont
+;		IN	MX	20	post.dsmx.com.		; 45.79.64.196    mx.internam.com       Fremont  
+;               IN      MX      30      rell.mubot.com.         ; 172.105.43.211  rg.intersim.org       Atlanta
+								; 172.105.53.42   ruby.dsmx.com         Mumbai
+
+                                ; Receptors
+;               IN      MX      10      mail.dsmx.com.          ; 172.105.53.42   mail.dsmx.com         Mumbai
+;               IN      MX      15      post.dsmx.com.		; 45.79.64.196    post.dsmx.com		Fremont  
+;               IN      MX      20      rell.mubot.com.         ; 172.105.43.211  rg.intersim.org       Atlanta
+;               IN      MX      30      explorer.bitmark.one.   ; 172.104.157.27  explorer.bitmark.one  Frankfurt
+;               IN      MX      40      postal.dsmx.com.        ; 178.79.142.53   postal.dsmx.com       London
+;               IN      MX      50      zeit.cronobit.com.      ; 172.105.93.215  zeit.cronobit.com     Frankfurt
+
+ 				; Sending
+
+		IN 	TXT 	"v=spf1 +a +mx +ip4:172.105.53.42 ~all"
+;		IN      TXT     "v=spf1 mx a ip4:45.79.64.196/32 ip4:172.105.53.42/32 ~all"
+;		IN	TXT	"v=spf1 -all" ;	( Not sending at all. )`
+;               IN      TXT     "v=spf1 mx a -all"
+;               IN      TXT     "v=spf1 mx a ip4:172.104.157.27 ip4:178.79.142.53 ip4:172.105.93.215 -all"
+;               IN      TXT     "v=spf1 mx a ip4:178.79.142.53/24 ip4:172.104.157.27/24 ?all"
+
+
+$ORIGIN bitmark.io.
+				; Web Hosters
+;www             IN      A       ipnm0		; vinny           206.72.198.107  ; Seacaucus, NJ  (openmarks.bitmark.co)
+;www             IN      A       ipnm1		; willem          172.104.157.27  ; Frankfurt, DE  (explorer.bitmark.one)
+;www             IN      A       ipnm2	 	; zappa           173.255.212.141 ; Fremont, CA	   (calendar.bitmark.one)
+
+;www             IN      A	172.104.157.27  ; willem edvard webhoster
+;www             IN      A	74.220.207.128  ; hostmonster 
+www		IN	CNAME	bitmark.io.
+
+biji		IN	A	139.162.35.170
+de		IN	A	172.104.157.27	; de.bitmark.io 	
+eu		IN	A	139.162.128.92
+explorer	IN	A	139.162.35.170  ; ben
+ge		IN	A	94.137.177.227
+mx		IN	A	45.56.75.20
+shido		IN	A	139.162.122.138
+ts1		IN	A	139.162.122.138
+us		IN	A	45.33.65.161
+
+; Russia, {China,Taiwan}, Germany, France, Italy, Spain, {Brazil, Portugal}, Japan, Korea, Thailand, India, Turkey
+; ru, {cn,tw}, de, fr, it, es, {br,pt}, jp, kr, th, in, tr }
+
+; Europe
+;				; willem
+fr		IN	A	172.104.157.27	; France
+it		IN	A	172.104.157.27	; Italy 
+es		IN	A	208.73.206.109	; Spain
+pt		IN	A	172.104.157.27	; Portugal
+tr		IN	A	172.104.157.27	; Turkey
+
+; EurAsia
+ru		IN	A	206.72.198.107	; vinny - dev ; 208.73.206.109	; Russian Federation
+
+; Asia
+jp		IN	A	139.162.122.138 ; akio 139.162.122.138 * Fixed Seed Node - jp.bitmark.io - Official Bitmark Code 
+jx		IN	A	172.104.110.155 ; Japan ; okinaki 172.104.110.155 * jp.dsmx.com - Domain Service Monetary Exchange
+in		IN	A	172.104.110.155 ; India ; may get local Linode later
+kr		IN	A	172.104.110.155 ; Korea
+th		IN	A	172.104.110.155 ; Thailand
+cn		IN	A	172.104.110.155 ; China
+tw		IN	A	172.104.110.155 ; Taiwain
+
+
+one		IN	A	172.104.157.27	; Registar: Instra bitmark.one ... want to one.bitmark.io to see the WordPress
+
+; tx
+; audit
+;jasmine		IN	A	173.214.162.236	; jasmine	InterServer.net, sister to Vinny
+
+
+@		IN	TXT	"greeting=Que onda carnal;"
+
+; ### https://serverfault.com/questions/293117/are-spf-needed-for-bitmarks-that-do-not-send-mails-and-do-not-have-mx-record
+;		IN 	TXT 	“v=spf1 -all”
+;_dmarc  IN      TXT     "v=DMARC1; p=reject; aspf=s; adkim=s;"
+
+_dmarc  IN  TXT  "v=DMARC1; p=none; pct=100; rua=mailto:abuse@dsmx.com; ruf=mailto:postmaster@dsmx.com; adkim=r; aspf=r;"
+
+mail._domainkey IN TXT ( "v=DKIM1; k=rsa; "
+        "p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAv9F/yz9Bg3Xut7QI03pQ5xjpm45IT2EVgiFbiCZKsDSbLgk5Z1dQZ0EPVfAR5js6ERqgEtyQkyuIR8l9I+MRKrLuwiuCJNN1Aq0DaiBR5tPZpl+7AIV1ScBPO21Tw4jijqEWSrt56x/CTiMbZ3DWN+pIDVr1ZSjkIAQQ0ngvsZFUrUsUfOjr7F1cZpZsZX8cn/b3ARaRzykIj6o+4"
+        "ioJQsNezkhiFnZwAF5WM8n4n9in4E+3uSrDHBZkL2f5fZN7irKRqNZd3At/cHPrQDq52IeBg5iQ9OADSFBxwoA/h4XWN5JRstq6dEWOihwSplPURtMkNgTbMjdHZRtOFADLJQIDAQAB"
+) ;

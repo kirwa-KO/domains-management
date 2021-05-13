@@ -1,0 +1,127 @@
+
+aquamuse.pro
+califormix.com
+califormula.com
+ecotlan.mx
+gamagent.com
+islandbay.mx
+partura.com
+
+ airbot.pro
+ intersim.com
+ segtote.com
+ sofiki.com
+ wikifolk.com
+ wikitruth.com
+
+br.x86linux.org
+de.x86linux.org
+en.x86linux.org
+fr.x86linux.org
+it.x86linux.org
+nodejs.x86linux.org
+sv.x86linux.org
+th.x86linux.org
+
+-----------------------------------------------------------------------------------------------------------------
+
+-rw-r--r-- 1 root root  313 May 23 05:35 aerbot.com.conf
+airbot.pro.conf
+-rw-r--r-- 1 root root  369 May 16 13:38 alejandro-diaz.com.conf
+-rw-r--r-- 1 root root  334 May 13 17:07 alfalinux.com.conf
+-rw-r--r-- 1 root root  348 May 13 17:07 alieninside.com.conf
+aquamuse.pro.conf
+-rw-r--r-- 1 root root  437 Jun 12 13:40 articulo27.org.conf
+-rw-r--r-- 1 root root  313 May 17 05:00 avalax.com.conf
+-rw-r--r-- 1 root root  320 May 13 17:09 aviacom.net.conf
+-rw-r--r-- 1 root root  327 May  9 20:18 aviasoft.com.conf
+-rw-r--r-- 1 root root  306 May 16 12:55 bitek.org.conf
+-rw-r--r-- 1 root root  313 May 16 12:56 bitkap.com.conf
+-rw-r--r-- 1 root root  313 May 16 12:55 bitops.com.conf ?
+-rw-r--r-- 1 root root  313 May 16 12:55 bitops.org.conf
+-rw-r--r-- 1 root root  341 May 16 12:56 bitsticker.com.conf
+-rw-r--r-- 1 root root  313 May 16 12:56 bitvek.com.conf
+-rw-r--r-- 1 root root  383 May 16 08:56 broadcastdynamic.com.conf
+br.x86linux.org.conf
+califormix.com.conf
+califormula.com.conf
+-rw-r--r-- 1 root root 1035 Mar 31 18:09 calradio.com.conf
+-rw-r--r-- 1 root root  320 May 20 10:13 calring.com.conf
+-rw-r--r-- 1 root root  312 Mar 31 17:58 colorphotoart.com.conf
+-rw-r--r-- 1 root root  334 May 17 05:03 corazonfm.com.conf
+-rw-r--r-- 1 root root  313 May 28 14:50 crxzen.com.conf
+-rw-r--r-- 1 root root  334 May 16 12:54 dajamusic.com.conf
+de.x86linux.org.conf
+-rw-r--r-- 1 root root  357 May 13 17:17 dnangels.com.conf
+-rw-r--r-- 1 root root  299 May 17 04:57 dsmx.com.conf
+ecotlan.mx.conf
+-rw-r--r-- 1 root root  341 May 13 17:20 ejerbotica.com.conf
+-rw-r--r-- 1 root root  355 May 13 20:50 ejerbots.com.conf
+en.x86linux.org.conf
+-rw-r--r-- 1 root root  327 May 13 17:21 espheria.org.conf
+-rw-r--r-- 1 root root  268 May 16 12:11 es.x86linux.org.conf
+-rw-r--r-- 1 root root  327 Mar 31 18:05 fiestamexicana.com.conf
+-rw-r--r-- 1 root root  348 May 22 08:21 fleaminator.com.conf
+-rw-r--r-- 1 root root  287 May  5 23:25 freejol.com.conf
+fr.x86linux.org.conf
+gamagent.com.conf
+-rw-r--r-- 1 root root  384 May 13 18:23 guadalawiki.com.conf
+-rw-r--r-- 1 root root  369 May 16 12:57 guerarepostera.com.conf
+-rw-r--r-- 1 root root  948 Jun 12 08:44 internam.com.conf
+ intersim.com.conf
+-rw-r--r-- 1 root root  306 May 17 04:58 ipago.com.conf
+-rw-r--r-- 1 root root  334 May 13 17:22 islandbay.com.conf
+islandbay.mx.conf
+-rw-r--r-- 1 root root  355 May 17 05:52 islandbiospa.com.conf
+it.x86linux.org.conf
+-rw-r--r-- 1 root root  376 May 13 17:26 jeanemilecharon.com.conf
+-rw-r--r-- 1 root root  306 May 13 17:27 junux.com.conf
+-rw-r--r-- 1 root root  348 May  4 19:49 kettlechord.com.conf
+-rw-r--r-- 1 root root  312 May  4 18:54 kettlechords.com.conf
+-rw-r--r-- 1 root root  320 May 13 17:27 lumidea.com.conf
+-rw-r--r-- 1 root root  334 May 30 18:53 marbatita.com.conf
+-rw-r--r-- 1 root root  313 May 13 20:51 mexlex.org.conf
+-rw-r--r-- 1 root root  339 May 16 17:00 micnow.com.conf
+-rw-r--r-- 1 root root  334 May 13 17:27 microfono.com.conf
+-rw-r--r-- 1 root root  306 May 13 17:29 mubot.com.conf
+nodejs.x86linux.org.conf
+-rw-r--r-- 1 root root  334 May 13 17:29 nursagent.com.conf
+-rw-r--r-- 1 root root  320 May 20 10:09 padcalc.com.conf
+-rw-r--r-- 1 root root  306 May 16 12:57 padia.org.conf
+-rw-r--r-- 1 root root  355 Jun  6 19:01 partitionist.com.conf
+partura.com.conf
+-rw-r--r-- 1 root root  322 May 20 09:41 porfiriodiaz.com.conf
+-rw-r--r-- 1 root root  369 May 13 17:29 port25software.com.conf
+-rw-r--r-- 1 root root  327 May 13 17:29 pplpedia.net.conf
+-rw-r--r-- 1 root root  420 May 20 09:51 programusic.com.conf
+-rw-r--r-- 1 root root  312 May  5 23:26 pruebaturing.com.conf
+-rw-r--r-- 1 root root  334 May 13 18:08 qmailwiki.com.conf
+-rw-r--r-- 1 root root  307 May  7 11:40 qmdjb.com.conf
+-rw-r--r-- 1 root root  299 May 18 21:08 qmtt.org.conf
+-rw-r--r-- 1 root root  306 May 13 18:07 qmxrb.com.conf
+-rw-r--r-- 1 root root  299 May 13 17:31 qtfx.com.conf
+-rw-r--r-- 1 root root  348 May 13 17:31 quintopoder.com.conf
+-rw-r--r-- 1 root root  309 Mar 31 18:02 radiolatina.com.conf
+-rw-r--r-- 1 root root  320 May  8 15:33 robofaq.com.conf
+ segtote.com.conf
+ sofiki.com.conf
+sv.x86linux.org.conf
+-rw-r--r-- 1 root root  384 May 16 17:01 tebistation.com.conf
+th.x86linux.org.conf
+-rw-r--r-- 1 root root  348 May 13 17:55 torustuners.com.conf
+-rw-r--r-- 1 root root  292 May  5 23:25 veeradio.com.conf
+-rw-r--r-- 1 root root  320 May 16 16:42 viradio.net.conf
+-rw-r--r-- 1 root root  327 May 16 13:18 wadawiki.com.conf
+ wikifolk.com.conf
+-rw-r--r-- 1 root root  267 Mar 29 17:33 wikifolks.org.conf
+-rw-r--r-- 1 root root  356 May 16 14:59 wiki.islandbiospa.com.conf ?
+ wikitruth.com.conf
+-rw-r--r-- 1 root root  291 May  3 15:07 x86linux.org.conf
+-rw-r--r-- 1 root root  292 May 13 17:50 x99.com.conf
+-rw-r--r-- 1 root root  393 May 13 17:47 xrbotz.com.conf
+
+-----------------------------------------------------------------------------------------------------------------
+
+The Registry database contains ONLY .COM, .NET, .EDU domains and Registrars
+
+-----------------------------------------------------------------------------------------------------------------

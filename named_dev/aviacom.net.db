@@ -1,0 +1,29 @@
+;-----------------------------------------------------------------------------------------
+; aviacom . net 204.68.122.6
+;
+; %s/aviacom/abc/g
+; %s/net/com/g
+; %s/204.68.122.6/123\.234\.xxx\.yyy/g
+;
+;-----------------------------------------------------------------------------------------
+$ORIGIN net.
+$TTL    3h5m
+aviacom          IN      SOA     ns0.dsmx.com. admin.internam.com. (
+
+                2015021901;      SERIAL NUMBER  yyyymmddnn
+
+                7h23m           ; Slaves:       * refresh every 7 hours
+                12m             ;               * if no answer try back first in 12 minutes
+                3d55m           ;               * keep previous info 3 days 55 minutes
+                17m )           ;               * keep trying for new info every 17 minutes
+
+                IN      NS      ns0.dsmx.com.
+                IN      NS      ns1.dsmx.com.
+
+                IN      A       204.68.122.6
+
+			IN	MX	10	mx.internam.com.
+
+$ORIGIN aviacom.net.
+www             IN      A       204.68.122.6
+

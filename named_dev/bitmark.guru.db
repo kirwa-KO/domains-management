@@ -1,0 +1,37 @@
+; BitMark.guru
+
+bitmark.guru.	5m	IN	SOA	ns0.dsmx.com. admin.internam.com. (
+				;	2017120611 2018071407 2019080500
+				;	2020100300
+				;	2020110700	; mail.dsmx.com
+				;2020111101 	; resolving NS for da.bitmark.guru
+				; 2020111101 	; joe now resolves for el.bitmark.guru
+				 2020122800 	; btmk.bitmark.guru NS'd by jp.dsmx.com (okinaki)
+					7h23m
+					9m
+					3d55m
+					27m
+)
+
+bitmark.guru.	25h	IN	NS	ns0.dsmx.com.
+bitmark.guru.	25h	IN	NS	ns1.dsmx.com.
+bitmark.guru.	25h	IN	A	208.73.206.109	; j3.dsmx.com
+;bitmark.guru.	25h	IN	A	172.104.157.27	; explorer.bitmark.one
+bitmark.guru.	25h	IN	MX	 5	mail.dsmx.com
+bitmark.guru.	25h	IN	MX	10	explorer.bitmark.one.
+bitmark.guru.	25h	IN	MX	20	postal.dsmx.com.
+;			IN	MX	30	ns1.internam.com.
+; null records for domains that do not send mail
+bitmark.guru.		IN 	TXT 	“v=spf1 -all”
+www.bitmark.guru.	25h	IN	CNAME	bitmark.guru.
+;one.bitmark.guru.	150m	IN	A	204.68.122.7
+;light.bitmark.guru.	150m	IN	NS	audit.bitmark.io.
+da.bitmark.guru.	150m	IN	NS	eu.chaindynamics.com.	; Bitmark node code refers to 'da.bitmark.guru', not the resolving NS
+;da.bitmark.guru.	150m	IN	NS	eu.bitmark.io.
+;da.bitmark.guru.	150m	IN	NS	vps.bitmark.co.	
+el.bitmark.guru.	150m	IN	NS	us.bitmark.io.
+btmk.bitmark.guru.	150m	IN	NS	jp.dsmx.com.	; okinaki		;us.bitmark.io.
+;btmk.bitmark.guru.	150m	IN	NS	audit.bitmark.io.
+suma.bitmark.guru.	150m	IN	NS	eu.bitmark.io.
+resta.bitmark.guru.	150m	IN	NS	eu.bitmark.io.
+;maharshi.bitmark.guru.	9h	IN	A	204.68.122.22

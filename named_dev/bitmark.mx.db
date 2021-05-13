@@ -1,0 +1,66 @@
+;-----------------------------------------------------------------------------------------
+; BitMark.mx
+;-----------------------------------------------------------------------------------------
+$ORIGIN mx.
+$TTL    3h5m
+bitmark          IN      SOA     ns0.dsmx.com. admin.internam.com. (
+
+                ;2014120300 ;2014121800 ;2015011201 ;2015012101 ;2015012402 ;2015021600; 2015030400; 2015080400; 2016013101; 
+	 	;2016030501 ;2016031002 ;2017111801; ;2017112207 ;2017112707;      ;2017120101;      ;2017120901;     2018053001;;
+		;2019072800	;SERIAL NUMBER  yyyymmddnn
+		;2019080600 2019082600
+		;2019102100 Recovered at Akky Registry
+		;2020112000
+		2020122803  ; seed.bitmark.mx NS for btmk.zmark.og; sg.ipago.com
+
+                7h23m           ; Slaves:       * refresh every 7 hours
+                12m             ;               * if no answer try back first in 12 minutes
+                3d55m           ;               * keep previous info 3 days 55 minutes
+                17m )           ;               * keep trying for new info every 17 minutes
+
+                IN      NS      ns0.dsmx.com.
+                IN      NS      ns1.dsmx.com.
+
+		IN	A	208.73.206.109		; j3.dsmx.com ; ex willem: 172.104.157.27
+
+		IN	MX	10	mail.dsmx.com
+                ;IN	MX      20      post.dsmx.com.
+                ;IN	MX      30      postal.dsmx.com.
+
+
+;		IN	TXT 	"v=spf1 ip4:204.68.122.21/32 a:postal.dsmx.com -all"
+;		no mail senders for now ....
+		IN	TXT 	"v=spf1 +a +mx +ip4:172.105.53.42/32 ~all"
+
+$ORIGIN bitmark.mx.
+www             IN      CNAME	bitmark.mx.
+seed		IN	A 	45.56.75.20	; speedy: NS for subdom btmk.zmark.org; Canonical: mx.bitmark.io ; maybe should be f1.chainetics.com
+adida		IN	A	208.73.206.109  ; j3.dsmx.com
+da		IN	NS	j3.dsmx.com.
+fertilidad	IN	NS	zappa.bitmark.one.
+
+;explorer        IN      A       70.168.53.153
+;;explorer        IN      A       216.240.168.226
+;dnsseed         IN      NS      bitmark.mx.  
+;  Bitmark seed nodes, regular network and test network
+;;xina		IN	A	204.68.122.41
+;;ts2		IN	A	204.68.122.41
+;ts2		IN	A	204.68.122.41
+;wiki           IN      A       92.222.25.245
+;;seed		IN	A	204.68.122.7
+;;stats		IN	A	204.68.122.11
+;;sigma		IN	A	204.68.122.11
+; chia & lefin bad dotted quads, since 271>254
+;chia		IN	A	172.104.157.271
+;lefin		IN	A	172.104.157.271
+;$ORIGIN da.bitmark.mx.
+;;$ORIGIN fertilidad
+;;fertilidad
+;
+;		IN	NS	xina.bitmark.mx
+;		;IN	NS	spider.chainetics.com
+;		IN	NS	seed.bitmark.mx
+;		IN	NS	chia.bitmark.mx
+
+$INCLUDE Kbitmark.mx.+007+43266.key
+$INCLUDE Kbitmark.mx.+007+55925.key

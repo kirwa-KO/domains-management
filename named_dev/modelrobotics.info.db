@@ -1,0 +1,29 @@
+;-----------------------------------------------------------------------------------------
+; modelrobotics . info 204.68.122.6
+;
+; %s/modelrobotics/abc/g
+; %s/info/com/g
+; %s/204.68.122.6/123\.234\.xxx\.yyy/g
+;
+;-----------------------------------------------------------------------------------------
+$ORIGIN info.
+$TTL    3h5m
+modelrobotics          IN      SOA	ns0.dsmx.com. admin.internam.com. (
+
+                2014122200;      SERIAL NUMBER  yyyymmddnn
+
+                7h23m           ; Slaves:       * refresh every 7 hours
+                12m             ;               * if no answer try back first in 12 minutes
+                3d55m           ;               * keep previous info 3 days 55 minutes
+                17m )           ;               * keep trying for new info every 17 minutes
+
+                IN      NS      ns0.dsmx.com.
+                IN      NS      ns1.internam.com.
+                IN      NS      rell.mubot.com.
+
+                IN      A       204.68.122.6
+
+			IN	MX	10	mx.internam.com.
+
+$ORIGIN modelrobotics.info.
+www             IN      A       204.68.122.6
