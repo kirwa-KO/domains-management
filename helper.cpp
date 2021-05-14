@@ -1,4 +1,4 @@
-#include "domains_names.h"
+#include "Domain.hpp"
 
 string exec_command_and_return_result(const char* cmd) {
 	shared_ptr<FILE> pipe(popen(cmd, "r"), pclose);

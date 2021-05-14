@@ -1,9 +1,11 @@
 COMPILER	= clang++
 
-FLAGS		= -Wextra -Wall -Werror -fsanitize=address -g
+# FLAGS		= -Wextra -Wall -Werror -fsanitize=address -g
+FLAGS		= -fsanitize=address -g
 
-SRCS			= 	get_domains_names.cpp		\
-					main.cpp
+SRCS		= 	main.cpp			\
+				Domain.cpp			\
+				helper.cpp
 
 NAME 		= domains
 
@@ -15,7 +17,7 @@ $(NAME) : $(SRCS)
 	@$(COMPILER) $(FLAGS) $(SRCS) $(LIBRARY) -o $(NAME)
 
 clean:
-	rm -rf $(NAME)
+	@rm -rf $(NAME)
 
 fclean: clean
 

@@ -1,9 +1,10 @@
 #ifndef DOMAIN_HPP
 #define DOMAIN_HPP
-#include "domains_names.h"
+#include "domains_names.hpp"
 
 class Domain {
 	private:
+    string          name;        
 		vector<string>  names_servers;
 		vector<string>  mx;
 		string          www;
@@ -19,8 +20,9 @@ class Domain {
 		string          url;
 
   public:
-    Domain();
+    Domain(string);
     // getters
+    string  get_name();
     vector<string>  get_names_servers();
     vector<string>  get_mx();
     string    get_www();
@@ -35,19 +37,25 @@ class Domain {
     string    get_whois();
     string    get_url();
     // setters
-    void      set_name_server(string &);
-    void      set_mx(string &x);
-    void      set_www(string &);
-    void      set_owner(string &);
-    void      set_admin(string &);
-    void      set_tech(string &);
-    void      set_bill(string &);
-    void      set_registrar(string &);
-    void      set_vpwd(string &);
-    void      set_expire(double &);
-    void      set_cost_per_year(double &);
-    void      set_whois(string &);
-    void      set_url(string &);
+    void      set_name(string);
+    void      set_name_server(string);
+    void      set_mx(string);
+    void      set_www(string);
+    void      set_owner(string);
+    void      set_admin(string);
+    void      set_tech(string);
+    void      set_bill(string);
+    void      set_registrar(string);
+    void      set_vpwd(string);
+    void      set_expire(double);
+    void      set_cost_per_year(double);
+    void      set_whois(string);
+    void      set_url(string);
+    // other function
+    void      get_info_from_whois_query();
+    void      display_domain_info();
+    // other static functions
+    static vector<Domain> get_domains_names(void);
     ~Domain();
 };
 
