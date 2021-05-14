@@ -6,30 +6,22 @@ int main(void)
         sql::Driver *driver;
         sql::Connection *con;
         sql::Statement *stmt;
-        // sql::ResultSet *res;
+        sql::ResultSet *res;
         vector<Domain> domains;
 
-        // /* Create a connection */
-        // driver = get_driver_instance();
-        // con = driver->connect("tcp://127.0.0.1:3306", "root", "toor");
-        // /* Connect to the MySQL domains database */
-        // con->setSchema("domains");
-        // stmt = con->createStatement();
-        // domains = get_domains_names();
-        // for (auto domain: domains)
-        //     stmt->execute("INSERT INTO domains(name) VALUES('" + domain + "')");
+        /* Create a connection */
+        driver = get_driver_instance();
+        con = driver->connect("tcp://127.0.0.1:3306", "root", "toor");
+        /* Connect to the MySQL domains database */
+        con->setSchema("domains");
+        stmt = con->createStatement();
 
-        domains = Domain::get_domains_names();
-        for (int i = 0;i < domains.size();i++)
-        {
-            domains[i].get_info_from_whois_query();
-            domains[i].display_domain_info();
-            // break;
-        }
+        // domains = Domain::get_domains_names();
+        // Domain::add_domains_to_database(domains, stmt);
 
         // delete res;
-        // delete stmt;
-        // delete con;
+        delete stmt;
+        delete con;
     }
     catch (sql::SQLException &e) {
         cout << "# ERR: SQLException in " << __FILE__;

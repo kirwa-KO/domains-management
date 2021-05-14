@@ -13,6 +13,9 @@ Domain::Domain(string name) : name(name)
     cost_per_year = 0;
     whois = "";
     url = "";
+    // just for testing we put empty string in mx record attribute
+    mx.push_back("");
+    mx.push_back("");
 }
 
 // getters
@@ -79,7 +82,7 @@ void      Domain::get_info_from_whois_query()
 	while (getline(ss, line, '\n'))
 	{
 		if (line.find(" ns") != string::npos OR line.find(" NS") != string::npos)
-			this->set_name_server(line);
+			this->set_name_server(line.erase(0, line.find_first_of(':') + 1));
 		else if(line.find("Admin Name:") != string::npos)
 			this->set_admin(line.erase(0, line.find_first_of(':') + 1));
 		else if(line.find("Tech Name:") != string::npos)
@@ -91,6 +94,8 @@ void      Domain::get_info_from_whois_query()
 		else if(line.find(" Registrar URL:") != string::npos)
 			this->set_url(line.erase(0, line.find_first_of(':') + 1));
 	}
+    while(this->names_servers.size() != 4)
+        this->names_servers.push_back("");
 }
 
 void            Domain::display_domain_info()
@@ -100,8 +105,7 @@ void            Domain::display_domain_info()
 	cout << "\n";
 	cout << "nameservers:" << "\n";
 	for (auto x : this->get_names_servers())
-		if (x != "")
-		cout << "=>" << x << "\n";
+		cout << "=> ns: |" << x << "|\n";
 	cout << "Admin : " << this->get_admin() << "\n";
 	cout << "Tech : " << this->get_tech() << "\n";
 	cout << "Registrar : " << this->get_registrar() << "\n";
@@ -129,6 +133,38 @@ vector<Domain> Domain::get_domains_names(void)
     }
 
     return domains;
+}
+
+void             Domain::add_domains_to_database(vector<Domain> domains, sql::Statement * stmt)
+{
+    for (int i = 0;i < domains.size();i++)
+    {
+        domains[i].get_info_from_whois_query();
+        // domains[i].display_domain_info();
+        stmt->execute("INSERT INTO domains( name, ns1, ns2, ns3, ns4,               \
+                                            mx1, mx2, www, owner, adminp,           \
+                                            techp, billp, registrar, vpwd,          \
+                                            expire, costperyear, whois, url)        \
+                                            VALUES('" + domains[i].get_name() + "', " \
+                                            "'" + domains[i].get_names_servers()[0] + "', " \
+                                            "'" + domains[i].get_names_servers()[1] + "', " \
+                                            "'" + domains[i].get_names_servers()[2] + "', " \
+                                            "'" + domains[i].get_names_servers()[3] + "', " \
+                                            "'" + domains[i].get_mx()[0] + "', " \
+                                            "'" + domains[i].get_mx()[1] + "', " \
+                                            "'" + domains[i].get_www() + "', " \
+                                            "'" + domains[i].get_owner() + "', " \
+                                            "'" + domains[i].get_admin() + "', " \
+                                            "'" + domains[i].get_tech() + "', " \
+                                            "'" + domains[i].get_bill() + "', " \
+                                            "'" + domains[i].get_registrar() + "', " \
+                                            "'" + domains[i].get_vpwd() + "', " \
+                                            "'" + to_string(domains[i].get_expire()) + "', " \
+                                            "'" + to_string(domains[i].get_cost_per_year()) + "', " \
+                                            "'" + domains[i].get_whois() + "', " \
+                                            "'" + domains[i].get_url() + "')");
+        cout << BOLDGREEN << "The Domain " << RESET << BOLDWHITE << domains[i].get_name() << RESET << BOLDGREEN << " Added To Database Successfully..!!" << RESET << endl;
+    }
 }
 
 Domain::~Domain() {}
