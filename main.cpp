@@ -6,8 +6,8 @@ int main(void)
         sql::Driver *driver;
         sql::Connection *con;
         sql::Statement *stmt;
-        sql::ResultSet *res;
         vector<Domain> domains;
+        vector<string> domains_names_from_database;
 
         /* Create a connection */
         driver = get_driver_instance();
@@ -19,7 +19,12 @@ int main(void)
         // domains = Domain::get_domains_names();
         // Domain::add_domains_to_database(domains, stmt);
 
-        // delete res;
+        domains_names_from_database = Domain::get_domains_names_from_database(stmt);
+        for (auto x : domains_names_from_database)
+        {
+            cout << x << endl;
+        }
+
         delete stmt;
         delete con;
     }

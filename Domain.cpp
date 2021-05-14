@@ -163,8 +163,19 @@ void             Domain::add_domains_to_database(vector<Domain> domains, sql::St
                                             "'" + to_string(domains[i].get_cost_per_year()) + "', " \
                                             "'" + domains[i].get_whois() + "', " \
                                             "'" + domains[i].get_url() + "')");
-        cout << BOLDGREEN << "The Domain " << RESET << BOLDWHITE << domains[i].get_name() << RESET << BOLDGREEN << " Added To Database Successfully..!!" << RESET << endl;
+        cout << BOLDGREEN << "The Domain " << RESET << BOLDWHITE << domains[i].get_name() << RESET << BOLDGREEN << " Added To Database Successfully..!!" << RESET << '\n';
     }
+}
+
+vector<string>   Domain::get_domains_names_from_database(sql::Statement * stmt)
+{
+    sql::ResultSet * res;
+    vector<string>  domains_names;
+    res = stmt->executeQuery("SELECT name FROM domains");
+    while (res->next())
+        domains_names.push_back(res->getString("name"));
+    delete res;
+    return domains_names;
 }
 
 Domain::~Domain() {}

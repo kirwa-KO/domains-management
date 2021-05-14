@@ -57,6 +57,7 @@ class Domain {
     // other static functions
     static vector<Domain>   get_domains_names(void);
     static void             add_domains_to_database(vector<Domain>, sql::Statement *);
+    static vector<string>   get_domains_names_from_database(sql::Statement *);
     ~Domain();
 };
 
