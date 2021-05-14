@@ -1,7 +1,10 @@
 #ifndef DOMAINS_NAMES_H
 #define DOMAINS_NAMES_H
+#define AND &&
+#define OR ||
 /* include basic library of c++ */
 #include <bits/stdc++.h>
+using namespace std;
 /*
   Include directly the different
   headers from cppconn/ and mysql_driver.h + mysql_util.h
@@ -14,7 +17,9 @@
 #include <cppconn/resultset.h>
 #include <cppconn/statement.h>
 
-using namespace std;
-
 vector<string> get_domains_names(void);
+string exec_command_and_return_result(const char* cmd);
+string& rtrim(string& s, const char* t);
+string& ltrim(string& s, const char* t);
+string& trim(string& s, const char* t);
 #endif

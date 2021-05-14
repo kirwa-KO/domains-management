@@ -3,7 +3,7 @@ COMPILER	= clang++
 FLAGS		= -Wextra -Wall -Werror -fsanitize=address -g
 
 SRCS			= 	get_domains_names.cpp		\
-				main.cpp
+					main.cpp
 
 NAME 		= domains
 

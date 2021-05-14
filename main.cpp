@@ -24,6 +24,7 @@ int main(void)
         //     cout << res->getString(1) << endl;
         // }
 
+
         /* Create a connection */
         driver = get_driver_instance();
         con = driver->connect("tcp://127.0.0.1:3306", "root", "toor");

@@ -1,18 +1,5 @@
 #include "domains_names.h"
 
-string exec_command_and_return_result(const char* cmd) {
-    shared_ptr<FILE> pipe(popen(cmd, "r"), pclose);
-    if (!pipe)
-        return "ERROR";
-    char buffer[4096];
-    string result = "";
-    while (!feof(pipe.get())) {
-        if (fgets(buffer, 4096, pipe.get()) != NULL)
-            result += buffer;
-    }
-    return result;
-}
-
 vector<string> get_domains_names(void)
 {
     // get the output of ls command in a string
