@@ -1,5 +1,4 @@
-#include "domains_names.h"
-#include <ncurses.h>
+#include "Domain.hpp"
 
 int main()
 {

@@ -9,7 +9,7 @@ SRCS		= 	main.cpp			\
 
 NAME 		= domains
 
-LIBRARY = -l mysqlcppconn
+LIBRARY = -l mysqlcppconn -lncurses
 
 all: $(NAME)
 

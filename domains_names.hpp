@@ -35,6 +35,7 @@ using namespace std;
 #include <cppconn/exception.h>
 #include <cppconn/resultset.h>
 #include <cppconn/statement.h>
+#include <ncurses.h>
 
 vector<string> get_domains_names(void);
 string exec_command_and_return_result(const char* cmd);

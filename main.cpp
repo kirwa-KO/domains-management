@@ -41,4 +41,5 @@ int main(void)
     return EXIT_SUCCESS;
 }
 
-// -l mysqlcppconn
+    // stringstream bottom_menu_label_stream = BOLDWHITE << "UP :" << RESET << "Prev Domain " << BOLDWHITE << "DOWN:" << RESET << " Next Domain " << BOLDWHITE << "E/e:" << RESET << "Edit Domain " << BOLDWHITE << "D/d:Delete" << RESET << " Domain";
+    // mvwprintw(bottom_menu_bar, 1, 1, bottom_menu_label_stream.str().c_str());
