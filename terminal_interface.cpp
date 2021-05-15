@@ -35,10 +35,13 @@ int main(void)
 	menu_for_domains.set_stdscr_xMax(xMax);
 	menu_for_domains.set_stdscr_yMax(yMax);
 
+	// bottom menu bar intialisation
 	WINDOW *bottom_menu_bar = newwin(5, 58, yMax - 6, (xMax - 58) / 2);
+	// print key that can use in domains menu
 	mvwprintw(bottom_menu_bar, 1, 1, "|UP|   => Prev      |DOWN|  => Next      |Q/q|   => Quit");
 	mvwprintw(bottom_menu_bar, 2, 1, "|E/e|  => Edit      |D/d|   => Delete    |ENTER| => All");
 	mvwprintw(bottom_menu_bar, 3, 1, "        |LEFT| => Prev Side |RIGHT| => Next Side");
+	// print bottom menu box
 	box(bottom_menu_bar, 0, 0);
 	refresh();
 	wrefresh(bottom_menu_bar);
@@ -50,30 +53,24 @@ int main(void)
 		switch (select_domain)
 		{
 			case KEY_UP:
-				menu_for_domains.press_up_arrow();
-				break;
+				menu_for_domains.press_up_arrow(); break;
 			case KEY_DOWN:
-				menu_for_domains.press_down_arrow();
-				break;
+				menu_for_domains.press_down_arrow(); break;
 			case KEY_RIGHT:
-				menu_for_domains.press_right_arrow();
-				break;
+				menu_for_domains.press_right_arrow();	break;
 			case KEY_LEFT:
-				menu_for_domains.press_left_arrow();
-				break;
+				menu_for_domains.press_left_arrow();	break;
+			case ctrl('c'):
 			case 'Q':
 			case 'q':
-				quit_loop = true;
-				break;
+				quit_loop = true;	break;
 			case PRESS_ENTER:
-				menu_for_domains.press_enter();
-				break;
+				menu_for_domains.press_enter();	break;
 			default:
 				break;
 		}
 	}
 	delwin(bottom_menu_bar);
-	// delwin(win_for_domains);
 	endwin();
 	cout << BOLDGREEN << "Bye, And Thank you for using " << RESET << BOLDWHITE << "| ISMAEL |" << RESET << BOLDGREEN << " Tool.!!!" << RESET << endl;
 	return (0);

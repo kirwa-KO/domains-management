@@ -22,6 +22,7 @@
 #define BOLDWHITE   "\033[1m\033[37m"       /* Bold White */
 #define PRESS_ENTER 10
 #define DOMAIN_PER_WIN 10
+#define ctrl(x) (x & 0x1F)
 
 /* include basic library of c++ */
 #include <bits/stdc++.h>
