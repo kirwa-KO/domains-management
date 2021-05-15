@@ -106,7 +106,7 @@ void    DomainsMenu::press_enter()
 void    DomainsMenu::press_esc()
 {
 	wbkgd(popup, A_NORMAL);
-	werase(this->popup);
+	werase(popup);
 	wrefresh(popup);
 }
 
@@ -140,11 +140,25 @@ bool	DomainsMenu::get_pressed_key(int select_domain, sql::Statement * stmt)
 
 void    DomainsMenu::press_delete_domain(sql::Statement * stmt)
 {
-	stmt->execute("DELETE FROM domains WHERE name = '" + domains[highlight].get_name() + "'");
-	domains.erase(domains.begin() + highlight);
-	highlight -= 1;
-	if (highlight < 0)
-		highlight = 0;
+	int		is_confirm;
+
+	werase(popup);
+	wbkgd(popup, COLOR_PAIR(1));
+	mvwprintw(popup, 0, 1, "Delete Confirmation :");
+	mvwprintw(popup, (DOMAIN_INFO_LENGTH + 2) / 2, (width / 2) - 26, "Are you sure you want to delete the domain [y/Y] : ");
+	is_confirm = wgetch(popup);
+
+	if(is_confirm == 'y' OR is_confirm == 'Y')
+	{
+		stmt->execute("DELETE FROM domains WHERE name = '" + domains[highlight].get_name() + "'");
+		domains.erase(domains.begin() + highlight);
+		highlight -= 1;
+		if (highlight < 0)
+			highlight = 0;
+	}
+	wbkgd(popup, A_NORMAL);
+	werase(popup);
+	wrefresh(popup);
 	this->erase();
 	this->refresh();
 }
