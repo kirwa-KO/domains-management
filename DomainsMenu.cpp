@@ -128,6 +128,9 @@ bool	DomainsMenu::get_pressed_key(int select_domain, sql::Statement * stmt)
 		case 'd':
 		case 'D':
 			this->press_delete_domain(stmt); break;
+		case 'e':
+		case 'E':
+			this->press_edit_domain(stmt); break;
 		case PRESS_ENTER:
 			this->press_enter(); break;
 		case PRESS_ESC:
@@ -156,6 +159,25 @@ void    DomainsMenu::press_delete_domain(sql::Statement * stmt)
 		if (highlight < 0)
 			highlight = 0;
 	}
+	wbkgd(popup, A_NORMAL);
+	werase(popup);
+	wrefresh(popup);
+	this->erase();
+	this->refresh();
+}
+
+void    DomainsMenu::press_edit_domain(sql::Statement * stmt)
+{
+	// we use array of 254 because the maximun length of domain name is 253 and we add 1 case for '\0'
+	char	new_domain_name[254];
+
+	werase(popup);
+	wbkgd(popup, COLOR_PAIR(1));
+	mvwprintw(popup, 0, 1, "Edit Domain :");
+	mvwprintw(popup, (DOMAIN_INFO_LENGTH + 2) / 2, (width / 2) - 13, "Put the name domain name : ");
+	wgetstr(popup, new_domain_name);
+	stmt->executeUpdate("UPDATE domains set name='" + string(new_domain_name) + "' WHERE name='" + domains[highlight].get_name()+ "';");
+	domains[highlight].set_name(string(new_domain_name));
 	wbkgd(popup, A_NORMAL);
 	werase(popup);
 	wrefresh(popup);

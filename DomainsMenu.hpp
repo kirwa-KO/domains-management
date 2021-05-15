@@ -54,6 +54,7 @@ class DomainsMenu
         void    press_esc();
         bool    get_pressed_key(int select_domain, sql::Statement * stmt);
         void    press_delete_domain(sql::Statement * stmt);
+        void    press_edit_domain(sql::Statement * stmt);
         ~DomainsMenu();
 };
 

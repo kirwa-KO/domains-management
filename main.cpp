@@ -34,7 +34,7 @@ int main(void)
         // initialize the screen
         initscr();
         // dont print charactere when you click it
-        noecho();
+        // noecho();
         // start using colors
         start_color();
         if(!has_colors())
