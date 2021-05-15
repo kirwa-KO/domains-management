@@ -47,7 +47,7 @@ int main(void)
 			mvwprintw(win_for_domains, i + 1, 1, " * ");
 			if (i == hightlight)
 				wattron(win_for_domains, A_REVERSE);
-			mvwprintw(win_for_domains, i + 1, 4, domains_names_from_database[i].c_str());
+			mvwprintw(win_for_domains, i + 1, 4, "%01.*s", -23, domains_names_from_database[i].c_str());
 			wattroff(win_for_domains, A_REVERSE);
 		}
 		select_domain = wgetch(win_for_domains);
