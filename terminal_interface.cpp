@@ -1,9 +1,9 @@
 #include "Domain.hpp"
+#include "DomainsMenu.hpp"
 
 int main(void)
 {
 	vector<string> domains_names_from_database;
-	int hightlight = 0;
 	int select_domain;
 	bool quit_loop = false;
 
@@ -28,53 +28,52 @@ int main(void)
 	initscr();
 	noecho();
 
-	int height = domains_names_from_database.size() + 2;
 	int xMax, yMax;
 	getmaxyx(stdscr, yMax, xMax);
-	WINDOW *win_for_domains = newwin(height, xMax - 12, 2, 6);
-	WINDOW *bottom_menu_bar = newwin(3, 90, yMax - 3, 20);
-	mvwprintw(bottom_menu_bar, 1, 1, "|UP| => Prev |DOWN| => Next |E/e| => Edit |D/d| => Delete |ENTER| => All |Q/q| => Quit");
+
+	DomainsMenu	menu_for_domains(DOMAIN_PER_WIN + 2, xMax - 12, 2, 6);
+	menu_for_domains.set_stdscr_xMax(xMax);
+	menu_for_domains.set_stdscr_yMax(yMax);
+
+	WINDOW *bottom_menu_bar = newwin(5, 58, yMax - 6, (xMax - 58) / 2);
+	mvwprintw(bottom_menu_bar, 1, 1, "|UP|   => Prev      |DOWN|  => Next      |Q/q|   => Quit");
+	mvwprintw(bottom_menu_bar, 2, 1, "|E/e|  => Edit      |D/d|   => Delete    |ENTER| => All");
+	mvwprintw(bottom_menu_bar, 3, 1, "        |LEFT| => Prev Side |RIGHT| => Next Side");
 	box(bottom_menu_bar, 0, 0);
-	box(win_for_domains, 0, 0);
 	refresh();
 	wrefresh(bottom_menu_bar);
-	// wrefresh(win_for_domains);
-	keypad(win_for_domains, TRUE);
+
 	while (!quit_loop)
 	{
-		for (int i = 0; i < domains_names_from_database.size(); i++)
-		{
-			mvwprintw(win_for_domains, i + 1, 1, " * ");
-			if (i == hightlight)
-				wattron(win_for_domains, A_REVERSE);
-			mvwprintw(win_for_domains, i + 1, 4, "%01.*s", -23, domains_names_from_database[i].c_str());
-			wattroff(win_for_domains, A_REVERSE);
-		}
-		select_domain = wgetch(win_for_domains);
+		menu_for_domains.draw(domains_names_from_database);
+		select_domain = wgetch(menu_for_domains.get_win());
 		switch (select_domain)
 		{
 			case KEY_UP:
-				if (hightlight >= 1)
-					hightlight -= 1;
+				menu_for_domains.press_up_arrow();
 				break;
 			case KEY_DOWN:
-				if (hightlight < domains_names_from_database.size() - 1)
-					hightlight += 1;
+				menu_for_domains.press_down_arrow();
+				break;
+			case KEY_RIGHT:
+				menu_for_domains.press_right_arrow();
+				break;
+			case KEY_LEFT:
+				menu_for_domains.press_left_arrow();
 				break;
 			case 'Q':
 			case 'q':
 				quit_loop = true;
 				break;
 			case PRESS_ENTER:
-				werase(win_for_domains);
-				wrefresh(win_for_domains);
+				menu_for_domains.press_enter();
 				break;
 			default:
 				break;
 		}
 	}
 	delwin(bottom_menu_bar);
-	delwin(win_for_domains);
+	// delwin(win_for_domains);
 	endwin();
 	cout << BOLDGREEN << "Bye, And Thank you for using " << RESET << BOLDWHITE << "| ISMAEL |" << RESET << BOLDGREEN << " Tool.!!!" << RESET << endl;
 	return (0);
