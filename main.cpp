@@ -7,12 +7,14 @@ int main(void)
     try {
         sql::Driver *driver;
         sql::Connection *con;
-        sql::Statement *stmt;
+        sql::Statement *stmt = NULL;
         vector<Domain> domains;
         vector<Domain> domains_from_database;
         int xMax, yMax, select_domain;
         bool    quit_loop = false;
         WINDOW *    bottom_menu_bar = NULL;
+        char choice = '\0';
+
 
         /* Create a connection */
         driver = get_driver_instance();
@@ -21,6 +23,14 @@ int main(void)
         con->setSchema("domains");
         /* create statement to get and update data in database */
         stmt = con->createStatement();
+        // check if the user want to add domains from directory
+        cout << BOLDYELLOW << "If you want to add domains to database press [y/Y] : " << RESET;
+        cin >> choice;
+        if (choice == 'y' OR choice == 'Y')
+        {
+            domains = Domain::get_domains_names_from_directory();
+            Domain::add_domains_to_database(domains, stmt);
+        }
         // initialize the screen
         initscr();
         // dont print charactere when you click it
@@ -38,9 +48,6 @@ int main(void)
         // make a color pair
         init_pair(1, COLOR_BLACK, COLOR_WHITE);
 	    getmaxyx(stdscr, yMax, xMax);
-
-        // domains = Domain::get_domains_names_from_directory();
-        // Domain::add_domains_to_database(domains, stmt);
 
         domains_from_database = Domain::get_domains_from_database(stmt);
         DomainsMenu	menu_for_domains(DOMAIN_PER_WIN + 2, xMax - 12, 2, 6, domains_from_database);
