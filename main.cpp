@@ -13,7 +13,7 @@ int main(void)
         int xMax, yMax, select_domain;
         bool    quit_loop = false;
         WINDOW *    bottom_menu_bar = NULL;
-        char choice = '\0';
+        // char choice = '\0';
 
 
         /* Create a connection */
@@ -24,13 +24,13 @@ int main(void)
         /* create statement to get and update data in database */
         stmt = con->createStatement();
         // check if the user want to add domains from directory
-        cout << BOLDYELLOW << "If you want to add domains to database press [y/Y] : " << RESET;
-        cin >> choice;
-        if (choice == 'y' OR choice == 'Y')
-        {
-            domains = Domain::get_domains_names_from_directory();
-            Domain::add_domains_to_database(domains, stmt);
-        }
+        // cout << BOLDYELLOW << "If you want to add domains to database press [y/Y] : " << RESET;
+        // cin >> choice;
+        // if (choice == 'y' OR choice == 'Y')
+        // {
+            // domains = Domain::get_domains_names_from_directory();
+            // Domain::add_domains_to_database(domains, stmt);
+        // }
         // initialize the screen
         initscr();
         // dont print charactere when you click it
@@ -61,7 +61,7 @@ int main(void)
         {
             menu_for_domains.draw();
             select_domain = wgetch(menu_for_domains.get_win());
-            quit_loop = menu_for_domains.get_pressed_key(select_domain);
+            quit_loop = menu_for_domains.get_pressed_key(select_domain, stmt);
         }
         delwin(bottom_menu_bar);
         endwin();

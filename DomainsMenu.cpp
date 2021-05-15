@@ -57,13 +57,13 @@ void    DomainsMenu::draw()
 
 void    DomainsMenu::press_up_arrow()
 {
-    if (this->highlight >= 1)
+    if (this->highlight >= 1 && this->highlight > start)
 		this->highlight -= 1;
 }
 
 void    DomainsMenu::press_down_arrow()
 {
-    if (this->highlight < this->start + DOMAIN_PER_WIN - 1)
+    if (this->highlight < this->start + DOMAIN_PER_WIN - 1 && this->highlight < domains_size - 1)
 		this->highlight += 1;
 }
 void    DomainsMenu::press_left_arrow()
@@ -78,7 +78,8 @@ void    DomainsMenu::press_left_arrow()
 void    DomainsMenu::press_right_arrow()
 {
 	this->erase();
-	start += DOMAIN_PER_WIN;
+	if (start + DOMAIN_PER_WIN < domains_size)
+		start += DOMAIN_PER_WIN;
 	this->highlight = this->start;
 }
 
@@ -109,7 +110,7 @@ void    DomainsMenu::press_esc()
 	wrefresh(popup);
 }
 
-bool	DomainsMenu::get_pressed_key(int select_domain)
+bool	DomainsMenu::get_pressed_key(int select_domain, sql::Statement * stmt)
 {
 	switch (select_domain)
 	{
@@ -124,6 +125,9 @@ bool	DomainsMenu::get_pressed_key(int select_domain)
 		case 'Q':
 		case 'q':
 			return true;
+		case 'd':
+		case 'D':
+			this->press_delete_domain(stmt); break;
 		case PRESS_ENTER:
 			this->press_enter(); break;
 		case PRESS_ESC:
@@ -134,6 +138,16 @@ bool	DomainsMenu::get_pressed_key(int select_domain)
 	return false;
 }
 
+void    DomainsMenu::press_delete_domain(sql::Statement * stmt)
+{
+	stmt->execute("DELETE FROM domains WHERE name = '" + domains[highlight].get_name() + "'");
+	domains.erase(domains.begin() + highlight);
+	highlight -= 1;
+	if (highlight < 0)
+		highlight = 0;
+	this->erase();
+	this->refresh();
+}
 
 DomainsMenu::~DomainsMenu()
 {
