@@ -5,22 +5,26 @@
 class DomainsMenu
 {
     private:
-        WINDOW  *   win;
-        int         xMax;
-        int         yMax;
-        int         stdscr_xMax;
-        int         stdscr_yMax;
-        int         highlight;
-        int         xBeg;
-        int         yBeg;
-        int         width;
-        int         height;
-        int         x;
-        int         y;
-        int         start;
-        int         domains_size;
+        // Menu Window
+        WINDOW  *       win;
+        // Domain details info window
+        WINDOW  *       popup;
+        int             xMax;
+        int             yMax;
+        int             stdscr_xMax;
+        int             stdscr_yMax;
+        int             highlight;
+        int             xBeg;
+        int             yBeg;
+        int             width;
+        int             height;
+        int             x;
+        int             y;
+        int             start;
+        int             domains_size;
+        vector<Domain>  domains;
     public:
-        DomainsMenu(int height, int width, int y, int x);
+        DomainsMenu(int height, int width, int y, int x, vector<Domain> domains);
         // getters
         WINDOW * get_win(void);
         int get_xMax(void);
@@ -41,12 +45,14 @@ class DomainsMenu
         // other function
         void    erase();
         void    refresh();
-        void    draw(vector<string> domains);
+        void    draw();
         void    press_up_arrow();
         void    press_down_arrow();
         void    press_left_arrow();
         void    press_right_arrow();
         void    press_enter();
+        void    press_esc();
+        bool    get_pressed_key(int select_domain);
         ~DomainsMenu();
 };
 

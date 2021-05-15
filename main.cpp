@@ -1,4 +1,6 @@
 #include "Domain.hpp"
+#include "DomainsMenu.hpp"
+
 
 int main(void)
 {
@@ -7,24 +9,56 @@ int main(void)
         sql::Connection *con;
         sql::Statement *stmt;
         vector<Domain> domains;
-        vector<string> domains_names_from_database;
+        vector<Domain> domains_from_database;
+        int xMax, yMax, select_domain;
+        bool    quit_loop = false;
+        WINDOW *    bottom_menu_bar = NULL;
 
         /* Create a connection */
         driver = get_driver_instance();
         con = driver->connect("tcp://127.0.0.1:3306", "root", "toor");
         /* Connect to the MySQL domains database */
         con->setSchema("domains");
+        /* create statement to get and update data in database */
         stmt = con->createStatement();
+        // initialize the screen
+        initscr();
+        // dont print charactere when you click it
+        noecho();
+        // start using colors
+        start_color();
+        if(!has_colors())
+        {
+            cout << BOLDRED << "You Terminal Dont support ncurses colors" << RESET << endl;
+            endwin();
+            delete stmt;
+            delete con;
+            return (-1);
+        }
+        // make a color pair
+        init_pair(1, COLOR_BLACK, COLOR_WHITE);
+	    getmaxyx(stdscr, yMax, xMax);
 
-        // domains = Domain::get_domains_names();
+        // domains = Domain::get_domains_names_from_directory();
         // Domain::add_domains_to_database(domains, stmt);
 
-        domains_names_from_database = Domain::get_domains_names_from_database(stmt);
-        for (auto x : domains_names_from_database)
-        {
-            cout << x << endl;
-        }
+        domains_from_database = Domain::get_domains_from_database(stmt);
+        DomainsMenu	menu_for_domains(DOMAIN_PER_WIN + 2, xMax - 12, 2, 6, domains_from_database);
+        menu_for_domains.set_stdscr_xMax(xMax);
+        menu_for_domains.set_stdscr_yMax(yMax);
 
+        draw_bottom_bar_menu(bottom_menu_bar, yMax, xMax);
+
+        // WINDOW *	popup = newwin(12, xMax, (0 % DOMAIN_PER_WIN) + 3, 1);
+        while (!quit_loop)
+        {
+            menu_for_domains.draw();
+            select_domain = wgetch(menu_for_domains.get_win());
+            quit_loop = menu_for_domains.get_pressed_key(select_domain);
+        }
+        delwin(bottom_menu_bar);
+        endwin();
+        cout << BOLDGREEN << "Bye, And Thank you for using " << RESET << BOLDWHITE << "| ISMAEL |" << RESET << BOLDGREEN << " Tool.!!!" << RESET << endl;
         delete stmt;
         delete con;
     }
@@ -40,6 +74,3 @@ int main(void)
 
     return EXIT_SUCCESS;
 }
-
-    // stringstream bottom_menu_label_stream = BOLDWHITE << "UP :" << RESET << "Prev Domain " << BOLDWHITE << "DOWN:" << RESET << " Next Domain " << BOLDWHITE << "E/e:" << RESET << "Edit Domain " << BOLDWHITE << "D/d:Delete" << RESET << " Domain";
-    // mvwprintw(bottom_menu_bar, 1, 1, bottom_menu_label_stream.str().c_str());

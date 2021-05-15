@@ -21,7 +21,9 @@
 #define BOLDCYAN    "\033[1m\033[36m"       /* Bold Cyan */
 #define BOLDWHITE   "\033[1m\033[37m"       /* Bold White */
 #define PRESS_ENTER 10
+#define PRESS_ESC 27
 #define DOMAIN_PER_WIN 10
+#define DOMAIN_INFO_LENGTH 10
 #define ctrl(x) (x & 0x1F)
 
 /* include basic library of c++ */
@@ -45,4 +47,5 @@ string exec_command_and_return_result(const char* cmd);
 string& rtrim(string& s, const char* t);
 string& ltrim(string& s, const char* t);
 string& trim(string& s, const char* t);
+void    draw_bottom_bar_menu(WINDOW * bottom_menu_bar, int yMax, int xMax);
 #endif

@@ -1,11 +1,12 @@
 COMPILER	= clang++
 
-# FLAGS		= -Wextra -Wall -Werror -fsanitize=address -g
-FLAGS		= -fsanitize=address -g
+FLAGS		= -Wextra -Wall -Werror -fsanitize=address -g
+# FLAGS		= -fsanitize=address -g
 
 SRCS		= 	main.cpp			\
 				Domain.cpp			\
-				helper.cpp
+				helper.cpp			\
+				DomainsMenu.cpp
 
 NAME 		= domains
 

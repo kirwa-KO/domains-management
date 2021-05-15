@@ -1,17 +1,20 @@
 #include "DomainsMenu.hpp"
 
-DomainsMenu::DomainsMenu(int height, int width, int y, int x)
+DomainsMenu::DomainsMenu(int height, int width, int y, int x, vector<Domain> domains)
 {
     this->win = newwin(height, width, y, x);
     this->height = height;
     this->width = width;
     this->y = y;
     this->x = x;
+	for (size_t i = 0;i < domains.size();i++)
+		this->domains.push_back(domains[i]);
     getmaxyx(this->win, yMax, xMax);
     getbegyx(this->win, yBeg, xBeg);
     this->start = 0;
     this->highlight = 0;
 	keypad(this->win, TRUE);
+	this->popup = newwin(DOMAIN_INFO_LENGTH + 2, width, yMax + 2, x);;
 }
 
 // getters
@@ -36,18 +39,18 @@ void DomainsMenu::set_stdscr_yMax(int stdscr_yMax) { this->stdscr_yMax = stdscr_
 // other function
 void    DomainsMenu::erase() { werase(this->win); }
 void    DomainsMenu::refresh() { wrefresh(this->win); }
-void    DomainsMenu::draw(vector<string> domains)
+void    DomainsMenu::draw()
 {
     int     i;
 
     this->domains_size = domains.size();
     box(this->win, 0, 0);
-	for (i = this->start; i < this->start + DOMAIN_PER_WIN; i++)
+	for (i = this->start; i < this->start + DOMAIN_PER_WIN && i < this->domains_size; i++)
 	{
 		mvwprintw(this->win, i - this->start + 1, 1, " * ");
 		if (i == this->highlight)
 			wattron(this->win, A_REVERSE);
-		mvwprintw(this->win, i - this->start + 1, 4, " %-*s", this->stdscr_xMax - 18, domains[i].c_str());
+		mvwprintw(this->win, i - this->start + 1, 4, " %-*s", this->stdscr_xMax - 18, this->domains[i].get_name().c_str());
 		wattroff(this->win, A_REVERSE);
 	}
 }
@@ -76,18 +79,64 @@ void    DomainsMenu::press_right_arrow()
 {
 	this->erase();
 	start += DOMAIN_PER_WIN;
-	if (this->start + DOMAIN_PER_WIN >= domains_size)
-		this->start = domains_size - DOMAIN_PER_WIN;
 	this->highlight = this->start;
 }
 
 void    DomainsMenu::press_enter()
 {
-	this->erase();
-	this->refresh();
+	wbkgd(popup, COLOR_PAIR(1));
+	box(popup, 0, 0);
+	werase(popup);
+	mvwprintw(popup, 0, 1, "Domains details:");
+	mvwprintw(popup, 1, 1, ("Domain name  : " + this->domains[highlight].get_name()).c_str());
+	mvwprintw(popup, 2, 1, ("name server 1: " + this->domains[highlight].get_names_servers()[0]).c_str());
+	mvwprintw(popup, 3, 1, ("name server 2: " + this->domains[highlight].get_names_servers()[1]).c_str());
+	mvwprintw(popup, 4, 1, ("name server 3: " + this->domains[highlight].get_names_servers()[2]).c_str());
+	mvwprintw(popup, 5, 1, ("name server 4: " + this->domains[highlight].get_names_servers()[3]).c_str());
+	mvwprintw(popup, 6, 1, ("admin        : " + this->domains[highlight].get_admin()).c_str());
+	mvwprintw(popup, 6, 1, ("tech         : " + this->domains[highlight].get_tech()).c_str());
+	mvwprintw(popup, 7, 1, ("registrar    : " + this->domains[highlight].get_registrar()).c_str());
+	mvwprintw(popup, 8, 1, ("whois        : " + this->domains[highlight].get_whois()).c_str());
+	mvwprintw(popup, 9, 1, ("url          : " + this->domains[highlight].get_url()).c_str());
+	wrefresh(stdscr);
+	wrefresh(popup);
 }
+
+void    DomainsMenu::press_esc()
+{
+	wbkgd(popup, A_NORMAL);
+	werase(this->popup);
+	wrefresh(popup);
+}
+
+bool	DomainsMenu::get_pressed_key(int select_domain)
+{
+	switch (select_domain)
+	{
+		case KEY_UP:
+			this->press_up_arrow(); break;
+		case KEY_DOWN:
+			this->press_down_arrow(); break;
+		case KEY_RIGHT:
+			this->press_right_arrow(); break;
+		case KEY_LEFT:
+			this->press_left_arrow(); break;
+		case 'Q':
+		case 'q':
+			return true;
+		case PRESS_ENTER:
+			this->press_enter(); break;
+		case PRESS_ESC:
+			this->press_esc(); break;				
+		default:
+			break;
+	}
+	return false;
+}
+
 
 DomainsMenu::~DomainsMenu()
 {
     delwin(this->win);
+	delwin(this->popup);
 }

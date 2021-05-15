@@ -45,7 +45,7 @@ void      Domain::set_name_server(string ns)
     ns = trim(ns, " \t");
 
     // check if the name sever already exist in the name servers vector
-    for (int i = 0;i < this->names_servers.size();i++)
+    for (size_t i = 0;i < this->names_servers.size();i++)
         if (this->names_servers[i] == ns)
           return ;
     this->names_servers.push_back(ns);
@@ -54,6 +54,7 @@ void      Domain::set_name_server(string ns)
 void      Domain::set_mx(string x)
 {
     // we will add it later
+    (void)x;
 }
 
 void      Domain::set_www(string x)           { this->www = trim(x, " \t");}
@@ -114,7 +115,7 @@ void            Domain::display_domain_info()
 }
 
 // other static function
-vector<Domain> Domain::get_domains_names(void)
+vector<Domain> Domain::get_domains_names_from_directory(void)
 {
     // get the output of ls command in a string
     string domains_name_result_of_ls_command = exec_command_and_return_result("ls named_dev");
@@ -137,7 +138,7 @@ vector<Domain> Domain::get_domains_names(void)
 
 void             Domain::add_domains_to_database(vector<Domain> domains, sql::Statement * stmt)
 {
-    for (int i = 0;i < domains.size();i++)
+    for (size_t i = 0;i < domains.size();i++)
     {
         domains[i].get_info_from_whois_query();
         // domains[i].display_domain_info();
@@ -167,15 +168,38 @@ void             Domain::add_domains_to_database(vector<Domain> domains, sql::St
     }
 }
 
-vector<string>   Domain::get_domains_names_from_database(sql::Statement * stmt)
+vector<Domain>   Domain::get_domains_from_database(sql::Statement * stmt)
 {
     sql::ResultSet * res;
-    vector<string>  domains_names;
-    res = stmt->executeQuery("SELECT name FROM domains");
+    vector<Domain>  domains;
+    res = stmt->executeQuery("SELECT * FROM domains");
     while (res->next())
-        domains_names.push_back(res->getString("name"));
+    {
+        Domain  temp_domain("");
+        
+        temp_domain.set_name(res->getString("name"));
+        temp_domain.set_name_server(res->getString("ns1"));
+        temp_domain.set_name_server(res->getString("ns2"));
+        temp_domain.set_name_server(res->getString("ns3"));
+        temp_domain.set_name_server(res->getString("ns4"));
+        temp_domain.set_mx(res->getString("mx1"));
+        temp_domain.set_mx(res->getString("mx2"));
+        temp_domain.set_www(res->getString("www"));
+        temp_domain.set_owner(res->getString("owner"));
+        temp_domain.set_admin(res->getString("adminp"));
+        temp_domain.set_tech(res->getString("techp"));
+        temp_domain.set_bill(res->getString("billp"));
+        temp_domain.set_registrar(res->getString("registrar"));
+        temp_domain.set_vpwd(res->getString("vpwd"));
+        temp_domain.set_expire(res->getDouble("expire"));
+        temp_domain.set_cost_per_year(res->getDouble("costperyear"));
+        temp_domain.set_whois(res->getString("whois"));
+        temp_domain.set_url(res->getString("url"));
+
+        domains.push_back(temp_domain);
+    }
     delete res;
-    return domains_names;
+    return domains;
 }
 
 Domain::~Domain() {}
