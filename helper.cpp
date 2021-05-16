@@ -81,9 +81,44 @@ void	draw_numbers_in_screen_corners(int yMax, int xMax)
 
 string  put_string_in_center(string & str, int number_of_case, char to_fill)
 {
+    if (str.length() > number_of_case)
+    {
+        str = str.substr(0, number_of_case - 1);
+        str += INDICATE_LONG_STRING;
+        return str;
+    }
     string  str_to_ret((number_of_case - str.length()) / 2, to_fill);
 
     str_to_ret += str;
+    for (int i = str_to_ret.length();i < number_of_case;i++)
+        str_to_ret += to_fill;
+    return str_to_ret;
+}
+
+string  put_string_in_right(string str, int number_of_case, char to_fill)
+{
+    if (str.length() > number_of_case)
+    {
+        str = str.substr(0, number_of_case - 1);
+        str += INDICATE_LONG_STRING;
+        return str;
+    }
+    string  str_to_ret(number_of_case - str.length(), to_fill);
+
+    str_to_ret += str;
+    return str_to_ret;
+}
+
+string  put_string_in_left(string str, int number_of_case, char to_fill)
+{
+    if (str.length() > number_of_case)
+    {
+        str = str.substr(0, number_of_case - 1);
+        str += INDICATE_LONG_STRING;
+        return str;
+    }
+    string  str_to_ret(str);
+    
     for (int i = str_to_ret.length();i < number_of_case;i++)
         str_to_ret += to_fill;
     return str_to_ret;

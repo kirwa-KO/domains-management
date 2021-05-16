@@ -16,7 +16,8 @@ DomainsMenu::DomainsMenu(int height, int width, int y, int x, sql::Statement *st
     this->start = 0;
     this->highlight = 0;
 	keypad(this->win, TRUE);
-	this->popup = newwin(DOMAIN_INFO_LENGTH + 2, width, yMax + 2, x);
+	// this->popup = newwin(DOMAIN_INFO_LENGTH + 2, width, yMax + 2, x);
+	this->popup = newwin(height, width, y, x);
 	this->selected_tab = 0;
 
 	// just for test;
@@ -45,11 +46,14 @@ DomainsMenu::DomainsMenu(int height, int width, int y, int x, sql::Statement *st
 	test5.set_name_server("ns1.dsmx.com");
 	test5.set_registrar("DomainPeople, Inc.");
 	test5.set_admin("REDACTED FOR PRIVACY");
-	this->domains.push_back(test1);
-	this->domains.push_back(test2);
-	this->domains.push_back(test5);
-	this->domains.push_back(test3);
-	this->domains.push_back(test4);
+	for(int i = 0;i < 20;i++)
+	{
+		this->domains.push_back(test1);
+		this->domains.push_back(test2);
+		this->domains.push_back(test5);
+		this->domains.push_back(test3);
+		this->domains.push_back(test4);
+	}
 }
 
 // getters
@@ -116,9 +120,20 @@ void	DomainsMenu::draw_domains_tab_content()
 	this->fields_name_bar();
 	for (i = this->start; i < this->start + DOMAIN_PER_WIN && i < this->domains.size(); i++)
 	{
+		string	all_info = "", temp;
 		if (i == this->highlight)
 			wattron(this->win, A_REVERSE);
-		mvwprintw(this->win, i - this->start + 4, 5, "%-16s", this->domains[i].get_name().c_str());
+		all_info += put_string_in_right(to_string(i + 1), 3, ' ');
+		all_info += " " + put_string_in_left(this->domains[i].get_name(), 16, ' ');
+		all_info += "  " + put_string_in_left(this->domains[i].get_registrar(), 10, ' ');
+		temp = to_string(this->domains[i].get_expire());
+		all_info += "  " + put_string_in_right(temp.substr(0, temp.find_last_of('.') + 3), 10, ' ');
+		temp = to_string(this->domains[i].get_cost_per_year());
+		all_info += "  " + put_string_in_right(temp.substr(0, temp.find_last_of('.') + 3), 4, ' ');
+		all_info += "  " + put_string_in_left(this->domains[i].get_names_servers()[0], 12, ' ');
+		all_info += "  " + put_string_in_left(this->domains[i].get_names_servers()[1], 12, ' ');
+		all_info += "  " + put_string_in_left(this->domains[i].get_admin(), 19, ' ');
+		mvwprintw(this->win, i - this->start + 4, 1, all_info.c_str());
 		wattroff(this->win, A_REVERSE);
 	}
 }
@@ -129,6 +144,7 @@ void    DomainsMenu::draw()
 	this->top_tabs();
 	if(this->selected_tab == 0)
 		this->draw_domains_tab_content();
+	
 }
 
 void    DomainsMenu::press_up_arrow()
@@ -139,7 +155,7 @@ void    DomainsMenu::press_up_arrow()
 
 void    DomainsMenu::press_down_arrow()
 {
-    if (this->highlight < this->start + DOMAIN_PER_WIN - 1 && this->highlight < this->domains.size() - 1)
+    if (this->highlight < this->start + DOMAIN_PER_WIN - 3 AND this->highlight < this->domains.size() - 1)
 		this->highlight += 1;
 }
 void    DomainsMenu::press_left_arrow()
@@ -161,6 +177,7 @@ void    DomainsMenu::press_right_arrow()
 
 void    DomainsMenu::press_enter()
 {
+	this->erase();
 	wbkgd(popup, COLOR_PAIR(1));
 	box(popup, 0, 0);
 	werase(popup);
@@ -175,16 +192,16 @@ void    DomainsMenu::press_enter()
 	mvwprintw(popup, 7, 1, ("registrar    : " + this->domains[highlight].get_registrar()).c_str());
 	mvwprintw(popup, 8, 1, ("whois        : " + this->domains[highlight].get_whois()).c_str());
 	mvwprintw(popup, 9, 1, ("url          : " + this->domains[highlight].get_url()).c_str());
-	wrefresh(stdscr);
 	wrefresh(popup);
+	wgetch(popup);
 }
 
-void    DomainsMenu::press_esc()
-{
-	wbkgd(popup, A_NORMAL);
-	werase(popup);
-	wrefresh(popup);
-}
+// void    DomainsMenu::press_esc()
+// {
+// 	wbkgd(popup, A_NORMAL);
+// 	werase(popup);
+// 	wrefresh(popup);
+// }
 
 bool	DomainsMenu::get_pressed_key(int select_domain, sql::Statement * stmt)
 {
@@ -219,8 +236,8 @@ bool	DomainsMenu::get_pressed_key(int select_domain, sql::Statement * stmt)
 			this->press_edit_domain(stmt); break;
 		case PRESS_ENTER:
 			this->press_enter(); break;
-		case PRESS_ESC:
-			this->press_esc(); break;				
+		// case PRESS_ESC:
+		// 	this->press_esc(); break;				
 		default:
 			break;
 	}

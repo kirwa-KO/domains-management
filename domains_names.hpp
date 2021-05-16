@@ -22,12 +22,13 @@
 #define BOLDWHITE   "\033[1m\033[37m"       /* Bold White */
 #define PRESS_ENTER 10
 #define PRESS_ESC 27
-#define DOMAIN_PER_WIN 25
+#define DOMAIN_PER_WIN 28
 #define DOMAIN_INFO_LENGTH 10
 #define TABS_NUMBER 4
 #define TAB_LENGTH 16
 #define FIELDS_NAME_NUMBER 8
 #define ctrl(x) (x & 0x1F)
+#define INDICATE_LONG_STRING '\\'
 
 /* include basic library of c++ */
 #include <bits/stdc++.h>
@@ -53,4 +54,6 @@ string&           trim(string& s, const char* t);
 void              draw_bottom_bar_menu(WINDOW * bottom_menu_bar, int yMax, int xMax);
 void              draw_numbers_in_screen_corners(int yMax, int xMax);
 string            put_string_in_center(string & str, int number_of_case, char to_fill);
+string            put_string_in_right(string str, int number_of_case, char to_fill);
+string            put_string_in_left(string str, int number_of_case, char to_fill);
 #endif

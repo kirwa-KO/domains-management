@@ -48,6 +48,7 @@ class DomainsMenu
         void    refresh();
         void    top_tabs();
         void    fields_name_bar();
+        void    bottom_bar();
         void    draw_domains_tab_content();
         void    draw();
         void    press_up_arrow();
@@ -55,7 +56,7 @@ class DomainsMenu
         void    press_left_arrow();
         void    press_right_arrow();
         void    press_enter();
-        void    press_esc();
+        // void    press_esc();
         bool    get_pressed_key(int select_domain, sql::Statement * stmt);
         void    press_delete_domain(sql::Statement * stmt);
         void    press_edit_domain(sql::Statement * stmt);

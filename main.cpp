@@ -53,6 +53,12 @@ int main(void)
         cout << BOLDGREEN << "Bye, And Thank you for using " << RESET << BOLDWHITE << "| ISMAEL |" << RESET << BOLDGREEN << " Tool.!!!" << RESET << endl;
         // delete stmt;
         // delete con;
+        // Domain test1("accrounds.com");
+        // vector<Domain> dm;
+        // dm.push_back(test1);
+        // string temp = "";
+        // temp += put_string_in_right(dm[0].get_name(), 16, ' ');
+        // cout << "|" << temp << "|" << endl;
     }
     catch (sql::SQLException &e) {
         cout << "# ERR: SQLException in " << __FILE__;
