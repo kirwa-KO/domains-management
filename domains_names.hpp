@@ -24,6 +24,9 @@
 #define PRESS_ESC 27
 #define DOMAIN_PER_WIN 10
 #define DOMAIN_INFO_LENGTH 10
+#define TABS_NUMBER 4
+#define TAB_LENGTH 16
+#define FIELDS_NAME_NUMBER 8
 #define ctrl(x) (x & 0x1F)
 
 /* include basic library of c++ */
@@ -42,10 +45,12 @@ using namespace std;
 #include <cppconn/statement.h>
 #include <ncurses.h>
 
-vector<string> get_domains_names(void);
-string exec_command_and_return_result(const char* cmd);
-string& rtrim(string& s, const char* t);
-string& ltrim(string& s, const char* t);
-string& trim(string& s, const char* t);
-void    draw_bottom_bar_menu(WINDOW * bottom_menu_bar, int yMax, int xMax);
+vector<string>    get_domains_names(void);
+string            exec_command_and_return_result(const char* cmd);
+string&           rtrim(string& s, const char* t);
+string&           ltrim(string& s, const char* t);
+string&           trim(string& s, const char* t);
+void              draw_bottom_bar_menu(WINDOW * bottom_menu_bar, int yMax, int xMax);
+void              draw_numbers_in_screen_corners(int yMax, int xMax);
+string            put_string_in_center(string & str, int number_of_case, char to_fill);
 #endif

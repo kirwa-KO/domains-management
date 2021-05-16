@@ -23,6 +23,7 @@ class DomainsMenu
         int             start;
         int             domains_size;
         vector<Domain>  domains;
+        int             selected_tab;
     public:
         DomainsMenu(int height, int width, int y, int x, vector<Domain> domains);
         // getters
@@ -45,6 +46,9 @@ class DomainsMenu
         // other function
         void    erase();
         void    refresh();
+        void    top_tabs();
+        void    fields_name_bar();
+        void    draw_domains_tab_content();
         void    draw();
         void    press_up_arrow();
         void    press_down_arrow();

@@ -46,3 +46,45 @@ void    draw_bottom_bar_menu(WINDOW * bottom_menu_bar, int yMax, int xMax)
     refresh();
     wrefresh(bottom_menu_bar);
 }
+
+void	draw_numbers_in_screen_corners(int yMax, int xMax)
+{
+    int i = 0;
+    int first_numbred_row = 1, second_numbred_row = 1;
+    
+    while (i < xMax)
+    {
+        mvprintw(1, i + 2, to_string(second_numbred_row).c_str());
+        i +=  1;
+        if(i % 10 == 0)
+        {
+            if(first_numbred_row >= 10)
+                mvprintw(0, i, to_string(first_numbred_row).c_str());
+            else
+                mvprintw(0, i + 1, to_string(first_numbred_row).c_str());
+            first_numbred_row += 1;
+        }
+        second_numbred_row = (second_numbred_row + 1) % 10;
+    }
+    i = 0;
+    second_numbred_row = -1;
+    while (i < yMax)
+    {
+        second_numbred_row += 1;
+        if (second_numbred_row != 0 AND second_numbred_row % 10 == 0)
+            mvprintw(i + 2, 0, to_string(second_numbred_row).c_str());
+        else
+            mvprintw(i + 2, 0, (" " + to_string(second_numbred_row % 10)).c_str());
+        i += 1;
+    }
+}
+
+string  put_string_in_center(string & str, int number_of_case, char to_fill)
+{
+    string  str_to_ret((number_of_case - str.length()) / 2, to_fill);
+
+    str_to_ret += str;
+    for (int i = str_to_ret.length();i < number_of_case;i++)
+        str_to_ret += to_fill;
+    return str_to_ret;
+}

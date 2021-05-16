@@ -14,7 +14,8 @@ DomainsMenu::DomainsMenu(int height, int width, int y, int x, vector<Domain> dom
     this->start = 0;
     this->highlight = 0;
 	keypad(this->win, TRUE);
-	this->popup = newwin(DOMAIN_INFO_LENGTH + 2, width, yMax + 2, x);;
+	this->popup = newwin(DOMAIN_INFO_LENGTH + 2, width, yMax + 2, x);
+	this->selected_tab = 0;
 }
 
 // getters
@@ -38,21 +39,64 @@ void DomainsMenu::set_stdscr_yMax(int stdscr_yMax) { this->stdscr_yMax = stdscr_
 
 // other function
 void    DomainsMenu::erase() { werase(this->win); }
+
 void    DomainsMenu::refresh() { wrefresh(this->win); }
+
+void	DomainsMenu::top_tabs()
+{
+	string	tabs[TABS_NUMBER] = {"Domains", "Registries", "Persons", "Servers"};
+	int		start = 9;
+
+	for (int i = 0;i < TABS_NUMBER;i++)
+	{
+		if(this->selected_tab == i)
+		{
+			wattron(this->win, A_REVERSE);
+			// dots string for selected tab
+			string	dots_string(tabs[i].length(), '.');
+			mvwprintw(this->win, 2, start, put_string_in_center(dots_string	, TAB_LENGTH, ' ').c_str());
+		}
+		mvwprintw(this->win, 1, start, put_string_in_center(tabs[i], TAB_LENGTH, ' ').c_str());
+		wattroff(this->win, A_REVERSE);
+		start += TAB_LENGTH;
+	}
+}
+
+void	DomainsMenu::fields_name_bar()
+{
+	int		start = 0;
+	string	fields[FIELDS_NAME_NUMBER] = {	" M ", "Name------------", "Registry--", "Expiration",
+											"Cost", "ns0---------", "ns1---------", "Owner--------------"};
+	for (int i = 0;i < FIELDS_NAME_NUMBER;i++)
+	{
+		if(i == 1)
+			start -= 1;
+		mvwprintw(this->win, 3, start + 1, fields[i].c_str());
+		start += fields[i].length() + 2;;
+	}
+}
+
+void	DomainsMenu::draw_domains_tab_content()
+{
+	this->fields_name_bar();
+	// for (i = this->start; i < this->start + DOMAIN_PER_WIN && i < this->domains_size; i++)
+	// {
+	// 	mvwprintw(this->win, i - this->start + 1, 1, " * ");
+	// 	if (i == this->highlight)
+	// 		wattron(this->win, A_REVERSE);
+	// 	mvwprintw(this->win, i - this->start + 1, 4, " %-*s", this->stdscr_xMax - 18, this->domains[i].get_name().c_str());
+	// 	wattroff(this->win, A_REVERSE);
+	// }
+}
+
 void    DomainsMenu::draw()
 {
     int     i;
 
-    this->domains_size = domains.size();
-    box(this->win, 0, 0);
-	for (i = this->start; i < this->start + DOMAIN_PER_WIN && i < this->domains_size; i++)
-	{
-		mvwprintw(this->win, i - this->start + 1, 1, " * ");
-		if (i == this->highlight)
-			wattron(this->win, A_REVERSE);
-		mvwprintw(this->win, i - this->start + 1, 4, " %-*s", this->stdscr_xMax - 18, this->domains[i].get_name().c_str());
-		wattroff(this->win, A_REVERSE);
-	}
+	this->erase();
+	this->top_tabs();
+	if(this->selected_tab == 0)
+		this->draw_domains_tab_content();
 }
 
 void    DomainsMenu::press_up_arrow()
@@ -127,7 +171,17 @@ bool	DomainsMenu::get_pressed_key(int select_domain, sql::Statement * stmt)
 			return true;
 		case 'd':
 		case 'D':
-			this->press_delete_domain(stmt); break;
+			this->selected_tab = 0; break;
+			// this->press_delete_domain(stmt); break;
+		case 'r':
+		case 'R':
+			this->selected_tab = 1; break;
+		case 'p':
+		case 'P':
+			this->selected_tab = 2; break;
+		case 's':
+		case 'S':
+			this->selected_tab = 3; break;
 		case 'e':
 		case 'E':
 			this->press_edit_domain(stmt); break;
