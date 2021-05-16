@@ -220,7 +220,13 @@ void    DomainsMenu::press_enter()
 		wattroff(popup, A_REVERSE);
 	}
 	wmove(popup, selected_attribute_for_edit + 1, 0);
-	wgetch(popup);
+	int yy = wgetch(popup);
+	if(yy == KEY_UP)
+	{
+		endwin();
+		cout << "kirwa-KO" << endl;
+		exit(-1);
+	}
 	this->is_in_edit_mode = false;
 }
 
@@ -236,21 +242,21 @@ bool	DomainsMenu::get_pressed_key(int select_domain)
 	switch (select_domain)
 	{
 		case KEY_UP:
-			if (this->is_in_edit_mode)
-			{
-				if(this->selected_attribute_for_edit > 0)
-					this->selected_attribute_for_edit -= 1;
-				this->press_enter();
-			}
-			else
+			// if (this->is_in_edit_mode)
+			// {
+			// 	if(this->selected_attribute_for_edit > 0)
+			// 		this->selected_attribute_for_edit -= 1;
+			// 	this->press_enter();
+			// }
+			// else
 				this->press_up_arrow(); break;
 		case KEY_DOWN:
-			if (this->is_in_edit_mode)
-			{
-				this->selected_attribute_for_edit += 1;
-				this->press_enter();
-			}
-			else
+			// if (this->is_in_edit_mode)
+			// {
+			// 	this->selected_attribute_for_edit += 1;
+			// 	this->press_enter();
+			// }
+			// else
 				this->press_down_arrow(); break;
 		case KEY_RIGHT:
 			this->press_right_arrow(); break;
