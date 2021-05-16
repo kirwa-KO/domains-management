@@ -19,8 +19,8 @@ DomainsMenu::DomainsMenu(int height, int width, int y, int x, sql::Statement *st
 	// this->popup = newwin(DOMAIN_INFO_LENGTH + 2, width, yMax + 2, x);
 	this->popup = newwin(height, width, y, x);
 	this->selected_tab = 0;
-	this->selected_attribute_for_edit = 0;
-	this->is_in_edit_mode = false;
+	// this->selected_attribute_for_edit = 0;
+	// this->is_in_edit_mode = false;
 }
 
 // getters
@@ -213,21 +213,20 @@ void    DomainsMenu::press_enter()
 	werase(popup);
 	mvwprintw(popup, 0, 1, "Domains details:");
 	for (itr = attributes_and_values.begin(), i = 0;itr != attributes_and_values.end();itr++, i++)
-	{
-		if (i == selected_attribute_for_edit)
-			wattron(popup, A_REVERSE);
-		mvwprintw(popup, i + 1, 1, (itr->first + itr->second).c_str());
-		wattroff(popup, A_REVERSE);
-	}
-	wmove(popup, selected_attribute_for_edit + 1, 0);
-	int yy = wgetch(popup);
-	if(yy == KEY_UP)
-	{
-		endwin();
-		cout << "kirwa-KO" << endl;
-		exit(-1);
-	}
-	this->is_in_edit_mode = false;
+		mvwprintw(popup, i + 1, 1, (put_string_in_right(to_string(i + 1), 2, ' ') + " - " + itr->first + itr->second).c_str());
+
+	mvwprintw(popup, i + 2, 1, "***  Please Enter the number of attribute you want to edit : ");
+	char index[20];
+	string index_str;
+	wgetstr(popup, index);
+	index_str = static_cast<string>(index);
+	int j;
+	for(itr = attributes_and_values.begin(), j = 0;itr != attributes_and_values.end() AND j < stoi(index_str) - 1;itr++, j++);
+	mvwprintw(popup, i + 4, 1, ("***  Please Enter the new value of " + itr->first).c_str());
+	char new_value[255];
+	string new_value_str;
+	wgetstr(popup, new_value);
+	// need to update the domains info here
 }
 
 void    DomainsMenu::press_esc()
@@ -241,6 +240,7 @@ bool	DomainsMenu::get_pressed_key(int select_domain)
 {
 	switch (select_domain)
 	{
+		// case KEY_UP:
 		case KEY_UP:
 			// if (this->is_in_edit_mode)
 			// {
@@ -287,7 +287,7 @@ bool	DomainsMenu::get_pressed_key(int select_domain)
 		// case 'E':
 			// this->press_edit_domain(); break;
 		case PRESS_ENTER:
-			this->is_in_edit_mode = true;
+			// this->is_in_edit_mode = true;
 			this->press_enter(); break;
 		case PRESS_ESC:
 			this->press_esc(); break;				

@@ -25,9 +25,9 @@ class DomainsMenu
         int             selected_tab;
         sql::Statement *stmt;
         int		        idm_command_index;
-        int             selected_attribute_for_edit;
+        // int             selected_attribute_for_edit;
     public:
-        bool            is_in_edit_mode;
+        // bool            is_in_edit_mode;
         DomainsMenu(int height, int width, int y, int x, sql::Statement *stmt);
         // getters
         WINDOW * get_win(void);
