@@ -226,7 +226,12 @@ void    DomainsMenu::press_enter()
 	char new_value[255];
 	string new_value_str;
 	wgetstr(popup, new_value);
+	new_value_str = static_cast<string>(new_value);
 	// need to update the domains info here
+	if (stoi(index_str) == 1)
+		stmt->executeUpdate("UPDATE domains SET name='" + new_value_str + "' WHERE name='" + this->domains[highlight].get_name() + "'");
+	this->domains.clear();
+	this->domains = Domain::get_domains_from_database(stmt);
 }
 
 void    DomainsMenu::press_esc()

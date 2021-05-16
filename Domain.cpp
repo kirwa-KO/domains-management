@@ -114,6 +114,12 @@ void            Domain::display_domain_info()
 	cout << "Url : " << this->get_url() << "\n";
 }
 
+// members function for database
+void      Domain::update_domain_name_in_database(string & new_name, sql::Statement * stmt)
+{
+    stmt->executeUpdate("UPDATE domains SET name='" + new_name + "' WHERE name='" + this->name + "'");
+}
+
 // other static function
 vector<Domain> Domain::get_domains_names_from_directory(void)
 {
@@ -205,32 +211,6 @@ vector<Domain>   Domain::get_domains_from_database(sql::Statement * stmt)
     sql::ResultSet * res;
     vector<Domain>  domains;
     res = stmt->executeQuery("SELECT * FROM domains");
-    // while (res->next())
-    // {
-    //     Domain  temp_domain("");
-        
-    //     temp_domain.set_name(res->getString("name"));
-    //     temp_domain.set_name_server(res->getString("ns1"));
-    //     temp_domain.set_name_server(res->getString("ns2"));
-    //     temp_domain.set_name_server(res->getString("ns3"));
-    //     temp_domain.set_name_server(res->getString("ns4"));
-    //     temp_domain.set_mx(res->getString("mx1"));
-    //     temp_domain.set_mx(res->getString("mx2"));
-    //     temp_domain.set_www(res->getString("www"));
-    //     temp_domain.set_owner(res->getString("owner"));
-    //     temp_domain.set_admin(res->getString("adminp"));
-    //     temp_domain.set_tech(res->getString("techp"));
-    //     temp_domain.set_bill(res->getString("billp"));
-    //     temp_domain.set_registrar(res->getString("registrar"));
-    //     temp_domain.set_vpwd(res->getString("vpwd"));
-    //     temp_domain.set_expire(res->getDouble("expire"));
-    //     temp_domain.set_cost_per_year(res->getDouble("costperyear"));
-    //     temp_domain.set_whois(res->getString("whois"));
-    //     temp_domain.set_url(res->getString("url"));
-
-    //     domains.push_back(temp_domain);
-    // }
-
     domains = Domain::return_getted_domains_from_sql_query(res);
     delete res;
     return domains;
