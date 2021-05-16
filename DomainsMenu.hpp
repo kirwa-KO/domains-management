@@ -24,7 +24,10 @@ class DomainsMenu
         vector<Domain>  domains;
         int             selected_tab;
         sql::Statement *stmt;
+        int		        idm_command_index;
+        int             selected_attribute_for_edit;
     public:
+        bool            is_in_edit_mode;
         DomainsMenu(int height, int width, int y, int x, sql::Statement *stmt);
         // getters
         WINDOW * get_win(void);
@@ -49,6 +52,7 @@ class DomainsMenu
         void    top_tabs();
         void    fields_name_bar();
         void    bottom_bar();
+        void    press_t_to_select_filter_bar();
         void    draw_domains_tab_content();
         void    draw();
         void    press_up_arrow();
@@ -56,10 +60,10 @@ class DomainsMenu
         void    press_left_arrow();
         void    press_right_arrow();
         void    press_enter();
-        // void    press_esc();
-        bool    get_pressed_key(int select_domain, sql::Statement * stmt);
-        void    press_delete_domain(sql::Statement * stmt);
-        void    press_edit_domain(sql::Statement * stmt);
+        void    press_esc();
+        bool    get_pressed_key(int select_domain);
+        void    press_delete_domain();
+        void    press_edit_domain();
         ~DomainsMenu();
 };
 

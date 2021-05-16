@@ -168,11 +168,10 @@ void             Domain::add_domains_to_database(vector<Domain> domains, sql::St
     }
 }
 
-vector<Domain>   Domain::get_domains_from_database(sql::Statement * stmt)
+vector<Domain>   Domain::return_getted_domains_from_sql_query(sql::ResultSet * res)
 {
-    sql::ResultSet * res;
     vector<Domain>  domains;
-    res = stmt->executeQuery("SELECT * FROM domains");
+
     while (res->next())
     {
         Domain  temp_domain("");
@@ -198,8 +197,55 @@ vector<Domain>   Domain::get_domains_from_database(sql::Statement * stmt)
 
         domains.push_back(temp_domain);
     }
+    return domains;
+}
+
+vector<Domain>   Domain::get_domains_from_database(sql::Statement * stmt)
+{
+    sql::ResultSet * res;
+    vector<Domain>  domains;
+    res = stmt->executeQuery("SELECT * FROM domains");
+    // while (res->next())
+    // {
+    //     Domain  temp_domain("");
+        
+    //     temp_domain.set_name(res->getString("name"));
+    //     temp_domain.set_name_server(res->getString("ns1"));
+    //     temp_domain.set_name_server(res->getString("ns2"));
+    //     temp_domain.set_name_server(res->getString("ns3"));
+    //     temp_domain.set_name_server(res->getString("ns4"));
+    //     temp_domain.set_mx(res->getString("mx1"));
+    //     temp_domain.set_mx(res->getString("mx2"));
+    //     temp_domain.set_www(res->getString("www"));
+    //     temp_domain.set_owner(res->getString("owner"));
+    //     temp_domain.set_admin(res->getString("adminp"));
+    //     temp_domain.set_tech(res->getString("techp"));
+    //     temp_domain.set_bill(res->getString("billp"));
+    //     temp_domain.set_registrar(res->getString("registrar"));
+    //     temp_domain.set_vpwd(res->getString("vpwd"));
+    //     temp_domain.set_expire(res->getDouble("expire"));
+    //     temp_domain.set_cost_per_year(res->getDouble("costperyear"));
+    //     temp_domain.set_whois(res->getString("whois"));
+    //     temp_domain.set_url(res->getString("url"));
+
+    //     domains.push_back(temp_domain);
+    // }
+
+    domains = Domain::return_getted_domains_from_sql_query(res);
     delete res;
     return domains;
 }
+
+vector<Domain>   Domain::get_dot_tld_domains_from_database(sql::Statement * stmt, string tld)
+{
+    sql::ResultSet * res;
+    vector<Domain>  domains;
+
+    res = stmt->executeQuery("SELECT * FROM domains WHERE name LIKE '%." + tld + "'");
+    domains = Domain::return_getted_domains_from_sql_query(res);
+    delete res;
+    return domains;
+}
+
 
 Domain::~Domain() {}

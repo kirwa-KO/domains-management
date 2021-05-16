@@ -55,9 +55,11 @@ class Domain {
     void      get_info_from_whois_query();
     void      display_domain_info();
     // other static functions
-    static vector<Domain>   get_domains_names_from_directory(void);
-    static void             add_domains_to_database(vector<Domain>, sql::Statement *);
-    static vector<Domain>   get_domains_from_database(sql::Statement *);
+    static  vector<Domain>   get_domains_names_from_directory(void);
+    static  void             add_domains_to_database(vector<Domain> domains, sql::Statement * stmt);
+    static  vector<Domain>   return_getted_domains_from_sql_query(sql::ResultSet * res);
+    static  vector<Domain>   get_domains_from_database(sql::Statement * stmt);
+    static  vector<Domain>   get_dot_tld_domains_from_database(sql::Statement * stmt, string tld);
     ~Domain();
 };
 
