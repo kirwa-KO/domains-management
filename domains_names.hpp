@@ -22,7 +22,7 @@
 #define BOLDWHITE   "\033[1m\033[37m"       /* Bold White */
 #define PRESS_ENTER 10
 #define PRESS_ESC 27
-#define DOMAIN_PER_WIN 10
+#define DOMAIN_PER_WIN 25
 #define DOMAIN_INFO_LENGTH 10
 #define TABS_NUMBER 4
 #define TAB_LENGTH 16

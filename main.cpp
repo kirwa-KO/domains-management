@@ -9,7 +9,7 @@ int main(void)
         sql::Connection *con;
         sql::Statement *stmt = NULL;
         vector<Domain> domains;
-        vector<Domain> domains_from_database;
+        // vector<Domain> domains_from_database;
         int xMax, yMax, select_domain;
         bool    quit_loop = false;
 
@@ -37,7 +37,8 @@ int main(void)
         getmaxyx(stdscr, yMax, xMax);
         draw_numbers_in_screen_corners(yMax, xMax);
         // domains_from_database = Domain::get_domains_from_database(stmt);
-        DomainsMenu	menu_for_domains(DOMAIN_PER_WIN + 2, xMax - 12, 2, 2, domains_from_database);
+        // DomainsMenu	menu_for_domains(DOMAIN_PER_WIN + 2, xMax - 12, 2, 2, domains_from_database);
+        DomainsMenu	menu_for_domains(DOMAIN_PER_WIN + 2, xMax - 12, 2, 2, stmt);
         menu_for_domains.set_stdscr_xMax(xMax);
         menu_for_domains.set_stdscr_yMax(yMax);
         refresh();

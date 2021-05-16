@@ -20,7 +20,7 @@ class Domain {
 		string          url;
 
   public:
-    Domain(string);
+    Domain(string name);
     // getters
     string  get_name();
     vector<string>  get_names_servers();

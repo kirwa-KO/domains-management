@@ -1,14 +1,16 @@
 #include "DomainsMenu.hpp"
 
-DomainsMenu::DomainsMenu(int height, int width, int y, int x, vector<Domain> domains)
+DomainsMenu::DomainsMenu(int height, int width, int y, int x, sql::Statement *stmt)
 {
     this->win = newwin(height, width, y, x);
     this->height = height;
     this->width = width;
     this->y = y;
     this->x = x;
-	for (size_t i = 0;i < domains.size();i++)
-		this->domains.push_back(domains[i]);
+	// for (size_t i = 0;i < domains.size();i++)
+	// 	this->domains.push_back(domains[i]);
+	this->stmt = stmt;
+	// this->domains = Domain::get_domains_from_database(stmt);
     getmaxyx(this->win, yMax, xMax);
     getbegyx(this->win, yBeg, xBeg);
     this->start = 0;
@@ -16,6 +18,38 @@ DomainsMenu::DomainsMenu(int height, int width, int y, int x, vector<Domain> dom
 	keypad(this->win, TRUE);
 	this->popup = newwin(DOMAIN_INFO_LENGTH + 2, width, yMax + 2, x);
 	this->selected_tab = 0;
+
+	// just for test;
+	Domain test1("accrounds.com");
+	test1.set_name_server("ns0.dsmx.com");
+	test1.set_name_server("ns1.dsmx.com");
+	test1.set_registrar("DomainPeople, Inc.");
+	test1.set_admin("REDACTED FOR PRIVACY");
+	Domain test2("aviacom.net");
+	test2.set_name_server("ns4009.hostgator.com");
+	test2.set_name_server("ns4010.hostgator.com");
+	test2.set_registrar("Launchpad.com Inc.");
+	test2.set_admin("GDPR Masked");
+	Domain test3("bitmark.cc");
+	test3.set_name_server("ns0.dsmx.com");
+	test3.set_name_server("ns1.dsmx.com");
+	test3.set_registrar("NameCheap, Inc.");
+	test3.set_admin("Withheld for Privacy Purposes");
+	Domain test4("bitvex.com");
+	test4.set_name_server("ns0.dsmx.com");
+	test4.set_name_server("ns1.dsmx.com");
+	test4.set_registrar("DomainPeople, Inc.");
+	test4.set_admin("REDACTED FOR PRIVACY");
+	Domain test5("verrylongdomain.com");
+	test5.set_name_server("ns0.dsmx.com");
+	test5.set_name_server("ns1.dsmx.com");
+	test5.set_registrar("DomainPeople, Inc.");
+	test5.set_admin("REDACTED FOR PRIVACY");
+	this->domains.push_back(test1);
+	this->domains.push_back(test2);
+	this->domains.push_back(test5);
+	this->domains.push_back(test3);
+	this->domains.push_back(test4);
 }
 
 // getters
@@ -78,21 +112,19 @@ void	DomainsMenu::fields_name_bar()
 
 void	DomainsMenu::draw_domains_tab_content()
 {
+	int		i;
 	this->fields_name_bar();
-	// for (i = this->start; i < this->start + DOMAIN_PER_WIN && i < this->domains_size; i++)
-	// {
-	// 	mvwprintw(this->win, i - this->start + 1, 1, " * ");
-	// 	if (i == this->highlight)
-	// 		wattron(this->win, A_REVERSE);
-	// 	mvwprintw(this->win, i - this->start + 1, 4, " %-*s", this->stdscr_xMax - 18, this->domains[i].get_name().c_str());
-	// 	wattroff(this->win, A_REVERSE);
-	// }
+	for (i = this->start; i < this->start + DOMAIN_PER_WIN && i < this->domains.size(); i++)
+	{
+		if (i == this->highlight)
+			wattron(this->win, A_REVERSE);
+		mvwprintw(this->win, i - this->start + 4, 5, "%-16s", this->domains[i].get_name().c_str());
+		wattroff(this->win, A_REVERSE);
+	}
 }
 
 void    DomainsMenu::draw()
 {
-    int     i;
-
 	this->erase();
 	this->top_tabs();
 	if(this->selected_tab == 0)
@@ -107,7 +139,7 @@ void    DomainsMenu::press_up_arrow()
 
 void    DomainsMenu::press_down_arrow()
 {
-    if (this->highlight < this->start + DOMAIN_PER_WIN - 1 && this->highlight < domains_size - 1)
+    if (this->highlight < this->start + DOMAIN_PER_WIN - 1 && this->highlight < this->domains.size() - 1)
 		this->highlight += 1;
 }
 void    DomainsMenu::press_left_arrow()
@@ -122,7 +154,7 @@ void    DomainsMenu::press_left_arrow()
 void    DomainsMenu::press_right_arrow()
 {
 	this->erase();
-	if (start + DOMAIN_PER_WIN < domains_size)
+	if (start + DOMAIN_PER_WIN < this->domains.size())
 		start += DOMAIN_PER_WIN;
 	this->highlight = this->start;
 }

@@ -21,11 +21,11 @@ class DomainsMenu
         int             x;
         int             y;
         int             start;
-        int             domains_size;
         vector<Domain>  domains;
         int             selected_tab;
+        sql::Statement *stmt;
     public:
-        DomainsMenu(int height, int width, int y, int x, vector<Domain> domains);
+        DomainsMenu(int height, int width, int y, int x, sql::Statement *stmt);
         // getters
         WINDOW * get_win(void);
         int get_xMax(void);
