@@ -64,8 +64,8 @@ CREATE TABLE domains (
  billp        VARCHAR(255),
  registrar    VARCHAR(255),
  vpwd         VARCHAR(255),
- expire       DOUBLE,
- costperyear  DOUBLE DEFAULT 0,
+ expire       VARCHAR(255),
+ costperyear  VARCHAR(255),
  whois        VARCHAR(255) DEFAULT '',
  url          VARCHAR(255) DEFAULT '',
  INDEX (name)

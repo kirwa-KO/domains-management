@@ -9,8 +9,8 @@ Domain::Domain(string name) : name(name)
     bill = "";
     registrar = "";
     vpwd = "";
-    expire = 0;
-    cost_per_year = 0;
+    expire = "";
+    cost_per_year = "";
     whois = "";
     url = "";
     // just for testing we put empty string in mx record attribute
@@ -29,8 +29,8 @@ string Domain::get_tech()                       { return tech; }
 string Domain::get_bill()                       { return bill; }
 string Domain::get_registrar()                  { return registrar; }
 string Domain::get_vpwd()                       { return vpwd; }
-double Domain::get_expire()                     { return expire; }
-double Domain::get_cost_per_year()              { return cost_per_year; }
+string Domain::get_expire()                     { return expire; }
+string Domain::get_cost_per_year()              { return cost_per_year; }
 string Domain::get_whois()                      { return whois; }
 string Domain::get_url()                        { return url; }
 
@@ -64,8 +64,8 @@ void      Domain::set_tech(string x)          { this->tech = trim(x, " \t");}
 void      Domain::set_bill(string x)          { this->bill = trim(x, " \t");}
 void      Domain::set_registrar(string x)     { this->registrar = trim(x, " \t");}
 void      Domain::set_vpwd(string x)          { this->vpwd = trim(x, " \t");}
-void      Domain::set_expire(double x)        { this->expire = x;}
-void      Domain::set_cost_per_year(double x) { this->cost_per_year = x;}
+void      Domain::set_expire(string x)        { this->expire = x;}
+void      Domain::set_cost_per_year(string x) { this->cost_per_year = x;}
 void      Domain::set_whois(string x)         { this->whois = trim(x, " \t");}
 void      Domain::set_url(string x)           { this->url = trim(x, " \t");}
 
@@ -166,8 +166,8 @@ void             Domain::add_domains_to_database(vector<Domain> domains, sql::St
                                             "'" + domains[i].get_bill() + "', " \
                                             "'" + domains[i].get_registrar() + "', " \
                                             "'" + domains[i].get_vpwd() + "', " \
-                                            "'" + to_string(domains[i].get_expire()) + "', " \
-                                            "'" + to_string(domains[i].get_cost_per_year()) + "', " \
+                                            "'" + domains[i].get_expire() + "', " \
+                                            "'" + domains[i].get_cost_per_year() + "', " \
                                             "'" + domains[i].get_whois() + "', " \
                                             "'" + domains[i].get_url() + "')");
         cout << BOLDGREEN << "The Domain " << RESET << BOLDWHITE << domains[i].get_name() << RESET << BOLDGREEN << " Added To Database Successfully..!!" << RESET << '\n';
@@ -196,8 +196,8 @@ vector<Domain>   Domain::return_getted_domains_from_sql_query(sql::ResultSet * r
         temp_domain.set_bill(res->getString("billp"));
         temp_domain.set_registrar(res->getString("registrar"));
         temp_domain.set_vpwd(res->getString("vpwd"));
-        temp_domain.set_expire(res->getDouble("expire"));
-        temp_domain.set_cost_per_year(res->getDouble("costperyear"));
+        temp_domain.set_expire(res->getString("expire"));
+        temp_domain.set_cost_per_year(res->getString("costperyear"));
         temp_domain.set_whois(res->getString("whois"));
         temp_domain.set_url(res->getString("url"));
 
