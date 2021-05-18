@@ -1,16 +1,17 @@
-#include "Domain.hpp"
+// #include "Domain.hpp"
 #include "DomainsMenu.hpp"
-
+sql::Statement *	g_stmt;
 
 string				Domain::selected_domain_tld = "%";
 int					Domain::selected_domain_size = 255;
+vector<string>      Domain::registrar_names;
 
 int main(void)
 {
     try {
         sql::Driver *driver;
         sql::Connection *con;
-        sql::Statement *stmt = NULL;
+        // sql::Statement *stmt = NULL;
         vector<Domain> domains;
         // vector<Domain> domains_from_database;
         int xMax, yMax, select_domain;
@@ -23,15 +24,19 @@ int main(void)
         // Connect to the MySQL domains database
         con->setSchema("domains");
         // create statement to get and update data in database
-        stmt = con->createStatement();
+        g_stmt = con->createStatement();
+        g_stmt->execute("SET collation_connection = 'utf8_general_ci';");
+        g_stmt->execute("ALTER DATABASE domains CHARACTER SET utf8 COLLATE utf8_general_ci;");
+        g_stmt->execute("ALTER TABLE domains CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;");
+        g_stmt->execute("ALTER TABLE registrar CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;");
     
         // check if the user want to add domains from directory
         // cout << BOLDYELLOW << "If you want to add domains to database press [y/Y] : " << RESET;
         // cin >> choice;
         // if (choice == 'y' OR choice == 'Y')
         // {
-            domains = Domain::get_domains_names_from_directory();
-            Domain::add_domains_to_database(domains, stmt);
+            // domains = Domain::get_domains_names_from_directory();
+            // Domain::add_domains_to_database(domains);
         // }
 
         initscr();
@@ -39,7 +44,7 @@ int main(void)
         {
             cout << BOLDRED << "You Terminal Dont support ncurses colors" << RESET << endl;
             endwin();
-            delete stmt;
+            delete g_stmt;
             delete con;
             return (-1);
         }
@@ -49,7 +54,7 @@ int main(void)
 
         getmaxyx(stdscr, yMax, xMax);
         // draw_numbers_in_screen_corners(yMax, xMax);
-        DomainsMenu	menu_for_domains(yMax - 2, xMax - 2, 0, 0, stmt);
+        DomainsMenu	menu_for_domains(yMax - 2, xMax - 2, 0, 0);
         menu_for_domains.set_stdscr_xMax(xMax);
         menu_for_domains.set_stdscr_yMax(yMax);
         refresh();
@@ -61,7 +66,7 @@ int main(void)
         }
         endwin();
         cout << BOLDGREEN << "Bye, And Thank you for using " << RESET << BOLDWHITE << "| ISMAEL |" << RESET << BOLDGREEN << " Tool.!!!" << RESET << endl;
-        delete stmt;
+        delete g_stmt;
         delete con;
 
         // vector<Domain> domains;
@@ -78,6 +83,21 @@ int main(void)
         // {
         //     x.display_domain_info();
         // }
+
+        // Domain::registrar_names.push_back("kirwa");
+        // Domain::registrar_names.push_back("kirwa1");
+        // Domain::registrar_names.push_back("kirwa2");
+
+        // string fhfh = "kirwa";
+
+        // if (fhfh != "" AND find(Domain::registrar_names.begin(), Domain::registrar_names.end(), fhfh) == Domain::registrar_names.end())
+        // {
+        //     for (auto x : Domain::registrar_names)
+        //     {
+        //         cout << x << endl;
+        //     }
+        // }
+
     }
     catch (sql::SQLException &e) {
         endwin();

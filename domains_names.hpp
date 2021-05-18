@@ -46,14 +46,15 @@ using namespace std;
 #include <cppconn/statement.h>
 #include <ncurses.h>
 
-vector<string>    get_domains_names(void);
-string            exec_command_and_return_result(const char* cmd);
-string&           rtrim(string& s, const char* t);
-string&           ltrim(string& s, const char* t);
-string&           trim(string& s, const char* t);
-void              draw_bottom_bar_menu(WINDOW * bottom_menu_bar, int yMax, int xMax);
-void              draw_numbers_in_screen_corners(int yMax, int xMax);
-string            put_string_in_center(string & str, int number_of_case, char to_fill);
-string            put_string_in_right(string str, int number_of_case, char to_fill);
-string            put_string_in_left(string str, int number_of_case, char to_fill);
+extern  sql::Statement *	g_stmt;
+vector<string>            get_domains_names(void);
+string                    exec_command_and_return_result(const char* cmd);
+string&                   rtrim(string& s, const char* t);
+string&                   ltrim(string& s, const char* t);
+string&                   trim(string& s, const char* t);
+void                      draw_bottom_bar_menu(WINDOW * bottom_menu_bar, int yMax, int xMax);
+void                      draw_numbers_in_screen_corners(int yMax, int xMax);
+string                    put_string_in_center(string & str, int number_of_case, char to_fill);
+string                    put_string_in_right(string str, int number_of_case, char to_fill);
+string                    put_string_in_left(string str, int number_of_case, char to_fill);
 #endif

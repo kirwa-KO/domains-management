@@ -1,13 +1,12 @@
 #include "DomainsMenu.hpp"
 
-DomainsMenu::DomainsMenu(int height, int width, int y, int x, sql::Statement *stmt)
+DomainsMenu::DomainsMenu(int height, int width, int y, int x)
 {
     this->win = newwin(height, width, y, x);
     this->height = height;
     this->width = width;
     this->y = y;
     this->x = x;
-	this->stmt = stmt;
     getmaxyx(this->win, yMax, xMax);
     getbegyx(this->win, yBeg, xBeg);
     this->start = 0;
@@ -15,7 +14,7 @@ DomainsMenu::DomainsMenu(int height, int width, int y, int x, sql::Statement *st
 	keypad(this->win, TRUE);
 	this->popup = newwin(height, width, y, x);
 	this->selected_tab = 0;
-	this->domains = Domain::get_domains_from_database(stmt);
+	this->domains = Domain::get_domains_from_database();
 	// just for test
 	// for (int i = 0;i < 100;i++)
 	// {
@@ -157,19 +156,19 @@ void	DomainsMenu::press_t_to_select_filter_tld_bar()
 	wgetstr(this->win, filter);
 	chosen_tld = static_cast<string>(filter);
 	if (chosen_tld == "a")
-		this->domains = Domain::get_domains_from_database(stmt);
+		this->domains = Domain::get_domains_from_database();
 	else if (chosen_tld == "c")
-		this->domains = Domain::get_dot_tld_domains_from_database(stmt, "com");
+		this->domains = Domain::get_dot_tld_domains_from_database("com");
 	else if (chosen_tld == "o")
-		this->domains = Domain::get_dot_tld_domains_from_database(stmt, "org");
+		this->domains = Domain::get_dot_tld_domains_from_database("org");
 	else if (chosen_tld == "n")
-		this->domains = Domain::get_dot_tld_domains_from_database(stmt, "net");
+		this->domains = Domain::get_dot_tld_domains_from_database("net");
 	else if (chosen_tld == "i")
-		this->domains = Domain::get_dot_tld_domains_from_database(stmt, "io");
+		this->domains = Domain::get_dot_tld_domains_from_database("io");
 	else if (chosen_tld == "m")
-		this->domains = Domain::get_dot_tld_domains_from_database(stmt, "mx");
+		this->domains = Domain::get_dot_tld_domains_from_database("mx");
 	else
-		this->domains = Domain::get_dot_tld_domains_from_database(stmt, chosen_tld);
+		this->domains = Domain::get_dot_tld_domains_from_database(chosen_tld);
 }
 
 
@@ -185,7 +184,7 @@ void	DomainsMenu::press_s_to_select_filter_size_bar()
 	wgetstr(this->win, filter);
 	chosen_size_str = static_cast<string>(filter);
 	int	selected_size_int = stoi(chosen_size_str);
-	this->domains = Domain::get_domains_where_equal_or_less_that_specfied_size_from_database(stmt, selected_size_int);
+	this->domains = Domain::get_domains_where_equal_or_less_that_specfied_size_from_database(selected_size_int);
 }
 
 
@@ -282,27 +281,27 @@ void    DomainsMenu::press_enter()
 	new_value_str = static_cast<string>(new_value);
 	// need to update the domains info here
 	if (stoi(index_str) == 1)
-		this->domains[highlight].update_domain_attribute_in_database("name", new_value_str, stmt);
+		this->domains[highlight].update_domain_attribute_in_database("name", new_value_str);
 	else if (stoi(index_str) == 2)
-		this->domains[highlight].update_domain_attribute_in_database("ns1", new_value_str, stmt);
+		this->domains[highlight].update_domain_attribute_in_database("ns1", new_value_str);
 	else if (stoi(index_str) == 3)
-		this->domains[highlight].update_domain_attribute_in_database("ns2", new_value_str, stmt);
+		this->domains[highlight].update_domain_attribute_in_database("ns2", new_value_str);
 	else if (stoi(index_str) == 4)
-		this->domains[highlight].update_domain_attribute_in_database("ns3", new_value_str, stmt);
+		this->domains[highlight].update_domain_attribute_in_database("ns3", new_value_str);
 	else if (stoi(index_str) == 5)
-		this->domains[highlight].update_domain_attribute_in_database("ns4", new_value_str, stmt);
+		this->domains[highlight].update_domain_attribute_in_database("ns4", new_value_str);
 	else if (stoi(index_str) == 6)
-		this->domains[highlight].update_domain_attribute_in_database("adminp", new_value_str, stmt);
+		this->domains[highlight].update_domain_attribute_in_database("adminp", new_value_str);
 	else if (stoi(index_str) == 7)
-		this->domains[highlight].update_domain_attribute_in_database("techp", new_value_str, stmt);
+		this->domains[highlight].update_domain_attribute_in_database("techp", new_value_str);
 	else if (stoi(index_str) == 8)
-		this->domains[highlight].update_domain_attribute_in_database("registrar", new_value_str, stmt);
+		this->domains[highlight].update_domain_attribute_in_database("registrar", new_value_str);
 	else if (stoi(index_str) == 9)
-		this->domains[highlight].update_domain_attribute_in_database("whois", new_value_str, stmt);
+		this->domains[highlight].update_domain_attribute_in_database("whois", new_value_str);
 	else if (stoi(index_str) == 10)
-		this->domains[highlight].update_domain_attribute_in_database("url", new_value_str, stmt);
+		this->domains[highlight].update_domain_attribute_in_database("url", new_value_str);
 	this->domains.clear();
-	this->domains = Domain::get_domains_from_database(stmt);
+	this->domains = Domain::get_domains_from_database();
 }
 
 void    DomainsMenu::press_esc()
@@ -371,7 +370,7 @@ void    DomainsMenu::press_delete_domain()
 
 	if(is_confirm == 'y' OR is_confirm == 'Y')
 	{
-		stmt->execute("DELETE FROM domains WHERE name = '" + domains[highlight].get_name() + "'");
+		g_stmt->execute("DELETE FROM domains WHERE name = '" + domains[highlight].get_name() + "'");
 		domains.erase(domains.begin() + highlight);
 		highlight -= 1;
 		if (highlight < 0)
@@ -394,7 +393,7 @@ void    DomainsMenu::press_edit_domain()
 	mvwprintw(popup, 0, 1, "Edit Domain :");
 	mvwprintw(popup, (DOMAIN_INFO_LENGTH + 2) / 2, (width / 2) - 13, "Put the name domain name : ");
 	wgetstr(popup, new_domain_name);
-	stmt->executeUpdate("UPDATE domains set name='" + string(new_domain_name) + "' WHERE name='" + domains[highlight].get_name()+ "';");
+	g_stmt->executeUpdate("UPDATE domains set name='" + string(new_domain_name) + "' WHERE name='" + domains[highlight].get_name()+ "';");
 	domains[highlight].set_name(string(new_domain_name));
 	wbkgd(popup, A_NORMAL);
 	werase(popup);

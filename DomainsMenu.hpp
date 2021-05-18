@@ -23,12 +23,11 @@ class DomainsMenu
 		int 				start;
 		vector<Domain> 		domains;
 		int					selected_tab;
-		sql::Statement *	stmt;
 		int 				idm_command_index;
 
 	public:
 		// bool            is_in_edit_mode;
-		DomainsMenu(int height, int width, int y, int x, sql::Statement *stmt);
+		DomainsMenu(int height, int width, int y, int x);
 		// getters
 		WINDOW *get_win(void);
 		int get_xMax(void);

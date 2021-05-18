@@ -1,6 +1,6 @@
 #ifndef DOMAIN_HPP
 #define DOMAIN_HPP
-#include "domains_names.hpp"
+#include "Registrar.hpp"
 
 class Domain
 {
@@ -23,6 +23,7 @@ private:
 public:
 	static string selected_domain_tld;
 	static int selected_domain_size;
+	static vector<string>  registrar_names;
 	Domain(string name);
 	// getters
 	string get_name();
@@ -58,14 +59,14 @@ public:
 	void get_info_from_whois_query();
 	void display_domain_info();
 	// members function for database
-	void update_domain_attribute_in_database(string attribute, string &new_value, sql::Statement *stmt);
+	void update_domain_attribute_in_database(string attribute, string &new_value);
 	// other static functions
 	static vector<Domain> get_domains_names_from_directory(void);
-	static void add_domains_to_database(vector<Domain> domains, sql::Statement *stmt);
+	static void add_domains_to_database(vector<Domain> domains);
 	static vector<Domain> return_getted_domains_from_sql_query(sql::ResultSet *res);
-	static vector<Domain> get_domains_from_database(sql::Statement *stmt);
-	static vector<Domain> get_dot_tld_domains_from_database(sql::Statement *stmt, string tld);
-	static vector<Domain> get_domains_where_equal_or_less_that_specfied_size_from_database(sql::Statement *stmt, int &select_size);
+	static vector<Domain> get_domains_from_database();
+	static vector<Domain> get_dot_tld_domains_from_database(string tld);
+	static vector<Domain> get_domains_where_equal_or_less_that_specfied_size_from_database(int &select_size);
 	~Domain();
 };
 
