@@ -26,13 +26,13 @@ int main(void)
         stmt = con->createStatement();
     
         // check if the user want to add domains from directory
-        cout << BOLDYELLOW << "If you want to add domains to database press [y/Y] : " << RESET;
-        cin >> choice;
-        if (choice == 'y' OR choice == 'Y')
-        {
-            domains = Domain::get_domains_names_from_directory();
-            Domain::add_domains_to_database(domains, stmt);
-        }
+        // cout << BOLDYELLOW << "If you want to add domains to database press [y/Y] : " << RESET;
+        // cin >> choice;
+        // if (choice == 'y' OR choice == 'Y')
+        // {
+        //     domains = Domain::get_domains_names_from_directory();
+        //     Domain::add_domains_to_database(domains, stmt);
+        // }
 
         initscr();
         if(!has_colors())

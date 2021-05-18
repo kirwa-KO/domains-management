@@ -8,7 +8,6 @@ DomainsMenu::DomainsMenu(int height, int width, int y, int x, sql::Statement *st
     this->y = y;
     this->x = x;
 	this->stmt = stmt;
-	this->domains = Domain::get_domains_from_database(stmt);
     getmaxyx(this->win, yMax, xMax);
     getbegyx(this->win, yBeg, xBeg);
     this->start = 0;
@@ -16,6 +15,7 @@ DomainsMenu::DomainsMenu(int height, int width, int y, int x, sql::Statement *st
 	keypad(this->win, TRUE);
 	this->popup = newwin(height, width, y, x);
 	this->selected_tab = 0;
+	this->domains = Domain::get_domains_from_database(stmt);
 	// just for test
 	// for (int i = 0;i < 100;i++)
 	// {
@@ -85,7 +85,12 @@ void	DomainsMenu::draw_domains_tab_content()
 {
 	int		i;
 	string	fields[FIELDS_NAME_NUMBER] = {	" M ", "Name------------", "Registry--", "Expiration",
-											"Cost", "ns0---------", "ns1---------", "Owner--------------"};
+										"Cost", "ns0---------", "ns1---------", "Owner--------------"};
+
+	// remove the M charactere in the first case of fields table in case we have domains above scroll
+	if (this->highlight < DOMAIN_PER_WIN)
+		fields[0] = "   ";
+
 
 	this->fields_name_bar(fields, FIELDS_NAME_NUMBER);
 	for (i = this->start; i < this->start + DOMAIN_PER_WIN && i < this->domains.size(); i++)
@@ -121,6 +126,8 @@ void	DomainsMenu::bottom_bar()
 	int		index = 4;
 	string	vertical_line = " V " + put_string_in_right("", 96, '-');
 
+	if (this->domains.size() < this->start + DOMAIN_PER_WIN)
+		vertical_line[1] = ' ';
 	mvwprintw(this->win, DOMAIN_PER_WIN + (index++), 0, vertical_line.c_str());
 	mvwprintw(this->win, DOMAIN_PER_WIN + (index++), 66, "I");
 	mvwprintw(this->win, DOMAIN_PER_WIN + index, 66, "I");
