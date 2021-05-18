@@ -1,5 +1,6 @@
 // #include "Domain.hpp"
 #include "DomainsMenu.hpp"
+#include "Nservers.hpp"
 sql::Statement *	g_stmt;
 
 string				Domain::selected_domain_tld = "%";
@@ -8,7 +9,7 @@ vector<string>      Domain::registrar_names;
 
 int main(void)
 {
-    try {
+    try {/*
         sql::Driver *driver;
         sql::Connection *con;
         // sql::Statement *stmt = NULL;
@@ -67,37 +68,17 @@ int main(void)
         endwin();
         cout << BOLDGREEN << "Bye, And Thank you for using " << RESET << BOLDWHITE << "| ISMAEL |" << RESET << BOLDGREEN << " Tool.!!!" << RESET << endl;
         delete g_stmt;
-        delete con;
+        delete con;*/
+        vector<Nservers> serv = Nservers::get_nservers_info_from_config_file();
 
-        // vector<Domain> domains;
-
-        // for (int i = 0;i < 100;i++)
-        // {
-        	// Domain dm("bitmark.io");
-            // dm.get_info_from_whois_query();
-        	// domains.push_back(dm);
-        // }
-
-        // domains = Domain::get_domains_names_from_directory();
-        // for (auto x: domains)
-        // {
-        //     x.display_domain_info();
-        // }
-
-        // Domain::registrar_names.push_back("kirwa");
-        // Domain::registrar_names.push_back("kirwa1");
-        // Domain::registrar_names.push_back("kirwa2");
-
-        // string fhfh = "kirwa";
-
-        // if (fhfh != "" AND find(Domain::registrar_names.begin(), Domain::registrar_names.end(), fhfh) == Domain::registrar_names.end())
-        // {
-        //     for (auto x : Domain::registrar_names)
-        //     {
-        //         cout << x << endl;
-        //     }
-        // }
-
+        for (auto x: serv)
+        {
+            cout << "========================================" << endl;
+            cout << "Host     :" << this->get_host() << endl;
+            cout << "IP       :" << this->get_ip() << endl;
+            cout << "USR      :" << this->get_usr() << endl;
+            cout << "========================================" << endl;
+        }
     }
     catch (sql::SQLException &e) {
         endwin();

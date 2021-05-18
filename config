@@ -1,0 +1,37 @@
+Host yoko
+        HostName        172.105.212.138
+        Port            53422
+        User            root
+        IdentityFile    /root/.ssh/id_rsa
+Host jin
+        HostName        139.162.116.208
+        Port            33322
+        User            root
+        IdentityFile    /root/.ssh/id_rsa
+Host haruki
+        HostName        172.104.125.110
+        Port            33322
+        User            root
+        IdentityFile    /root/.ssh/id_rsa
+Host shiliu
+        HostName        172.105.226.43
+        Port            33322
+        User            root
+        IdentityFile    /root/.ssh/id_rsa
+
+Host okinaki
+        HostName        172.104.110.155
+        Port            53322
+        User            root
+        IdentityFile    /root/.ssh/id_rsa
+Host alison
+        HostName        172.104.252.101
+        Port            53422
+        User            coins
+        IdentityFile    /root/.ssh/id_rsa
+
+Host frank
+        HostName        139.162.128.92
+        Port            57822
+        User            coins
+        IdentityFile    /root/.ssh/id_rsa
