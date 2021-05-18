@@ -50,11 +50,12 @@ class DomainsMenu
 		void erase();
 		void refresh();
 		void top_tabs();
-		void fields_name_bar();
+		void fields_name_bar(string fields[], int table_size);
 		void bottom_bar();
 		void press_t_to_select_filter_tld_bar();
 		void press_s_to_select_filter_size_bar();
 		void draw_domains_tab_content();
+		void draw_persons_tab_content();
 		void draw();
 		void press_up_arrow();
 		void press_down_arrow();

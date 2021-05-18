@@ -2,7 +2,7 @@
 #include "DomainsMenu.hpp"
 
 
-string				Domain::selected_domain_tld = "";
+string				Domain::selected_domain_tld = "%";
 int					Domain::selected_domain_size = 255;
 
 int main(void)
@@ -14,6 +14,7 @@ int main(void)
         vector<Domain> domains;
         // vector<Domain> domains_from_database;
         int xMax, yMax, select_domain;
+        // char choice = '\0';
         bool    quit_loop = false;
 
         // Create a connection
@@ -24,6 +25,15 @@ int main(void)
         // create statement to get and update data in database
         stmt = con->createStatement();
     
+        // check if the user want to add domains from directory
+        // cout << BOLDYELLOW << "If you want to add domains to database press [y/Y] : " << RESET;
+        // cin >> choice;
+        // if (choice == 'y' OR choice == 'Y')
+        // {
+        //     domains = Domain::get_domains_names_from_directory();
+        //     Domain::add_domains_to_database(domains, stmt);
+        // }
+
         initscr();
         if(!has_colors())
         {
@@ -55,6 +65,7 @@ int main(void)
         delete con;
     }
     catch (sql::SQLException &e) {
+        endwin();
         cout << "# ERR: SQLException in " << __FILE__;
         cout << "(" << __FUNCTION__ << ") on line  » "<< __LINE__ << endl;
         cout << "# ERR: " << e.what();
@@ -63,6 +74,7 @@ int main(void)
         return EXIT_FAILURE;
     }
     catch (std::exception &e) {
+        endwin();
         cout << "# ERR: in " << __FILE__;
         cout << "(" << __FUNCTION__ << ") on line  » "<< __LINE__ << endl;
         cout << "# ERR: " << e.what();

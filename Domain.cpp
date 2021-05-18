@@ -210,6 +210,8 @@ vector<Domain>   Domain::get_domains_from_database(sql::Statement * stmt)
 {
     sql::ResultSet * res;
     vector<Domain>  domains;
+
+    Domain::selected_domain_tld = "%";
     res = stmt->executeQuery("SELECT * FROM domains");
     domains = Domain::return_getted_domains_from_sql_query(res);
     delete res;

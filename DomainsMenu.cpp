@@ -7,18 +7,21 @@ DomainsMenu::DomainsMenu(int height, int width, int y, int x, sql::Statement *st
     this->width = width;
     this->y = y;
     this->x = x;
-	// for (size_t i = 0;i < domains.size();i++)
-	// 	this->domains.push_back(domains[i]);
 	this->stmt = stmt;
-	this->domains = Domain::get_domains_from_database(stmt);
+	// this->domains = Domain::get_domains_from_database(stmt);
     getmaxyx(this->win, yMax, xMax);
     getbegyx(this->win, yBeg, xBeg);
     this->start = 0;
     this->highlight = 0;
 	keypad(this->win, TRUE);
-	// this->popup = newwin(DOMAIN_INFO_LENGTH + 2, width, yMax + 2, x);
 	this->popup = newwin(height, width, y, x);
 	this->selected_tab = 0;
+	// just for test
+	// for (int i = 0;i < 100;i++)
+	// {
+	// 	Domain dm("kirwa_test->|" + to_string(i) + "|");
+	// 	domains.push_back(dm);
+	// }
 }
 
 // getters
@@ -65,12 +68,11 @@ void	DomainsMenu::top_tabs()
 	}
 }
 
-void	DomainsMenu::fields_name_bar()
+void	DomainsMenu::fields_name_bar(string fields[], int table_size)
 {
 	int		start = 0;
-	string	fields[FIELDS_NAME_NUMBER] = {	" M ", "Name------------", "Registry--", "Expiration",
-											"Cost", "ns0---------", "ns1---------", "Owner--------------"};
-	for (int i = 0;i < FIELDS_NAME_NUMBER;i++)
+
+	for (int i = 0;i < table_size;i++)
 	{
 		if(i == 1)
 			start -= 1;
@@ -82,25 +84,36 @@ void	DomainsMenu::fields_name_bar()
 void	DomainsMenu::draw_domains_tab_content()
 {
 	int		i;
-	this->fields_name_bar();
+	string	fields[FIELDS_NAME_NUMBER] = {	" M ", "Name------------", "Registry--", "Expiration",
+											"Cost", "ns0---------", "ns1---------", "Owner--------------"};
+
+	this->fields_name_bar(fields, FIELDS_NAME_NUMBER);
 	for (i = this->start; i < this->start + DOMAIN_PER_WIN && i < this->domains.size(); i++)
 	{
-		string	all_info = "", temp;
+		string	all_info = "";
 		if (i == this->highlight)
 			wattron(this->win, A_REVERSE);
 		all_info += put_string_in_right(to_string(i + 1), 3, ' ');
 		all_info += " " + put_string_in_left(this->domains[i].get_name(), 16, ' ');
 		all_info += "  " + put_string_in_left(this->domains[i].get_registrar(), 10, ' ');
-		temp = to_string(this->domains[i].get_expire());
-		all_info += "  " + put_string_in_right(temp.substr(0, temp.find_last_of('.') + 3), 10, ' ');
-		temp = to_string(this->domains[i].get_cost_per_year());
-		all_info += "  " + put_string_in_right(temp.substr(0, temp.find_last_of('.') + 3), 4, ' ');
+		all_info += "  " + put_string_in_right(this->domains[i].get_expire(), 10, ' ');
+		all_info += "  " + put_string_in_right(this->domains[i].get_cost_per_year(), 10, ' ');
 		all_info += "  " + put_string_in_left(this->domains[i].get_names_servers()[0], 12, ' ');
 		all_info += "  " + put_string_in_left(this->domains[i].get_names_servers()[1], 12, ' ');
 		all_info += "  " + put_string_in_left(this->domains[i].get_admin(), 19, ' ');
 		mvwprintw(this->win, i - this->start + 4, 1, all_info.c_str());
 		wattroff(this->win, A_REVERSE);
 	}
+}
+
+
+void	DomainsMenu::draw_persons_tab_content()
+{
+	int		i;
+	string	fields[7] = {	" id ", "name------------", "first name------", "last name-------", "email-----------", "phone-----------"};
+
+	this->fields_name_bar(fields, 7);
+	// persons data here
 }
 
 void	DomainsMenu::bottom_bar()
@@ -176,18 +189,32 @@ void    DomainsMenu::draw()
 		this->draw_domains_tab_content();
 		this->bottom_bar();
 	}
+	if(this->selected_tab == 2)
+		this->draw_persons_tab_content();
 }
 
 void    DomainsMenu::press_up_arrow()
 {
     if (this->highlight >= 1 && this->highlight > start)
 		this->highlight -= 1;
+	else if (this->highlight >= 1 && this->highlight == start)
+	{
+		this->highlight -= 1;
+		this->start -= 1;
+	}
 }
 
 void    DomainsMenu::press_down_arrow()
 {
-    if (this->highlight < this->start + DOMAIN_PER_WIN - 1 AND this->highlight < this->domains.size() - 1)
+    // if (this->highlight < this->start + DOMAIN_PER_WIN - 1 AND this->highlight < this->domains.size() - 1)
+	// 	this->highlight += 1;
+	if (this->highlight < this->start + DOMAIN_PER_WIN - 1 AND this->highlight < this->domains.size() - 1)
 		this->highlight += 1;
+	else if (this->highlight < this->domains.size() - 1)
+	{
+		this->highlight += 1;
+		this->start += 1;
+	}
 }
 void    DomainsMenu::press_left_arrow()
 {
