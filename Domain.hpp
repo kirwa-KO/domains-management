@@ -16,7 +16,7 @@ private:
 	string registrar;
 	string vpwd;
 	string expire;
-	string cost_per_year;
+	double cost_per_year;
 	string whois;
 	string url;
 
@@ -36,7 +36,7 @@ public:
 	string get_registrar();
 	string get_vpwd();
 	string get_expire();
-	string get_cost_per_year();
+	double get_cost_per_year();
 	string get_whois();
 	string get_url();
 	// setters
@@ -51,7 +51,7 @@ public:
 	void set_registrar(string);
 	void set_vpwd(string);
 	void set_expire(string);
-	void set_cost_per_year(string);
+	void set_cost_per_year(double);
 	void set_whois(string);
 	void set_url(string);
 	// other function

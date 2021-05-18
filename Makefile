@@ -1,6 +1,6 @@
 COMPILER	= clang++
 
-# FLAGS		= -Wextra -Wall -Werror -fsanitize=address -g
+# FLAGS		= -Wextra -Wall -Werror -fsanitize=address -g -fsanitize=safe-stack
 FLAGS		= -fsanitize=address -g
 
 SRCS		= 	main.cpp			\

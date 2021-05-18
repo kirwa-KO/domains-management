@@ -10,7 +10,7 @@ Domain::Domain(string name) : name(name)
     registrar = "";
     vpwd = "";
     expire = "";
-    cost_per_year = "";
+    cost_per_year = 9.99;
     whois = "";
     url = "";
     // just for testing we put empty string in mx record attribute
@@ -30,7 +30,7 @@ string Domain::get_bill()                       { return bill; }
 string Domain::get_registrar()                  { return registrar; }
 string Domain::get_vpwd()                       { return vpwd; }
 string Domain::get_expire()                     { return expire; }
-string Domain::get_cost_per_year()              { return cost_per_year; }
+double Domain::get_cost_per_year()              { return cost_per_year; }
 string Domain::get_whois()                      { return whois; }
 string Domain::get_url()                        { return url; }
 
@@ -64,8 +64,8 @@ void      Domain::set_tech(string x)          { this->tech = trim(x, " \t");}
 void      Domain::set_bill(string x)          { this->bill = trim(x, " \t");}
 void      Domain::set_registrar(string x)     { this->registrar = trim(x, " \t");}
 void      Domain::set_vpwd(string x)          { this->vpwd = trim(x, " \t");}
-void      Domain::set_expire(string x)        { this->expire = x;}
-void      Domain::set_cost_per_year(string x) { this->cost_per_year = x;}
+void      Domain::set_expire(string x)        { this->expire = trim(x, " \t");}
+void      Domain::set_cost_per_year(double x) { this->cost_per_year = x;}
 void      Domain::set_whois(string x)         { this->whois = trim(x, " \t");}
 void      Domain::set_url(string x)           { this->url = trim(x, " \t");}
 
@@ -82,24 +82,20 @@ void      Domain::get_info_from_whois_query()
 	stringstream ss(result);
 	while (getline(ss, line, '\n'))
 	{
-		if (line.find(" ns") != string::npos OR line.find(" NS") != string::npos)
+		if (line.find(" ns") != string::npos OR line.find(" NS") != string::npos OR line.find("Name Server:") != string::npos)
 			this->set_name_server(line.erase(0, line.find_first_of(':') + 1));
 		else if(line.find("Admin Name:") != string::npos)
 			this->set_admin(line.erase(0, line.find_first_of(':') + 1));
 		else if(line.find("Tech Name:") != string::npos)
 			this->set_tech(line.erase(0, line.find_first_of(':') + 1));
-		else if(line.find(" Registrar:") != string::npos)
+		else if(line.find(" Registrar:") != string::npos OR (line.find("Registrar:") != string::npos AND this->get_registrar() == ""))
 			this->set_registrar(line.erase(0, line.find_first_of(':') + 1));
-		else if(line.find(" Registrar WHOIS Server:") != string::npos)
+		else if(line.find(" Registrar WHOIS Server:") != string::npos OR (line.find("Registrar WHOIS Server:") != string::npos AND this->get_registrar() == ""))
 			this->set_whois(line.erase(0, line.find_first_of(':') + 1));
-		else if(line.find(" Registrar URL:") != string::npos)
+		else if(line.find(" Registrar URL:") != string::npos OR (line.find("Registrar URL:") != string::npos AND this->get_url() == ""))
 			this->set_url(line.erase(0, line.find_first_of(':') + 1));
-        // else if(line.find(" Registrar URL:") != string::npos)
-			// this->set_expire(line.erase(0, line.find_first_of(':') + 1));
-			this->set_expire("0");
-        // else if(line.find(" Registrar URL:") != string::npos)
-			// this->set_url(line.erase(0, line.find_first_of(':') + 1));
-			this->set_cost_per_year("0");
+        else if(line.find("Registry Expiry") != string::npos OR (line.find("Expiration Date:") != string::npos AND this->get_expire() == ""))
+			this->set_expire(line.erase(0, line.find_first_of(':') + 1));
 	}
     while(this->names_servers.size() != 4)
         this->names_servers.push_back("");
@@ -110,15 +106,16 @@ void            Domain::display_domain_info()
     for (int i = 0;i < 40;i++)
 		cout << "=";
 	cout << "\n";
-    cout << "name : " << this->name << '\n';
-	cout << "nameservers:" << "\n";
+    cout << "name         : " << this->name << '\n';
+	cout << "nameservers  :" << "\n";
 	for (auto x : this->get_names_servers())
-		cout << "=> ns: |" << x << "|\n";
-	cout << "Admin : " << this->get_admin() << "\n";
-	cout << "Tech : " << this->get_tech() << "\n";
-	cout << "Registrar : " << this->get_registrar() << "\n";
-	cout << "Whois : " << this->get_whois() << "\n";
-	cout << "Url : " << this->get_url() << "\n";
+		cout << "=> ns    : |" << x << "|\n";
+	cout << "Admin        : " << this->get_admin() << "\n";
+	cout << "Tech         : " << this->get_tech() << "\n";
+	cout << "Registrar    : " << this->get_registrar() << "\n";
+	cout << "Whois        : " << this->get_whois() << "\n";
+	cout << "Url          : " << this->get_url() << "\n";
+	cout << "Expiration   : " << this->get_expire() << "\n";
     for (int i = 0;i < 40;i++)
 		cout << "=";
 	cout << "\n";
@@ -158,8 +155,6 @@ void             Domain::add_domains_to_database(vector<Domain> domains, sql::St
 {
     for (size_t i = 0;i < domains.size();i++)
     {
-        // domains[i].get_info_from_whois_query();
-        // domains[i].display_domain_info();
         stmt->execute("INSERT INTO domains( name, ns1, ns2, ns3, ns4,               \
                                             mx1, mx2, www, owner, adminp,           \
                                             techp, billp, registrar, vpwd,          \
@@ -179,7 +174,7 @@ void             Domain::add_domains_to_database(vector<Domain> domains, sql::St
                                             "'" + domains[i].get_registrar() + "', " \
                                             "'" + domains[i].get_vpwd() + "', " \
                                             "'" + domains[i].get_expire() + "', " \
-                                            "'" + domains[i].get_cost_per_year() + "', " \
+                                            "'" + to_string(domains[i].get_cost_per_year()) + "', " \
                                             "'" + domains[i].get_whois() + "', " \
                                             "'" + domains[i].get_url() + "')");
         cout << BOLDGREEN << "The Domain " << RESET << BOLDWHITE << domains[i].get_name() << RESET << BOLDGREEN << " Added To Database Successfully..!!" << RESET << '\n';
@@ -209,7 +204,7 @@ vector<Domain>   Domain::return_getted_domains_from_sql_query(sql::ResultSet * r
         temp_domain.set_registrar(res->getString("registrar"));
         temp_domain.set_vpwd(res->getString("vpwd"));
         temp_domain.set_expire(res->getString("expire"));
-        temp_domain.set_cost_per_year(res->getString("costperyear"));
+        temp_domain.set_cost_per_year(res->getDouble("costperyear"));
         temp_domain.set_whois(res->getString("whois"));
         temp_domain.set_url(res->getString("url"));
 

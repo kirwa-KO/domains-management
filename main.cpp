@@ -30,8 +30,8 @@ int main(void)
         // cin >> choice;
         // if (choice == 'y' OR choice == 'Y')
         // {
-        //     domains = Domain::get_domains_names_from_directory();
-        //     Domain::add_domains_to_database(domains, stmt);
+            domains = Domain::get_domains_names_from_directory();
+            Domain::add_domains_to_database(domains, stmt);
         // }
 
         initscr();
@@ -65,12 +65,19 @@ int main(void)
         delete con;
 
         // vector<Domain> domains;
+
+        // for (int i = 0;i < 100;i++)
+        // {
+        	// Domain dm("bitmark.io");
+            // dm.get_info_from_whois_query();
+        	// domains.push_back(dm);
+        // }
+
         // domains = Domain::get_domains_names_from_directory();
         // for (auto x: domains)
         // {
         //     x.display_domain_info();
         // }
-
     }
     catch (sql::SQLException &e) {
         endwin();

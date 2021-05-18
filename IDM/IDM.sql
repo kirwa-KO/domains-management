@@ -65,7 +65,7 @@ CREATE TABLE domains (
  registrar    VARCHAR(255),
  vpwd         VARCHAR(255),
  expire       VARCHAR(255),
- costperyear  VARCHAR(255),
+ costperyear  DOUBLE,
  whois        VARCHAR(255) DEFAULT '',
  url          VARCHAR(255) DEFAULT '',
  INDEX (name)

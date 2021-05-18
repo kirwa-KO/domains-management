@@ -101,8 +101,10 @@ void	DomainsMenu::draw_domains_tab_content()
 		all_info += put_string_in_right(to_string(i + 1), 3, ' ');
 		all_info += " " + put_string_in_left(this->domains[i].get_name(), 16, ' ');
 		all_info += "  " + put_string_in_left(this->domains[i].get_registrar(), 10, ' ');
-		all_info += "  " + put_string_in_right(this->domains[i].get_expire(), 10, ' ');
-		all_info += "  " + put_string_in_right(this->domains[i].get_cost_per_year(), 10, ' ');
+		all_info += "  " + put_string_in_right(this->domains[i].get_expire().substr(0, 10), 10, ' ');
+		stringstream temp_str_stream;
+		temp_str_stream << fixed << setprecision(2) << this->domains[i].get_cost_per_year();
+		all_info += "  " + put_string_in_right(temp_str_stream.str(), 4, ' ');
 		all_info += "  " + put_string_in_left(this->domains[i].get_names_servers()[0], 12, ' ');
 		all_info += "  " + put_string_in_left(this->domains[i].get_names_servers()[1], 12, ' ');
 		all_info += "  " + put_string_in_left(this->domains[i].get_admin(), 19, ' ');
