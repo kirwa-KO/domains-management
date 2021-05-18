@@ -2,6 +2,9 @@
 #include "DomainsMenu.hpp"
 
 
+string				Domain::selected_domain_tld = "";
+int					Domain::selected_domain_size = 255;
+
 int main(void)
 {
     try {
@@ -59,7 +62,12 @@ int main(void)
         cout << ", SQLState: " << e.getSQLState() << " )" << endl;
         return EXIT_FAILURE;
     }
-
+    catch (std::exception &e) {
+        cout << "# ERR: in " << __FILE__;
+        cout << "(" << __FUNCTION__ << ") on line  » "<< __LINE__ << endl;
+        cout << "# ERR: " << e.what();
+        return EXIT_FAILURE;
+    }
 
     return EXIT_SUCCESS;
 }

@@ -115,9 +115,9 @@ void            Domain::display_domain_info()
 }
 
 // members function for database
-void      Domain::update_domain_name_in_database(string & new_name, sql::Statement * stmt)
+void      Domain::update_domain_attribute_in_database(string attribute , string & new_value, sql::Statement * stmt)
 {
-    stmt->executeUpdate("UPDATE domains SET name='" + new_name + "' WHERE name='" + this->name + "'");
+    stmt->executeUpdate("UPDATE domains SET " + attribute + "='" + new_value + "' WHERE name='" + this->name + "'");
 }
 
 // other static function
@@ -221,11 +221,26 @@ vector<Domain>   Domain::get_dot_tld_domains_from_database(sql::Statement * stmt
     sql::ResultSet * res;
     vector<Domain>  domains;
 
-    res = stmt->executeQuery("SELECT * FROM domains WHERE name LIKE '%." + tld + "'");
+    Domain::selected_domain_tld = tld;
+    res = stmt->executeQuery("SELECT * FROM domains WHERE name LIKE '%." + tld + "' AND POSITION('.' IN name) - 1 <= " + to_string(Domain::selected_domain_size) + ";");
+
     domains = Domain::return_getted_domains_from_sql_query(res);
     delete res;
     return domains;
 }
 
+
+vector<Domain>   Domain::get_domains_where_equal_or_less_that_specfied_size_from_database(sql::Statement * stmt, int & select_size)
+{
+    sql::ResultSet * res;
+    vector<Domain>  domains;
+
+    Domain::selected_domain_size = select_size;
+    res = stmt->executeQuery("SELECT * FROM domains WHERE name LIKE '%." + Domain::selected_domain_tld + "' AND POSITION('.' IN name) - 1 <= " + to_string(select_size) + ";");
+
+    domains = Domain::return_getted_domains_from_sql_query(res);
+    delete res;
+    return domains;
+}
 
 Domain::~Domain() {}

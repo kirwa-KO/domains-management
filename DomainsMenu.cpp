@@ -19,8 +19,6 @@ DomainsMenu::DomainsMenu(int height, int width, int y, int x, sql::Statement *st
 	// this->popup = newwin(DOMAIN_INFO_LENGTH + 2, width, yMax + 2, x);
 	this->popup = newwin(height, width, y, x);
 	this->selected_tab = 0;
-	// this->selected_attribute_for_edit = 0;
-	// this->is_in_edit_mode = false;
 }
 
 // getters
@@ -125,7 +123,7 @@ void	DomainsMenu::bottom_bar()
 	wmove(this->win, idm_command_index, 6);
 }
 
-void	DomainsMenu::press_t_to_select_filter_bar()
+void	DomainsMenu::press_t_to_select_filter_tld_bar()
 {
 	char	filter[10];
 	string	chosen_tld;
@@ -151,6 +149,23 @@ void	DomainsMenu::press_t_to_select_filter_bar()
 	else
 		this->domains = Domain::get_dot_tld_domains_from_database(stmt, chosen_tld);
 }
+
+
+void	DomainsMenu::press_s_to_select_filter_size_bar()
+{
+	char	filter[10];
+	string	chosen_size_str;
+
+	this->domains.clear();
+	this->highlight = 0;
+	mvwprintw(this->win, idm_command_index, 6, "s #>");
+	wmove(this->win, idm_command_index, 10);
+	wgetstr(this->win, filter);
+	chosen_size_str = static_cast<string>(filter);
+	int	selected_size_int = stoi(chosen_size_str);
+	this->domains = Domain::get_domains_where_equal_or_less_that_specfied_size_from_database(stmt, selected_size_int);
+}
+
 
 void    DomainsMenu::draw()
 {
@@ -194,19 +209,19 @@ void    DomainsMenu::press_right_arrow()
 void    DomainsMenu::press_enter()
 {
 	int		i;
-	map<string, string>	attributes_and_values;
-	map<string, string>::iterator	itr;
+	vector<pair<string, string>>	attributes_and_values;
+	vector<pair<string, string>>::iterator	itr;
 
-	attributes_and_values.insert(pair<string, string>("Domain name  : ", this->domains[highlight].get_name()));
-	attributes_and_values.insert(pair<string, string>("name server 1: ", this->domains[highlight].get_names_servers()[0]));
-	attributes_and_values.insert(pair<string, string>("name server 2: ", this->domains[highlight].get_names_servers()[1]));
-	attributes_and_values.insert(pair<string, string>("name server 3: ", this->domains[highlight].get_names_servers()[2]));
-	attributes_and_values.insert(pair<string, string>("name server 4: ", this->domains[highlight].get_names_servers()[3]));
-	attributes_and_values.insert(pair<string, string>("admin        : ", this->domains[highlight].get_admin()));
-	attributes_and_values.insert(pair<string, string>("tech         : ", this->domains[highlight].get_tech()));
-	attributes_and_values.insert(pair<string, string>("registrar    : ", this->domains[highlight].get_registrar()));
-	attributes_and_values.insert(pair<string, string>("whois        : ", this->domains[highlight].get_whois()));
-	attributes_and_values.insert(pair<string, string>("url          : ", this->domains[highlight].get_url()));
+	attributes_and_values.push_back(pair<string, string>("Domain name  : ", this->domains[highlight].get_name()));
+	attributes_and_values.push_back(pair<string, string>("name server 1: ", this->domains[highlight].get_names_servers()[0]));
+	attributes_and_values.push_back(pair<string, string>("name server 2: ", this->domains[highlight].get_names_servers()[1]));
+	attributes_and_values.push_back(pair<string, string>("name server 3: ", this->domains[highlight].get_names_servers()[2]));
+	attributes_and_values.push_back(pair<string, string>("name server 4: ", this->domains[highlight].get_names_servers()[3]));
+	attributes_and_values.push_back(pair<string, string>("admin        : ", this->domains[highlight].get_admin()));
+	attributes_and_values.push_back(pair<string, string>("tech         : ", this->domains[highlight].get_tech()));
+	attributes_and_values.push_back(pair<string, string>("registrar    : ", this->domains[highlight].get_registrar()));
+	attributes_and_values.push_back(pair<string, string>("whois        : ", this->domains[highlight].get_whois()));
+	attributes_and_values.push_back(pair<string, string>("url          : ", this->domains[highlight].get_url()));
 
 	wbkgd(popup, COLOR_PAIR(1));
 	box(popup, 0, 0);
@@ -215,11 +230,13 @@ void    DomainsMenu::press_enter()
 	for (itr = attributes_and_values.begin(), i = 0;itr != attributes_and_values.end();itr++, i++)
 		mvwprintw(popup, i + 1, 1, (put_string_in_right(to_string(i + 1), 2, ' ') + " - " + itr->first + itr->second).c_str());
 
-	mvwprintw(popup, i + 2, 1, "***  Please Enter the number of attribute you want to edit : ");
+	mvwprintw(popup, i + 2, 1, "***  Please Enter the number of attribute you want to edit or q/Q to quit : ");
 	char index[20];
 	string index_str;
 	wgetstr(popup, index);
 	index_str = static_cast<string>(index);
+	if (index_str == "q" OR index_str == "Q")
+		return ;
 	int j;
 	for(itr = attributes_and_values.begin(), j = 0;itr != attributes_and_values.end() AND j < stoi(index_str) - 1;itr++, j++);
 	mvwprintw(popup, i + 4, 1, ("***  Please Enter the new value of " + itr->first).c_str());
@@ -229,7 +246,25 @@ void    DomainsMenu::press_enter()
 	new_value_str = static_cast<string>(new_value);
 	// need to update the domains info here
 	if (stoi(index_str) == 1)
-		stmt->executeUpdate("UPDATE domains SET name='" + new_value_str + "' WHERE name='" + this->domains[highlight].get_name() + "'");
+		this->domains[highlight].update_domain_attribute_in_database("name", new_value_str, stmt);
+	else if (stoi(index_str) == 2)
+		this->domains[highlight].update_domain_attribute_in_database("ns1", new_value_str, stmt);
+	else if (stoi(index_str) == 3)
+		this->domains[highlight].update_domain_attribute_in_database("ns2", new_value_str, stmt);
+	else if (stoi(index_str) == 4)
+		this->domains[highlight].update_domain_attribute_in_database("ns3", new_value_str, stmt);
+	else if (stoi(index_str) == 5)
+		this->domains[highlight].update_domain_attribute_in_database("ns4", new_value_str, stmt);
+	else if (stoi(index_str) == 6)
+		this->domains[highlight].update_domain_attribute_in_database("adminp", new_value_str, stmt);
+	else if (stoi(index_str) == 7)
+		this->domains[highlight].update_domain_attribute_in_database("techp", new_value_str, stmt);
+	else if (stoi(index_str) == 8)
+		this->domains[highlight].update_domain_attribute_in_database("registrar", new_value_str, stmt);
+	else if (stoi(index_str) == 9)
+		this->domains[highlight].update_domain_attribute_in_database("whois", new_value_str, stmt);
+	else if (stoi(index_str) == 10)
+		this->domains[highlight].update_domain_attribute_in_database("url", new_value_str, stmt);
 	this->domains.clear();
 	this->domains = Domain::get_domains_from_database(stmt);
 }
@@ -245,23 +280,9 @@ bool	DomainsMenu::get_pressed_key(int select_domain)
 {
 	switch (select_domain)
 	{
-		// case KEY_UP:
 		case KEY_UP:
-			// if (this->is_in_edit_mode)
-			// {
-			// 	if(this->selected_attribute_for_edit > 0)
-			// 		this->selected_attribute_for_edit -= 1;
-			// 	this->press_enter();
-			// }
-			// else
 				this->press_up_arrow(); break;
 		case KEY_DOWN:
-			// if (this->is_in_edit_mode)
-			// {
-			// 	this->selected_attribute_for_edit += 1;
-			// 	this->press_enter();
-			// }
-			// else
 				this->press_down_arrow(); break;
 		case KEY_RIGHT:
 			this->press_right_arrow(); break;
@@ -275,24 +296,22 @@ bool	DomainsMenu::get_pressed_key(int select_domain)
 		case 'd':
 		case 'D':
 			this->selected_tab = 0; break;
-			// this->press_delete_domain(stmt); break;
 		case 't':
 		case 'T':
-			this->press_t_to_select_filter_bar(); break;
+			this->press_t_to_select_filter_tld_bar(); break;
+		case 's':
+		case 'S':
+			this->press_s_to_select_filter_size_bar(); break;
 		case 'r':
 		case 'R':
 			this->selected_tab = 1; break;
 		case 'p':
 		case 'P':
 			this->selected_tab = 2; break;
-		case 's':
-		case 'S':
+		case 'x':
+		case 'X':
 			this->selected_tab = 3; break;
-		// case 'e':
-		// case 'E':
-			// this->press_edit_domain(); break;
 		case PRESS_ENTER:
-			// this->is_in_edit_mode = true;
 			this->press_enter(); break;
 		case PRESS_ESC:
 			this->press_esc(); break;				
