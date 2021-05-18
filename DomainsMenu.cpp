@@ -266,6 +266,7 @@ void    DomainsMenu::press_enter()
 	int		i;
 	vector<pair<string, string>>	attributes_and_values;
 	vector<pair<string, string>>::iterator	itr;
+	stringstream temp_stream;
 
 	attributes_and_values.push_back(pair<string, string>("Domain name  : ", this->domains[highlight].get_name()));
 	attributes_and_values.push_back(pair<string, string>("name server 1: ", this->domains[highlight].get_names_servers()[0]));
@@ -277,6 +278,8 @@ void    DomainsMenu::press_enter()
 	attributes_and_values.push_back(pair<string, string>("registrar    : ", this->domains[highlight].get_registrar()));
 	attributes_and_values.push_back(pair<string, string>("whois        : ", this->domains[highlight].get_whois()));
 	attributes_and_values.push_back(pair<string, string>("url          : ", this->domains[highlight].get_url()));
+	temp_stream << fixed << setprecision(2) << this->domains[highlight].get_sale_price();
+	attributes_and_values.push_back(pair<string, string>("sale price   : ", temp_stream.str()));
 
 	wbkgd(popup, COLOR_PAIR(1));
 	box(popup, 0, 0);
@@ -320,6 +323,8 @@ void    DomainsMenu::press_enter()
 		this->domains[highlight].update_domain_attribute_in_database("whois", new_value_str);
 	else if (stoi(index_str) == 10)
 		this->domains[highlight].update_domain_attribute_in_database("url", new_value_str);
+	else if (stoi(index_str) == 11)
+		this->domains[highlight].update_domain_attribute_in_database("sale_price", new_value_str);
 	this->domains.clear();
 	this->domains = Domain::get_domains_from_database();
 }

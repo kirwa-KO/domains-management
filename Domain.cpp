@@ -13,6 +13,7 @@ Domain::Domain(string name) : name(name)
 	cost_per_year = 9.99;
 	whois = "";
 	url = "";
+	sale_price = -1;
 	// just for testing we put empty string in mx record attribute
 	mx.push_back("");
 	mx.push_back("");
@@ -31,6 +32,7 @@ string Domain::get_registrar() { return registrar; }
 string Domain::get_vpwd() { return vpwd; }
 string Domain::get_expire() { return expire; }
 double Domain::get_cost_per_year() { return cost_per_year; }
+double Domain::get_sale_price() { return sale_price; }
 string Domain::get_whois() { return whois; }
 string Domain::get_url() { return url; }
 
@@ -66,6 +68,7 @@ void Domain::set_registrar(string x) { this->registrar = trim(x, " \t"); }
 void Domain::set_vpwd(string x) { this->vpwd = trim(x, " \t"); }
 void Domain::set_expire(string x) { this->expire = trim(x, " \t"); }
 void Domain::set_cost_per_year(double x) { this->cost_per_year = x; }
+void Domain::set_sale_price(double x) { this->sale_price = x; }
 void Domain::set_whois(string x) { this->whois = trim(x, " \t"); }
 void Domain::set_url(string x) { this->url = trim(x, " \t"); }
 
@@ -171,7 +174,7 @@ void Domain::add_domains_to_database(vector<Domain> domains)
 		g_stmt->execute("INSERT INTO domains( name, ns1, ns2, ns3, ns4,               \
                                             mx1, mx2, www, owner, adminp,           \
                                             techp, billp, registrar, vpwd,          \
-                                            expire, costperyear, whois, url)        \
+                                            expire, costperyear, sale_price, whois, url)        \
                                             VALUES('" +
 						domains[i].get_name() + "', "
 												"'" +
@@ -204,6 +207,8 @@ void Domain::add_domains_to_database(vector<Domain> domains)
 						domains[i].get_expire() + "', "
 												  "'" +
 						to_string(domains[i].get_cost_per_year()) + "', "
+																	"'" +
+						to_string(domains[i].get_sale_price()) + "', "
 																	"'" +
 						domains[i].get_whois() + "', "
 												 "'" +
@@ -238,6 +243,7 @@ vector<Domain> Domain::return_getted_domains_from_sql_query(sql::ResultSet *res)
 		temp_domain.set_cost_per_year(res->getDouble("costperyear"));
 		temp_domain.set_whois(res->getString("whois"));
 		temp_domain.set_url(res->getString("url"));
+		temp_domain.set_sale_price(res->getDouble("sale_price"));
 
 		domains.push_back(temp_domain);
 	}

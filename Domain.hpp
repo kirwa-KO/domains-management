@@ -17,6 +17,7 @@ private:
 	string vpwd;
 	string expire;
 	double cost_per_year;
+	double sale_price;
 	string whois;
 	string url;
 
@@ -38,6 +39,7 @@ public:
 	string get_vpwd();
 	string get_expire();
 	double get_cost_per_year();
+	double get_sale_price();
 	string get_whois();
 	string get_url();
 	// setters
@@ -53,6 +55,7 @@ public:
 	void set_vpwd(string);
 	void set_expire(string);
 	void set_cost_per_year(double);
+	void set_sale_price(double);
 	void set_whois(string);
 	void set_url(string);
 	// other function
