@@ -94,6 +94,12 @@ void      Domain::get_info_from_whois_query()
 			this->set_whois(line.erase(0, line.find_first_of(':') + 1));
 		else if(line.find(" Registrar URL:") != string::npos)
 			this->set_url(line.erase(0, line.find_first_of(':') + 1));
+        // else if(line.find(" Registrar URL:") != string::npos)
+			// this->set_expire(line.erase(0, line.find_first_of(':') + 1));
+			this->set_expire("0");
+        // else if(line.find(" Registrar URL:") != string::npos)
+			// this->set_url(line.erase(0, line.find_first_of(':') + 1));
+			this->set_cost_per_year("0");
 	}
     while(this->names_servers.size() != 4)
         this->names_servers.push_back("");
@@ -104,6 +110,7 @@ void            Domain::display_domain_info()
     for (int i = 0;i < 40;i++)
 		cout << "=";
 	cout << "\n";
+    cout << "name : " << this->name << '\n';
 	cout << "nameservers:" << "\n";
 	for (auto x : this->get_names_servers())
 		cout << "=> ns: |" << x << "|\n";
@@ -112,6 +119,9 @@ void            Domain::display_domain_info()
 	cout << "Registrar : " << this->get_registrar() << "\n";
 	cout << "Whois : " << this->get_whois() << "\n";
 	cout << "Url : " << this->get_url() << "\n";
+    for (int i = 0;i < 40;i++)
+		cout << "=";
+	cout << "\n";
 }
 
 // members function for database
@@ -135,6 +145,8 @@ vector<Domain> Domain::get_domains_names_from_directory(void)
         // substr from 0 to length of string -3 to remove .db part
         // create one domain from the one_domain string
         Domain  dm(one_domain.substr(0, one_domain.length() - 3));
+        // get domain info with whois query
+        dm.get_info_from_whois_query();
         // add the domain to the array of domains
         domains.push_back(dm);
     }
@@ -146,7 +158,7 @@ void             Domain::add_domains_to_database(vector<Domain> domains, sql::St
 {
     for (size_t i = 0;i < domains.size();i++)
     {
-        domains[i].get_info_from_whois_query();
+        // domains[i].get_info_from_whois_query();
         // domains[i].display_domain_info();
         stmt->execute("INSERT INTO domains( name, ns1, ns2, ns3, ns4,               \
                                             mx1, mx2, www, owner, adminp,           \

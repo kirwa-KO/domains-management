@@ -14,7 +14,7 @@ int main(void)
         vector<Domain> domains;
         // vector<Domain> domains_from_database;
         int xMax, yMax, select_domain;
-        // char choice = '\0';
+        char choice = '\0';
         bool    quit_loop = false;
 
         // Create a connection
@@ -26,13 +26,13 @@ int main(void)
         stmt = con->createStatement();
     
         // check if the user want to add domains from directory
-        // cout << BOLDYELLOW << "If you want to add domains to database press [y/Y] : " << RESET;
-        // cin >> choice;
-        // if (choice == 'y' OR choice == 'Y')
-        // {
-        //     domains = Domain::get_domains_names_from_directory();
-        //     Domain::add_domains_to_database(domains, stmt);
-        // }
+        cout << BOLDYELLOW << "If you want to add domains to database press [y/Y] : " << RESET;
+        cin >> choice;
+        if (choice == 'y' OR choice == 'Y')
+        {
+            domains = Domain::get_domains_names_from_directory();
+            Domain::add_domains_to_database(domains, stmt);
+        }
 
         initscr();
         if(!has_colors())
@@ -63,6 +63,14 @@ int main(void)
         cout << BOLDGREEN << "Bye, And Thank you for using " << RESET << BOLDWHITE << "| ISMAEL |" << RESET << BOLDGREEN << " Tool.!!!" << RESET << endl;
         delete stmt;
         delete con;
+
+        // vector<Domain> domains;
+        // domains = Domain::get_domains_names_from_directory();
+        // for (auto x: domains)
+        // {
+        //     x.display_domain_info();
+        // }
+
     }
     catch (sql::SQLException &e) {
         endwin();

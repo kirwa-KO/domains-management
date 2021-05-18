@@ -8,7 +8,7 @@ DomainsMenu::DomainsMenu(int height, int width, int y, int x, sql::Statement *st
     this->y = y;
     this->x = x;
 	this->stmt = stmt;
-	// this->domains = Domain::get_domains_from_database(stmt);
+	this->domains = Domain::get_domains_from_database(stmt);
     getmaxyx(this->win, yMax, xMax);
     getbegyx(this->win, yBeg, xBeg);
     this->start = 0;
@@ -25,17 +25,17 @@ DomainsMenu::DomainsMenu(int height, int width, int y, int x, sql::Statement *st
 }
 
 // getters
-WINDOW * DomainsMenu::get_win(void) {return win;}
-int DomainsMenu::get_xMax(void) {return xMax;}
-int DomainsMenu::get_yMax(void) {return yMax;}
-int DomainsMenu::get_highlight(void) {return highlight;}
-int DomainsMenu::get_xBeg(void) {return xBeg;}
-int DomainsMenu::get_yBeg(void) {return yBeg;}
-int DomainsMenu::get_width(void) {return width;}
-int DomainsMenu::get_height(void) {return height;}
-int DomainsMenu::get_x(void) {return x;}
-int DomainsMenu::get_y(void) {return y;}
-int DomainsMenu::get_start(void) {return start;}
+WINDOW * DomainsMenu::get_win(void) { return win; }
+int DomainsMenu::get_xMax(void) { return xMax; }
+int DomainsMenu::get_yMax(void) { return yMax; }
+int DomainsMenu::get_highlight(void) { return highlight; }
+int DomainsMenu::get_xBeg(void) { return xBeg; }
+int DomainsMenu::get_yBeg(void) { return yBeg; }
+int DomainsMenu::get_width(void) { return width; }
+int DomainsMenu::get_height(void) { return height; }
+int DomainsMenu::get_x(void) { return x; }
+int DomainsMenu::get_y(void) { return y; }
+int DomainsMenu::get_start(void) { return start; }
 
 // setters
 void DomainsMenu::set_highlight(int highlight) { this->highlight = highlight; }
@@ -189,7 +189,7 @@ void    DomainsMenu::draw()
 		this->draw_domains_tab_content();
 		this->bottom_bar();
 	}
-	if(this->selected_tab == 2)
+	else if(this->selected_tab == 2)
 		this->draw_persons_tab_content();
 }
 
