@@ -24,6 +24,7 @@ class DomainsMenu
 		vector<Domain> 		domains;
 		int					selected_tab;
 		int 				idm_command_index;
+		vector<Registrar>	registrar;
 
 	public:
 		// bool            is_in_edit_mode;
@@ -49,11 +50,12 @@ class DomainsMenu
 		void erase();
 		void refresh();
 		void top_tabs();
-		void fields_name_bar(string fields[], int table_size);
+		void fields_name_bar(string fields[], int table_size, int start = 0);
 		void bottom_bar();
 		void press_t_to_select_filter_tld_bar();
 		void press_s_to_select_filter_size_bar();
 		void draw_domains_tab_content();
+		void draw_registries_tab_content();
 		void draw_persons_tab_content();
 		void draw();
 		void press_up_arrow();

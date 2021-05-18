@@ -15,6 +15,7 @@ DomainsMenu::DomainsMenu(int height, int width, int y, int x)
 	this->popup = newwin(height, width, y, x);
 	this->selected_tab = 0;
 	this->domains = Domain::get_domains_from_database();
+	this->registrar = Registrar::get_registrar_from_database();
 	// just for test
 	// for (int i = 0;i < 100;i++)
 	// {
@@ -67,10 +68,8 @@ void	DomainsMenu::top_tabs()
 	}
 }
 
-void	DomainsMenu::fields_name_bar(string fields[], int table_size)
+void	DomainsMenu::fields_name_bar(string fields[], int table_size, int start)
 {
-	int		start = 0;
-
 	for (int i = 0;i < table_size;i++)
 	{
 		if(i == 1)
@@ -112,6 +111,25 @@ void	DomainsMenu::draw_domains_tab_content()
 	}
 }
 
+void	DomainsMenu::draw_registries_tab_content()
+{
+	int		i;
+	string	fields[3] = {	" id ", "name------------", "url------------------------"};
+
+	this->fields_name_bar(fields, 3, 4);
+	// registries data here
+	for (i = this->start; i < this->start + DOMAIN_PER_WIN && i < this->registrar.size(); i++)
+	{
+		string	all_info = "";
+		if (i == this->highlight)
+			wattron(this->win, A_REVERSE);
+		all_info += put_string_in_right(to_string(this->registrar[i].get_id()), 3, ' ');
+		all_info += "  " + put_string_in_left(this->registrar[i].get_name(), 16, ' ');
+		all_info += "  " + put_string_in_left(this->registrar[i].get_url(), 27, ' ');
+		mvwprintw(this->win, i - this->start + 4, 5, all_info.c_str());
+		wattroff(this->win, A_REVERSE);
+	}
+}
 
 void	DomainsMenu::draw_persons_tab_content()
 {
@@ -197,6 +215,8 @@ void    DomainsMenu::draw()
 		this->draw_domains_tab_content();
 		this->bottom_bar();
 	}
+	else if (this->selected_tab == 1)
+		this->draw_registries_tab_content();
 	else if(this->selected_tab == 2)
 		this->draw_persons_tab_content();
 }
