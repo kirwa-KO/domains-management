@@ -1,6 +1,7 @@
 #ifndef DOMAINSMENU_HPP
 #define DOMAINSMENU_HPP
 #include "Domain.hpp"
+#include "Nservers.hpp"
 
 class DomainsMenu
 {
@@ -25,6 +26,7 @@ class DomainsMenu
 		int					selected_tab;
 		int 				idm_command_index;
 		vector<Registrar>	registrar;
+		vector<Nservers>	nservers;
 
 	public:
 		// bool            is_in_edit_mode;
@@ -57,6 +59,7 @@ class DomainsMenu
 		void draw_domains_tab_content();
 		void draw_registries_tab_content();
 		void draw_persons_tab_content();
+		void draw_servers_tab_content();
 		void draw();
 		void press_up_arrow();
 		void press_down_arrow();

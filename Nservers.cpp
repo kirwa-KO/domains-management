@@ -116,6 +116,28 @@ void	Nservers::put_nservers_info_in_database(vector<Nservers> & nservers)
 	}
 }
 
+
+vector<Nservers> Nservers::get_nservers_from_database()
+{
+	sql::ResultSet *	res;
+	vector<Nservers>	nservers;
+
+	res = g_stmt->executeQuery("SELECT * FROM nservers;");
+	while (res->next())
+	{
+		Nservers temp_nserver;
+
+		temp_nserver.set_id(res->getInt("id"));
+		temp_nserver.set_host(res->getString("host"));
+		temp_nserver.set_ip(res->getString("ip"));
+		temp_nserver.set_usr(res->getString("usr"));
+		temp_nserver.set_port(res->getInt("port"));
+		nservers.push_back(temp_nserver);
+	}
+	delete res;
+	return nservers;
+}
+
 Nservers::~Nservers()
 {
 }

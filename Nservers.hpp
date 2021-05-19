@@ -45,6 +45,7 @@ public:
     // static class method
     static vector<Nservers> get_nservers_info_from_config_file();
     static void put_nservers_info_in_database(vector<Nservers> & nservers);
+    static vector<Nservers> get_nservers_from_database();
 
     ~Nservers();
 };

@@ -16,6 +16,7 @@ DomainsMenu::DomainsMenu(int height, int width, int y, int x)
 	this->selected_tab = 0;
 	this->domains = Domain::get_domains_from_database();
 	this->registrar = Registrar::get_registrar_from_database();
+	this->nservers = Nservers::get_nservers_from_database();
 	// just for test
 	// for (int i = 0;i < 100;i++)
 	// {
@@ -140,6 +141,28 @@ void	DomainsMenu::draw_persons_tab_content()
 	// persons data here
 }
 
+void	DomainsMenu::draw_servers_tab_content()
+{
+	int		i;
+	string	fields[5] = { " id ", "name------", "ip-------------", "port-", "nickname"};
+
+	this->fields_name_bar(fields, 5, 4);
+	// servers data here
+	for (i = this->start; i < this->start + DOMAIN_PER_WIN && i < this->nservers.size(); i++)
+	{
+		string	all_info = "";
+		if (i == this->highlight)
+			wattron(this->win, A_REVERSE);
+		all_info += put_string_in_right(to_string(this->nservers[i].get_id()), 3, ' ');
+		all_info += "  " + put_string_in_left(this->nservers[i].get_host(), 10, ' ');
+		all_info += "  " + put_string_in_left(this->nservers[i].get_ip(), 15, ' ');
+		all_info += "  " + put_string_in_left(to_string(this->nservers[i].get_port()), 5, ' ');
+		all_info += "  " + put_string_in_left(this->nservers[i].get_usr(), 8, ' ');
+		mvwprintw(this->win, i - this->start + 4, 5, all_info.c_str());
+		wattroff(this->win, A_REVERSE);
+	}
+}
+
 void	DomainsMenu::bottom_bar()
 {
 	int		index = 4;
@@ -219,6 +242,8 @@ void    DomainsMenu::draw()
 		this->draw_registries_tab_content();
 	else if(this->selected_tab == 2)
 		this->draw_persons_tab_content();
+	else
+		this->draw_servers_tab_content();
 }
 
 void    DomainsMenu::press_up_arrow()

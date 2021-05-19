@@ -1,6 +1,5 @@
 // #include "Domain.hpp"
 #include "DomainsMenu.hpp"
-#include "Nservers.hpp"
 
 sql::Statement *	g_stmt;
 
@@ -39,8 +38,8 @@ int main(void)
         // cin >> choice;
         // if (choice == 'y' OR choice == 'Y')
         // {
-            // domains = Domain::get_domains_names_from_directory();
-            // Domain::add_domains_to_database(domains);
+            domains = Domain::get_domains_names_from_directory();
+            Domain::add_domains_to_database(domains);
             // servers = Nservers::get_nservers_info_from_config_file();
             // Nservers::put_nservers_info_in_database(servers);
         // }
