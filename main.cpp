@@ -1,5 +1,4 @@
-// #include "Domain.hpp"
-#include "DomainsMenu.hpp"
+#include "MenuAndContent.hpp"
 
 sql::Statement *	g_stmt;
 
@@ -59,33 +58,20 @@ int main(void)
 
         getmaxyx(stdscr, yMax, xMax);
         // draw_numbers_in_screen_corners(yMax, xMax);
-        DomainsMenu	menu_for_domains(yMax - 2, xMax - 2, 0, 0);
-        menu_for_domains.set_stdscr_xMax(xMax);
-        menu_for_domains.set_stdscr_yMax(yMax);
+        MenuAndContent	menu_and_content(yMax - 2, xMax - 2, 0, 0);
+        menu_and_content.set_stdscr_xMax(xMax);
+        menu_and_content.set_stdscr_yMax(yMax);
         refresh();
         while (!quit_loop)
         {
-            menu_for_domains.draw();
-            select_domain = wgetch(menu_for_domains.get_win());
-            quit_loop = menu_for_domains.get_pressed_key(select_domain);
+            menu_and_content.draw();
+            select_domain = wgetch(menu_and_content.get_win());
+            quit_loop = menu_and_content.get_pressed_key(select_domain);
         }
         endwin();
         cout << BOLDGREEN << "Bye, And Thank you for using " << RESET << BOLDWHITE << "| ISMAEL |" << RESET << BOLDGREEN << " Tool.!!!" << RESET << endl;
         delete g_stmt;
         delete con;
-
-        // vector<Nservers> serv = Nservers::get_nservers_info_from_config_file();
-
-        // for (auto x: serv)
-        // {
-        //     cout << "========================================" << endl;
-        //     cout << "Host     : |" << x.get_host() << "|" << endl;
-        //     cout << "IP       : |" << x.get_ip() << "|" << endl;
-        //     cout << "USR      : |" << x.get_usr() << "|" << endl;
-        //     cout << "PORT     : |" << x.get_port() << "|" << endl;
-        //     cout << "========================================" << endl;
-        //     break;
-        // }
     }
     catch (sql::SQLException &e) {
         endwin();

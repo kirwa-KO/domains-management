@@ -6,7 +6,7 @@ FLAGS		= -fsanitize=address -g
 SRCS		= 	main.cpp			\
 				Domain.cpp			\
 				helper.cpp			\
-				DomainsMenu.cpp		\
+				MenuAndContent.cpp	\
 				Registrar.cpp		\
 				Nservers.cpp
 

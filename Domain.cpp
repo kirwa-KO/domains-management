@@ -121,16 +121,16 @@ void Domain::display_domain_info()
 	for (int i = 0; i < 40; i++)
 		cout << "=";
 	cout << "\n";
-	cout << "name         : " << this->name << '\n';
+	cout << "name		 : " << this->name << '\n';
 	cout << "nameservers  :"
 		 << "\n";
 	for (auto x : this->get_names_servers())
-		cout << "=> ns    : |" << x << "|\n";
-	cout << "Admin        : " << this->get_admin() << "\n";
-	cout << "Tech         : " << this->get_tech() << "\n";
-	cout << "Registrar    : " << this->get_registrar() << "\n";
-	cout << "Whois        : " << this->get_whois() << "\n";
-	cout << "Url          : " << this->get_url() << "\n";
+		cout << "=> ns	: |" << x << "|\n";
+	cout << "Admin		: " << this->get_admin() << "\n";
+	cout << "Tech		 : " << this->get_tech() << "\n";
+	cout << "Registrar	: " << this->get_registrar() << "\n";
+	cout << "Whois		: " << this->get_whois() << "\n";
+	cout << "Url		  : " << this->get_url() << "\n";
 	cout << "Expiration   : " << this->get_expire() << "\n";
 	for (int i = 0; i < 40; i++)
 		cout << "=";
@@ -140,6 +140,7 @@ void Domain::display_domain_info()
 // members function for database
 void Domain::update_domain_attribute_in_database(string attribute, string &new_value)
 {
+	cout << "we update the "  << attribute << " in database with |" << "|" << endl;
 	g_stmt->executeUpdate("UPDATE domains SET " + attribute + "='" + new_value + "' WHERE name='" + this->name + "'");
 }
 
@@ -169,48 +170,29 @@ vector<Domain> Domain::get_domains_names_from_directory(void)
 
 void Domain::add_domain_to_database(Domain domain)
 {
-	g_stmt->execute("INSERT INTO domains(	name, ns1, ns2, ns3, ns4,               \
-                                            mx1, mx2, www, owner, adminp,           \
-                                            techp, billp, registrar, vpwd,          \
-                                            expire, costperyear, sale_price, whois, url)        \
-                                            VALUES('" +
-											domain.get_name() + "', "
-																	"'" +
-											domain.get_names_servers()[0] + "', "
-																				"'" +
-											domain.get_names_servers()[1] + "', "
-																				"'" +
-											domain.get_names_servers()[2] + "', "
-																				"'" +
-											domain.get_names_servers()[3] + "', "
-																				"'" +
-											domain.get_mx()[0] + "', "
-																	"'" +
-											domain.get_mx()[1] + "', "
-																	"'" +
-											domain.get_www() + "', "
-																"'" +
-											domain.get_owner() + "', "
-																	"'" +
-											domain.get_admin() + "', "
-																	"'" +
-											domain.get_tech() + "', "
-																	"'" +
-											domain.get_bill() + "', "
-																	"'" +
-											domain.get_registrar() + "', "
-																		"'" +
-											domain.get_vpwd() + "', "
-																	"'" +
-											domain.get_expire() + "', "
-																	"'" +
-											to_string(domain.get_cost_per_year()) + "', "
-																						"'" +
-											to_string(domain.get_sale_price()) + "', "
-																						"'" +
-											domain.get_whois() + "', "
-																	"'" +
-											domain.get_url() + "')");
+	g_stmt->execute("INSERT INTO domains(	name, ns1, ns2, ns3, ns4,							\
+											mx1, mx2, www, owner, adminp,						\
+											techp, billp, registrar, vpwd,						\
+											expire, costperyear, sale_price, whois, url)		\
+											VALUES('" + domain.get_name() + "', '"
+											+ domain.get_names_servers()[0] + "', '"
+											+ domain.get_names_servers()[1] + "', '"
+											+ domain.get_names_servers()[2] + "', '"
+											+ domain.get_names_servers()[3] + "', '"
+											+ domain.get_mx()[0] + "', '"
+											+ domain.get_mx()[1] + "', '"
+											+ domain.get_www() + "', '"
+											+ domain.get_owner() + "', '"
+											+ domain.get_admin() + "', '"
+											+ domain.get_tech() + "', '"
+											+ domain.get_bill() + "', '"
+											+ domain.get_registrar() + "', '"
+											+ domain.get_vpwd() + "', '"
+											+ domain.get_expire() + "', '"
+											+ to_string(domain.get_cost_per_year()) + "', '"
+											+ to_string(domain.get_sale_price()) + "', '"
+											+ domain.get_whois() + "', '"
+											+ domain.get_url() + "')");
 	cout << BOLDGREEN << "The Domain " << RESET << BOLDWHITE << domain.get_name() << RESET << BOLDGREEN << " Added To Database Successfully..!!" << RESET << '\n';
 }
 void Domain::add_domains_to_database(vector<Domain> domains)
@@ -288,6 +270,153 @@ vector<Domain> Domain::get_domains_where_equal_or_less_that_specfied_size_from_d
 	domains = Domain::return_getted_domains_from_sql_query(res);
 	delete res;
 	return domains;
+}
+
+vector<Domain> Domain::press_enter(WINDOW * popup, vector<Domain> domains, int selected_domain)
+{
+	int		i;
+	vector<pair<string, string>>	attributes_and_values;
+	vector<pair<string, string>>::iterator	itr;
+	stringstream temp_stream;
+
+	attributes_and_values.push_back(pair<string, string>("Domain name  : ", domains[selected_domain].get_name()));
+	attributes_and_values.push_back(pair<string, string>("name server 1: ", domains[selected_domain].get_names_servers()[0]));
+	attributes_and_values.push_back(pair<string, string>("name server 2: ", domains[selected_domain].get_names_servers()[1]));
+	attributes_and_values.push_back(pair<string, string>("name server 3: ", domains[selected_domain].get_names_servers()[2]));
+	attributes_and_values.push_back(pair<string, string>("name server 4: ", domains[selected_domain].get_names_servers()[3]));
+	attributes_and_values.push_back(pair<string, string>("admin		: ", domains[selected_domain].get_admin()));
+	attributes_and_values.push_back(pair<string, string>("tech		 : ", domains[selected_domain].get_tech()));
+	attributes_and_values.push_back(pair<string, string>("registrar	: ", domains[selected_domain].get_registrar()));
+	attributes_and_values.push_back(pair<string, string>("whois		: ", domains[selected_domain].get_whois()));
+	attributes_and_values.push_back(pair<string, string>("url		  : ", domains[selected_domain].get_url()));
+	temp_stream << fixed << setprecision(2) << domains[selected_domain].get_sale_price();
+	attributes_and_values.push_back(pair<string, string>("sale price   : ", temp_stream.str()));
+
+	wbkgd(popup, COLOR_PAIR(1));
+	box(popup, 0, 0);
+	werase(popup);
+	mvwprintw(popup, 0, 1, "Domains details:");
+	for (itr = attributes_and_values.begin(), i = 0;itr != attributes_and_values.end();itr++, i++)
+		mvwprintw(popup, i + 1, 1, (put_string_in_right(to_string(i + 1), 2, ' ') + " - " + itr->first + itr->second).c_str());
+
+	mvwprintw(popup, i + 2, 1, "***  Please Enter the number of attribute you want to edit or q/Q to quit : ");
+	char index[20];
+	string index_str;
+	wgetstr(popup, index);
+	index_str = static_cast<string>(index);
+	if (index_str == "q" OR index_str == "Q")
+		return domains;
+	int j;
+	for(itr = attributes_and_values.begin(), j = 0;itr != attributes_and_values.end() AND j < stoi(index_str) - 1;itr++, j++);
+	mvwprintw(popup, i + 4, 1, ("***  Please Enter the new value of " + itr->first).c_str());
+	char new_value[255];
+	string new_value_str;
+	wgetstr(popup, new_value);
+	new_value_str = static_cast<string>(new_value);
+	// need to update the domains info here
+	if (stoi(index_str) == 1)
+		domains[selected_domain].update_domain_attribute_in_database("name", new_value_str);
+	else if (stoi(index_str) == 2)
+		domains[selected_domain].update_domain_attribute_in_database("ns1", new_value_str);
+	else if (stoi(index_str) == 3)
+		domains[selected_domain].update_domain_attribute_in_database("ns2", new_value_str);
+	else if (stoi(index_str) == 4)
+		domains[selected_domain].update_domain_attribute_in_database("ns3", new_value_str);
+	else if (stoi(index_str) == 5)
+		domains[selected_domain].update_domain_attribute_in_database("ns4", new_value_str);
+	else if (stoi(index_str) == 6)
+		domains[selected_domain].update_domain_attribute_in_database("adminp", new_value_str);
+	else if (stoi(index_str) == 7)
+		domains[selected_domain].update_domain_attribute_in_database("techp", new_value_str);
+	else if (stoi(index_str) == 8)
+		domains[selected_domain].update_domain_attribute_in_database("registrar", new_value_str);
+	else if (stoi(index_str) == 9)
+		domains[selected_domain].update_domain_attribute_in_database("whois", new_value_str);
+	else if (stoi(index_str) == 10)
+		domains[selected_domain].update_domain_attribute_in_database("url", new_value_str);
+	else if (stoi(index_str) == 11)
+		domains[selected_domain].update_domain_attribute_in_database("sale_price", new_value_str);
+	return (Domain::get_domains_from_database());
+}
+
+void	Domain::press_delete_domain(WINDOW * win, WINDOW * popup, vector<Domain> & domains, int & selected_domain)
+{
+	int		is_confirm;
+	string	confirmation_message;
+
+	werase(popup);
+	wbkgd(popup, COLOR_PAIR(1));
+	mvwprintw(popup, 0, 1, "Delete Confirmation :");
+	confirmation_message = "Are you sure you want to delete the domain \"" + domains[selected_domain].get_name() + "\" [y/Y] : ";
+	// mvwprintw(popup, (DOMAIN_INFO_LENGTH + 2) / 2, (width / 2) - (confirmation_message.length() / 2), confirmation_message.c_str());
+	mvwprintw(popup, (DOMAIN_INFO_LENGTH + 2) / 2, 10, confirmation_message.c_str());
+	is_confirm = wgetch(popup);
+
+	if(is_confirm == 'y' OR is_confirm == 'Y')
+	{
+		g_stmt->execute("DELETE FROM domains WHERE name = '" + domains[selected_domain].get_name() + "'");
+		domains.erase(domains.begin() + selected_domain);
+		selected_domain -= 1;
+		if (selected_domain < 0)
+			selected_domain = 0;
+	}
+	wbkgd(popup, A_NORMAL);
+	werase(popup);
+	wrefresh(popup);
+	werase(win);
+	wrefresh(win);
+}
+
+
+void    Domain::press_add_domain(WINDOW * popup, vector<Domain> & domains)
+{
+	string				attributes_name[10] = {
+												"Please type the Domain name  : ",
+												"Please type the name server 1: ",
+												"Please type the name server 2: ",
+												"Please type the name server 3: ",
+												"Please type the name server 4: ",
+												"Please type the admin        : ",
+												"Please type the tech         : ",
+												"Please type the registrar    : ",
+												"Please type the whois        : ",
+												"Please type the url          : "
+												};
+
+	DomainFuncPointer	attributes_set_function[10] = {
+												&Domain::set_name,
+												&Domain::set_name_server,
+												&Domain::set_name_server,
+												&Domain::set_name_server,
+												&Domain::set_name_server,
+												&Domain::set_admin,
+												&Domain::set_tech,
+												&Domain::set_registrar,
+												&Domain::set_whois,
+												&Domain::set_url
+												};
+	Domain *tmp_domain = new Domain("");
+
+	wbkgd(popup, COLOR_PAIR(1));
+	box(popup, 0, 0);
+	werase(popup);
+	mvwprintw(popup, 0, 1, "Add Domain:");
+
+	char attribute_value[255];
+	string attribute_value_str;
+
+	for (int i = 0; i < 10;i++)
+	{
+		mvwprintw(popup, i + 1, 1, (put_string_in_right(to_string(i + 1), 2, ' ') + " - " + attributes_name[i]).c_str());
+		wgetstr(popup, attribute_value);
+		attribute_value_str = static_cast<string>(attribute_value);
+		(tmp_domain->*(attributes_set_function[i]))(attribute_value);
+	}
+	Domain::add_domain_to_database(*tmp_domain);
+
+	domains.clear();
+	domains = Domain::get_domains_from_database();
+	delete tmp_domain;
 }
 
 Domain::~Domain() {}

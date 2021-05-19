@@ -1,9 +1,9 @@
-#ifndef DOMAINSMENU_HPP
-#define DOMAINSMENU_HPP
+#ifndef MENUANDCONTENT_HPP
+#define MENUANDCONTENT_HPP
 #include "Domain.hpp"
 #include "Nservers.hpp"
 
-class DomainsMenu
+class MenuAndContent
 {
 	private:
 		// Menu Window
@@ -22,15 +22,15 @@ class DomainsMenu
 		int 				x;
 		int 				y;
 		int 				start;
-		vector<Domain> 		domains;
 		int					selected_tab;
 		int 				idm_command_index;
+		vector<Domain> 		domains;
 		vector<Registrar>	registrar;
 		vector<Nservers>	nservers;
 
 	public:
 		// bool            is_in_edit_mode;
-		DomainsMenu(int height, int width, int y, int x);
+		MenuAndContent(int height, int width, int y, int x);
 		// getters
 		WINDOW *get_win(void);
 		int get_xMax(void);
@@ -65,13 +65,9 @@ class DomainsMenu
 		void press_down_arrow();
 		void press_left_arrow();
 		void press_right_arrow();
-		void press_enter();
 		void press_esc();
 		bool get_pressed_key(int select_domain);
-		void press_delete_domain();
-		void press_edit_domain();
-		void press_add_domain();
-		~DomainsMenu();
+		~MenuAndContent();
 };
 
 #endif
