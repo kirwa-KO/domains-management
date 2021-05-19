@@ -167,54 +167,56 @@ vector<Domain> Domain::get_domains_names_from_directory(void)
 	return domains;
 }
 
-void Domain::add_domains_to_database(vector<Domain> domains)
+void Domain::add_domain_to_database(Domain domain)
 {
-	for (size_t i = 0; i < domains.size(); i++)
-	{
-		g_stmt->execute("INSERT INTO domains( name, ns1, ns2, ns3, ns4,               \
+	g_stmt->execute("INSERT INTO domains(	name, ns1, ns2, ns3, ns4,               \
                                             mx1, mx2, www, owner, adminp,           \
                                             techp, billp, registrar, vpwd,          \
                                             expire, costperyear, sale_price, whois, url)        \
                                             VALUES('" +
-						domains[i].get_name() + "', "
-												"'" +
-						domains[i].get_names_servers()[0] + "', "
-															"'" +
-						domains[i].get_names_servers()[1] + "', "
-															"'" +
-						domains[i].get_names_servers()[2] + "', "
-															"'" +
-						domains[i].get_names_servers()[3] + "', "
-															"'" +
-						domains[i].get_mx()[0] + "', "
-												 "'" +
-						domains[i].get_mx()[1] + "', "
-												 "'" +
-						domains[i].get_www() + "', "
-											   "'" +
-						domains[i].get_owner() + "', "
-												 "'" +
-						domains[i].get_admin() + "', "
-												 "'" +
-						domains[i].get_tech() + "', "
-												"'" +
-						domains[i].get_bill() + "', "
-												"'" +
-						domains[i].get_registrar() + "', "
-													 "'" +
-						domains[i].get_vpwd() + "', "
-												"'" +
-						domains[i].get_expire() + "', "
-												  "'" +
-						to_string(domains[i].get_cost_per_year()) + "', "
+											domain.get_name() + "', "
 																	"'" +
-						to_string(domains[i].get_sale_price()) + "', "
+											domain.get_names_servers()[0] + "', "
+																				"'" +
+											domain.get_names_servers()[1] + "', "
+																				"'" +
+											domain.get_names_servers()[2] + "', "
+																				"'" +
+											domain.get_names_servers()[3] + "', "
+																				"'" +
+											domain.get_mx()[0] + "', "
 																	"'" +
-						domains[i].get_whois() + "', "
-												 "'" +
-						domains[i].get_url() + "')");
-		cout << BOLDGREEN << "The Domain " << RESET << BOLDWHITE << domains[i].get_name() << RESET << BOLDGREEN << " Added To Database Successfully..!!" << RESET << '\n';
-	}
+											domain.get_mx()[1] + "', "
+																	"'" +
+											domain.get_www() + "', "
+																"'" +
+											domain.get_owner() + "', "
+																	"'" +
+											domain.get_admin() + "', "
+																	"'" +
+											domain.get_tech() + "', "
+																	"'" +
+											domain.get_bill() + "', "
+																	"'" +
+											domain.get_registrar() + "', "
+																		"'" +
+											domain.get_vpwd() + "', "
+																	"'" +
+											domain.get_expire() + "', "
+																	"'" +
+											to_string(domain.get_cost_per_year()) + "', "
+																						"'" +
+											to_string(domain.get_sale_price()) + "', "
+																						"'" +
+											domain.get_whois() + "', "
+																	"'" +
+											domain.get_url() + "')");
+	cout << BOLDGREEN << "The Domain " << RESET << BOLDWHITE << domain.get_name() << RESET << BOLDGREEN << " Added To Database Successfully..!!" << RESET << '\n';
+}
+void Domain::add_domains_to_database(vector<Domain> domains)
+{
+	for (size_t i = 0; i < domains.size(); i++)
+		Domain::add_domain_to_database(domains[i]);
 }
 
 vector<Domain> Domain::return_getted_domains_from_sql_query(sql::ResultSet *res)

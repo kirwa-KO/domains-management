@@ -65,6 +65,7 @@ public:
 	void update_domain_attribute_in_database(string attribute, string &new_value);
 	// other static functions
 	static vector<Domain> get_domains_names_from_directory(void);
+	static void add_domain_to_database(Domain domains);
 	static void add_domains_to_database(vector<Domain> domains);
 	static vector<Domain> return_getted_domains_from_sql_query(sql::ResultSet *res);
 	static vector<Domain> get_domains_from_database();

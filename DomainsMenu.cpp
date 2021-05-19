@@ -397,11 +397,12 @@ bool	DomainsMenu::get_pressed_key(int select_domain)
 		case 'X':
 			this->selected_tab = 3; break;
 		case PRESS_ENTER:
+			this->press_enter(); break;
 		case 'a':
 		case 'A':
 			this->press_add_domain(); break;
 		case PRESS_ESC:
-			this->press_esc(); break;				
+			this->press_esc(); break;
 		default:
 			break;
 	}
@@ -498,6 +499,7 @@ void    DomainsMenu::press_add_domain()
 		attribute_value_str = static_cast<string>(attribute_value);
 		(tmp_domain->*(attributes_set_function[i]))(attribute_value);
 	}
+	Domain::add_domain_to_database(*tmp_domain);
 
 	this->domains.clear();
 	this->domains = Domain::get_domains_from_database();
