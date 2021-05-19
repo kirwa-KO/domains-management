@@ -15,7 +15,7 @@ MenuAndContent::MenuAndContent(int height, int width, int y, int x)
 	this->popup = newwin(height, width, y, x);
 	this->selected_tab = 0;
 	this->domains = Domain::get_domains_from_database();
-	this->registrar = Registrar::get_registrar_from_database();
+	this->registrars = Registrar::get_registrar_from_database();
 	this->nservers = Nservers::get_nservers_from_database();
 }
 
@@ -113,14 +113,14 @@ void	MenuAndContent::draw_registries_tab_content()
 
 	this->fields_name_bar(fields, 3, 4);
 	// registries data here
-	for (i = this->start; i < this->start + DOMAIN_PER_WIN && i < this->registrar.size(); i++)
+	for (i = this->start; i < this->start + DOMAIN_PER_WIN && i < this->registrars.size(); i++)
 	{
 		string	all_info = "";
 		if (i == this->highlight)
 			wattron(this->win, A_REVERSE);
-		all_info += put_string_in_right(to_string(this->registrar[i].get_id()), 3, ' ');
-		all_info += "  " + put_string_in_left(this->registrar[i].get_name(), 16, ' ');
-		all_info += "  " + put_string_in_left(this->registrar[i].get_url(), 27, ' ');
+		all_info += put_string_in_right(to_string(this->registrars[i].get_id()), 3, ' ');
+		all_info += "  " + put_string_in_left(this->registrars[i].get_name(), 16, ' ');
+		all_info += "  " + put_string_in_left(this->registrars[i].get_url(), 27, ' ');
 		mvwprintw(this->win, i - this->start + 4, 5, all_info.c_str());
 		wattroff(this->win, A_REVERSE);
 	}
@@ -227,16 +227,14 @@ void    MenuAndContent::draw()
 	this->erase();
 	this->top_tabs();
 	if(this->selected_tab == 0)
-	{
 		this->draw_domains_tab_content();
-		this->bottom_bar();
-	}
 	else if (this->selected_tab == 1)
 		this->draw_registries_tab_content();
 	else if(this->selected_tab == 2)
 		this->draw_persons_tab_content();
 	else
 		this->draw_servers_tab_content();
+	this->bottom_bar();
 }
 
 void    MenuAndContent::press_up_arrow()
@@ -323,7 +321,11 @@ bool	MenuAndContent::get_pressed_key(int select_domain)
 			this->domains = Domain::press_enter(popup, domains, highlight); break;
 		case 'a':
 		case 'A':
-			Domain::press_add_domain(popup, domains); break;
+			if (this->selected_tab == 0)
+				Domain::press_add_domain(popup, domains);
+			else if (this->selected_tab == 1)
+				Registrar::press_add_registrar(popup, registrars);
+			break;
 		case PRESS_ESC:
 			this->press_esc(); break;
 		default:

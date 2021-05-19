@@ -42,6 +42,41 @@ vector<Registrar> Registrar::get_registrar_from_database()
 	return registrars;
 }
 
+void    Registrar::press_add_registrar(WINDOW * popup, vector<Registrar> & registrars)
+{
+	string					attributes_name[2] = {
+												"Please type the Registrar name  : ",
+												"Please type the Registrar url: "
+												};
+
+	RegistrarFuncPointer	attributes_set_function[2] = {
+												&Registrar::set_name,
+												&Registrar::set_url
+												};
+	Registrar *tmp_registrar = new Registrar("", "");
+
+	wbkgd(popup, COLOR_PAIR(1));
+	box(popup, 0, 0);
+	werase(popup);
+	mvwprintw(popup, 0, 1, "Add Registrar:");
+
+	char attribute_value[255];
+	string attribute_value_str;
+
+	for (int i = 0; i < 2;i++)
+	{
+		mvwprintw(popup, i + 1, 1, (put_string_in_right(to_string(i + 1), 2, ' ') + " - " + attributes_name[i]).c_str());
+		wgetstr(popup, attribute_value);
+		attribute_value_str = static_cast<string>(attribute_value);
+		(tmp_registrar->*(attributes_set_function[i]))(attribute_value);
+	}
+	Registrar::add_registrar_in_database(*tmp_registrar);
+
+	registrars.clear();
+	registrars = Registrar::get_registrar_from_database();
+	delete tmp_registrar;
+}
+
 Registrar::~Registrar()
 {
 }

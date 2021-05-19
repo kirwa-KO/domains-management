@@ -25,7 +25,7 @@ class MenuAndContent
 		int					selected_tab;
 		int 				idm_command_index;
 		vector<Domain> 		domains;
-		vector<Registrar>	registrar;
+		vector<Registrar>	registrars;
 		vector<Nservers>	nservers;
 
 	public:

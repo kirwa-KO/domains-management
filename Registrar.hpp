@@ -22,7 +22,10 @@ public:
 	// static database methods
 	static	void				add_registrar_in_database(Registrar & registrar);
 	static	vector<Registrar>	get_registrar_from_database();
+	static	void				press_add_registrar(WINDOW * popup, vector<Registrar> & registrars);
 	~Registrar();
 };
+
+typedef	void	(Registrar::*RegistrarFuncPointer)(std::string);
 
 #endif

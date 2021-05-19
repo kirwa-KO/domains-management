@@ -367,7 +367,6 @@ void	Domain::press_delete_domain(WINDOW * win, WINDOW * popup, vector<Domain> & 
 	wrefresh(win);
 }
 
-
 void    Domain::press_add_domain(WINDOW * popup, vector<Domain> & domains)
 {
 	string				attributes_name[10] = {
