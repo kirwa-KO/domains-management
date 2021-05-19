@@ -295,7 +295,11 @@ bool	MenuAndContent::get_pressed_key(int select_domain)
 		case KEY_LEFT:
 			this->press_left_arrow(); break;
 		case KEY_DC:
-			Domain::press_delete_domain(win, popup, domains, highlight); break;
+			if (this->selected_tab == 0)
+				Domain::press_delete_domain(win, popup, domains, highlight);
+			else if (this->selected_tab == 1)
+				Registrar::press_delete_registrar(win, popup, registrars, highlight);
+			break;
 		case 'Q':
 		case 'q':
 			return true;

@@ -77,6 +77,33 @@ void    Registrar::press_add_registrar(WINDOW * popup, vector<Registrar> & regis
 	delete tmp_registrar;
 }
 
+void	Registrar::press_delete_registrar(WINDOW * win, WINDOW * popup, vector<Registrar> & registrars, int & selected_registrar)
+{
+	int		is_confirm;
+	string	confirmation_message;
+
+	werase(popup);
+	wbkgd(popup, COLOR_PAIR(1));
+	mvwprintw(popup, 0, 1, "Delete Confirmation :");
+	confirmation_message = "Are you sure you want to delete the registrar \"" + registrars[selected_registrar].get_name() + "\" [y/Y] : ";
+	mvwprintw(popup, (DOMAIN_INFO_LENGTH + 2) / 2, 10, confirmation_message.c_str());
+	is_confirm = wgetch(popup);
+
+	if(is_confirm == 'y' OR is_confirm == 'Y')
+	{
+		g_stmt->execute("DELETE FROM registrar WHERE name = '" + registrars[selected_registrar].get_name() + "'");
+		registrars.erase(registrars.begin() + selected_registrar);
+		selected_registrar -= 1;
+		if (selected_registrar < 0)
+			selected_registrar = 0;
+	}
+	wbkgd(popup, A_NORMAL);
+	werase(popup);
+	wrefresh(popup);
+	werase(win);
+	wrefresh(win);
+}
+
 Registrar::~Registrar()
 {
 }
