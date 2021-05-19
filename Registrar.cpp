@@ -104,6 +104,66 @@ void	Registrar::press_delete_registrar(WINDOW * win, WINDOW * popup, vector<Regi
 	wrefresh(win);
 }
 
+
+void	Registrar::press_enter(WINDOW * popup, vector<Registrar> & registrars, int & selected_registrar)
+{
+	int		i;
+	vector<pair<string, string>>	attributes_and_values;
+	vector<pair<string, string>>::iterator	itr;
+	stringstream temp_stream;
+
+	attributes_and_values.push_back(pair<string, string>("Registrar name : ", domains[selected_domain].get_name()));
+	attributes_and_values.push_back(pair<string, string>("Registrar url  : ", domains[selected_domain].get_url()));
+
+	wbkgd(popup, COLOR_PAIR(1));
+	box(popup, 0, 0);
+	werase(popup);
+	mvwprintw(popup, 0, 1, "Registrar details:");
+	for (itr = attributes_and_values.begin(), i = 0;itr != attributes_and_values.end();itr++, i++)
+		mvwprintw(popup, i + 1, 1, (put_string_in_right(to_string(i + 1), 2, ' ') + " - " + itr->first + itr->second).c_str());
+
+	mvwprintw(popup, i + 2, 1, "***  Please Enter the number of attribute you want to edit or q/Q to quit : ");
+	char index[20];
+	string index_str;
+	wgetstr(popup, index);
+	index_str = static_cast<string>(index);
+	if (index_str == "q" OR index_str == "Q")
+		return ;
+	int j;
+	for(itr = attributes_and_values.begin(), j = 0;itr != attributes_and_values.end() AND j < stoi(index_str) - 1;itr++, j++);
+	mvwprintw(popup, i + 4, 1, ("***  Please Enter the new value of " + itr->first).c_str());
+	char new_value[255];
+	string new_value_str;
+	wgetstr(popup, new_value);
+	new_value_str = static_cast<string>(new_value);
+	// need to update the domains info here
+	if (stoi(index_str) == 1)
+		domains[selected_domain].update_domain_attribute_in_database("name", new_value_str);
+	else if (stoi(index_str) == 2)
+		domains[selected_domain].update_domain_attribute_in_database("ns1", new_value_str);
+	else if (stoi(index_str) == 3)
+		domains[selected_domain].update_domain_attribute_in_database("ns2", new_value_str);
+	else if (stoi(index_str) == 4)
+		domains[selected_domain].update_domain_attribute_in_database("ns3", new_value_str);
+	else if (stoi(index_str) == 5)
+		domains[selected_domain].update_domain_attribute_in_database("ns4", new_value_str);
+	else if (stoi(index_str) == 6)
+		domains[selected_domain].update_domain_attribute_in_database("adminp", new_value_str);
+	else if (stoi(index_str) == 7)
+		domains[selected_domain].update_domain_attribute_in_database("techp", new_value_str);
+	else if (stoi(index_str) == 8)
+		domains[selected_domain].update_domain_attribute_in_database("registrar", new_value_str);
+	else if (stoi(index_str) == 9)
+		domains[selected_domain].update_domain_attribute_in_database("whois", new_value_str);
+	else if (stoi(index_str) == 10)
+		domains[selected_domain].update_domain_attribute_in_database("url", new_value_str);
+	else if (stoi(index_str) == 11)
+		domains[selected_domain].update_domain_attribute_in_database("sale_price", new_value_str);
+	
+	domains.clear();
+	domains = Domain::get_domains_from_database();
+}
+
 Registrar::~Registrar()
 {
 }

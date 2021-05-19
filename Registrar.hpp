@@ -24,6 +24,7 @@ public:
 	static	vector<Registrar>	get_registrar_from_database();
 	static	void				press_add_registrar(WINDOW * popup, vector<Registrar> & registrars);
 	static	void				press_delete_registrar(WINDOW * win, WINDOW * popup, vector<Registrar> & registrars, int & selected_registrar);
+	static	void				press_enter(WINDOW * popup, vector<Registrar> & registrars, int & selected_registrar);
 	~Registrar();
 };
 
