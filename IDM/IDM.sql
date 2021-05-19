@@ -8,6 +8,7 @@ CREATE TABLE nservers (
  pass    VARCHAR(255),
  status  VARCHAR(255),
  lping   DOUBLE,
+ port   INT,
  INDEX (host)
 );
 

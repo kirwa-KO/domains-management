@@ -13,6 +13,7 @@ private:
     string pass;
     string status;
     double lping;
+    int port;
 
 public:
     Nservers();
@@ -26,7 +27,8 @@ public:
     string get_pass();
     string get_status();
     double get_lping();
-    void    diplay_info();
+    int get_port();
+    void diplay_info();
 
     // setters
     void set_id(int id);
@@ -37,9 +39,12 @@ public:
     void set_pass(string pass);
     void set_status(string status);
     void set_lping(double lping);
+    void set_port(int port);
+    void display_info();
 
     // static class method
     static vector<Nservers> get_nservers_info_from_config_file();
+    static void put_nservers_info_in_database(vector<Nservers> & nservers);
 
     ~Nservers();
 };

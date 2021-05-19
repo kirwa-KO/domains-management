@@ -25,7 +25,6 @@ void	Registrar::add_registrar_in_database(Registrar & registrar)
 	cout << BOLDYELLOW << "The Registrar " << RESET << BOLDWHITE << registrar.get_name() << RESET << BOLDYELLOW << " Added To Database Successfully..!!" << RESET << '\n';
 }
 
-
 vector<Registrar> Registrar::get_registrar_from_database()
 {
 	sql::ResultSet *	res;

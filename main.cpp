@@ -1,6 +1,7 @@
 // #include "Domain.hpp"
 #include "DomainsMenu.hpp"
 #include "Nservers.hpp"
+
 sql::Statement *	g_stmt;
 
 string				Domain::selected_domain_tld = "%";
@@ -9,7 +10,7 @@ vector<string>      Domain::registrar_names;
 
 int main(void)
 {
-    try {/*
+    try {
         sql::Driver *driver;
         sql::Connection *con;
         // sql::Statement *stmt = NULL;
@@ -18,6 +19,7 @@ int main(void)
         int xMax, yMax, select_domain;
         char choice = '\0';
         bool    quit_loop = false;
+        vector<Nservers> servers;
 
         // Create a connection
         driver = get_driver_instance();
@@ -30,6 +32,7 @@ int main(void)
         g_stmt->execute("ALTER DATABASE domains CHARACTER SET utf8 COLLATE utf8_general_ci;");
         g_stmt->execute("ALTER TABLE domains CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;");
         g_stmt->execute("ALTER TABLE registrar CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;");
+        g_stmt->execute("ALTER TABLE nservers CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;");
     
         // check if the user want to add domains from directory
         // cout << BOLDYELLOW << "If you want to add domains to database press [y/Y] : " << RESET;
@@ -38,6 +41,8 @@ int main(void)
         // {
             // domains = Domain::get_domains_names_from_directory();
             // Domain::add_domains_to_database(domains);
+            // servers = Nservers::get_nservers_info_from_config_file();
+            // Nservers::put_nservers_info_in_database(servers);
         // }
 
         initscr();
@@ -68,17 +73,20 @@ int main(void)
         endwin();
         cout << BOLDGREEN << "Bye, And Thank you for using " << RESET << BOLDWHITE << "| ISMAEL |" << RESET << BOLDGREEN << " Tool.!!!" << RESET << endl;
         delete g_stmt;
-        delete con;*/
-        vector<Nservers> serv = Nservers::get_nservers_info_from_config_file();
+        delete con;
 
-        for (auto x: serv)
-        {
-            cout << "========================================" << endl;
-            cout << "Host     :" << this->get_host() << endl;
-            cout << "IP       :" << this->get_ip() << endl;
-            cout << "USR      :" << this->get_usr() << endl;
-            cout << "========================================" << endl;
-        }
+        // vector<Nservers> serv = Nservers::get_nservers_info_from_config_file();
+
+        // for (auto x: serv)
+        // {
+        //     cout << "========================================" << endl;
+        //     cout << "Host     : |" << x.get_host() << "|" << endl;
+        //     cout << "IP       : |" << x.get_ip() << "|" << endl;
+        //     cout << "USR      : |" << x.get_usr() << "|" << endl;
+        //     cout << "PORT     : |" << x.get_port() << "|" << endl;
+        //     cout << "========================================" << endl;
+        //     break;
+        // }
     }
     catch (sql::SQLException &e) {
         endwin();
