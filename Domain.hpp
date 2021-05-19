@@ -73,4 +73,6 @@ public:
 	~Domain();
 };
 
+typedef	void	(Domain::*DomainFuncPointer)(std::string);
+
 #endif

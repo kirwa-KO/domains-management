@@ -397,7 +397,9 @@ bool	DomainsMenu::get_pressed_key(int select_domain)
 		case 'X':
 			this->selected_tab = 3; break;
 		case PRESS_ENTER:
-			this->press_enter(); break;
+		case 'a':
+		case 'A':
+			this->press_add_domain(); break;
 		case PRESS_ESC:
 			this->press_esc(); break;				
 		default:
@@ -450,6 +452,56 @@ void    DomainsMenu::press_edit_domain()
 	wrefresh(popup);
 	this->erase();
 	this->refresh();
+}
+
+void    DomainsMenu::press_add_domain()
+{
+	string				attributes_name[10] = {
+												"Please type the Domain name  : ",
+												"Please type the name server 1: ",
+												"Please type the name server 2: ",
+												"Please type the name server 3: ",
+												"Please type the name server 4: ",
+												"Please type the admin        : ",
+												"Please type the tech         : ",
+												"Please type the registrar    : ",
+												"Please type the whois        : ",
+												"Please type the url          : "
+												};
+
+	DomainFuncPointer	attributes_set_function[10] = {
+												&Domain::set_name,
+												&Domain::set_name_server,
+												&Domain::set_name_server,
+												&Domain::set_name_server,
+												&Domain::set_name_server,
+												&Domain::set_admin,
+												&Domain::set_tech,
+												&Domain::set_registrar,
+												&Domain::set_whois,
+												&Domain::set_url
+												};
+	Domain *tmp_domain = new Domain("");
+
+	wbkgd(popup, COLOR_PAIR(1));
+	box(popup, 0, 0);
+	werase(popup);
+	mvwprintw(popup, 0, 1, "Add Domain:");
+
+	char attribute_value[255];
+	string attribute_value_str;
+
+	for (int i = 0; i < 10;i++)
+	{
+		mvwprintw(popup, i + 1, 1, (put_string_in_right(to_string(i + 1), 2, ' ') + " - " + attributes_name[i]).c_str());
+		wgetstr(popup, attribute_value);
+		attribute_value_str = static_cast<string>(attribute_value);
+		(tmp_domain->*(attributes_set_function[i]))(attribute_value);
+	}
+
+	this->domains.clear();
+	this->domains = Domain::get_domains_from_database();
+	delete tmp_domain;
 }
 
 DomainsMenu::~DomainsMenu()

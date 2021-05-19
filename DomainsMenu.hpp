@@ -70,6 +70,7 @@ class DomainsMenu
 		bool get_pressed_key(int select_domain);
 		void press_delete_domain();
 		void press_edit_domain();
+		void press_add_domain();
 		~DomainsMenu();
 };
 
