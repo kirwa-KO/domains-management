@@ -30,6 +30,7 @@ void	Person::add_person_in_database(Person & person)
 					+ person.get_email() + "', '"									\
 					+ person.get_phone()	+ "') AS tmp_alias						\
 					WHERE tmp_alias.name  NOT IN (SELECT name from person);");
+
 	cout << BOLDYELLOW << "The Person " << RESET << BOLDWHITE << person.get_name() << RESET << BOLDYELLOW << " Added To Database Successfully..!!" << RESET << '\n';
 }
 

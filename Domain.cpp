@@ -169,29 +169,33 @@ vector<Domain> Domain::get_domains_names_from_directory(void)
 
 void Domain::add_domain_to_database(Domain domain)
 {
-	g_stmt->execute("INSERT INTO domains(	name, ns1, ns2, ns3, ns4,							\
-											mx1, mx2, www, owner, adminp,						\
-											techp, billp, registrar, vpwd,						\
-											expire, costperyear, sale_price, whois, url)		\
-											VALUES('" + domain.get_name() + "', '"
-											+ domain.get_names_servers()[0] + "', '"
-											+ domain.get_names_servers()[1] + "', '"
-											+ domain.get_names_servers()[2] + "', '"
-											+ domain.get_names_servers()[3] + "', '"
-											+ domain.get_mx()[0] + "', '"
-											+ domain.get_mx()[1] + "', '"
-											+ domain.get_www() + "', '"
-											+ domain.get_owner() + "', '"
-											+ domain.get_admin() + "', '"
-											+ domain.get_tech() + "', '"
-											+ domain.get_bill() + "', '"
-											+ domain.get_registrar() + "', '"
-											+ domain.get_vpwd() + "', '"
-											+ domain.get_expire() + "', '"
-											+ to_string(domain.get_cost_per_year()) + "', '"
-											+ to_string(domain.get_sale_price()) + "', '"
-											+ domain.get_whois() + "', '"
-											+ domain.get_url() + "')");
+	g_stmt->execute("INSERT INTO domains(	name, ns1, ns2, ns3, ns4,mx1, mx2, www,										\
+											owner, adminp, techp, billp, registrar,										\
+											vpwd, expire, costperyear, sale_price, 										\
+											whois, url) 																\
+											SELECT * 																	\
+											FROM																		\
+											(SELECT '" + domain.get_name() + "' as name, '"
+												+ domain.get_names_servers()[0] + "' as ns1, '"
+												+ domain.get_names_servers()[1] + "' as ns2, '"
+												+ domain.get_names_servers()[2] + "' as ns3, '"
+												+ domain.get_names_servers()[4] + "' as ns4, '"
+												+ domain.get_mx()[0] + "' as mx1, '"
+												+ domain.get_mx()[1] + "' as mx2, '"
+												+ domain.get_www() + "' as www, '"
+												+ domain.get_owner() + "' as owner, '"
+												+ domain.get_admin() + "' as admin, '"
+												+ domain.get_tech() + "' as tech, '"
+												+ domain.get_bill() + "' as bill, '"
+												+ domain.get_registrar() + "' as registrar, '"
+												+ domain.get_vpwd() + "' as vpwd, '"
+												+ domain.get_expire() + "' as expire, "
+												+ to_string(domain.get_cost_per_year())  + "AS cost_column, "
+												+ to_string(domain.get_sale_price()) + " AS sale_price_column, '"
+												+ domain.get_whois() + "' as whois, '"
+												+ domain.get_url() + " as url') AS tmp_alias 	\
+											WHERE tmp_alias.name  NOT IN (SELECT name from domains);");
+
 	cout << BOLDGREEN << "The Domain " << RESET << BOLDWHITE << domain.get_name() << RESET << BOLDGREEN << " Added To Database Successfully..!!" << RESET << '\n';
 }
 void Domain::add_domains_to_database(vector<Domain> domains)

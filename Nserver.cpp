@@ -111,12 +111,15 @@ vector<Nserver>    Nserver::get_nservers_info_from_config_file()
 
 void	Nserver::add_server_in_database(Nserver & nserver)
 {
-	g_stmt->execute("INSERT INTO nservers(host, ip, usr, port) VALUES(				\
-										'" + nserver.get_host() + "', 				\
-										'" + nserver.get_ip() + "',					\
-										'" + nserver.get_usr() + "', 				\
-										" + to_string(nserver.get_port()) + "		\
-										);");
+	g_stmt->execute("INSERT INTO nservers(	host, ip, usr, port) 																\
+										SELECT * 																	\
+										FROM																		\
+										(SELECT '"	+ nserver.get_host() 			+ "' as host, '"
+													+ nserver.get_ip() 	 			+ "' as ip, '"
+													+ nserver.get_usr()  			+ "' as usr, '"
+													+ to_string(nserver.get_port()) + "' as port) AS tmp_alias 	\
+										WHERE tmp_alias.host  NOT IN (SELECT host FROM nservers);");
+
 	cout << BOLDCYAN << "The Server " << RESET << BOLDWHITE << nserver.get_host() << RESET << BOLDCYAN << " Added To Database Successfully..!!" << RESET << '\n';
 }
 
@@ -124,16 +127,6 @@ void	Nserver::put_nservers_info_in_database(vector<Nserver> & nservers)
 {
 	for (int i = 0;i < nservers.size();i++)
 		Nserver::add_server_in_database(nservers[i]);
-	// for (int i = 0;i < nservers.size();i++)
-	// {
-		// g_stmt->execute("INSERT INTO nservers(host, ip, usr, port) VALUES(	\
-		// 							'" + nservers[i].get_host() + "', 		\
-		// 							'" + nservers[i].get_ip() + "',			\
-		// 							'" + nservers[i].get_usr() + "', 		\
-		// 							" + to_string(nservers[i].get_port()) + "			\
-		// 							);");
-		// cout << BOLDCYAN << "The Server " << RESET << BOLDWHITE << nservers[i].get_host() << RESET << BOLDCYAN << " Added To Database Successfully..!!" << RESET << '\n';
-	// }
 }
 
 
