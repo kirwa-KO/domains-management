@@ -71,6 +71,7 @@ int main(void)
 			Domain::add_domains_to_database(domains);
 		}
 		cout << BOLDYELLOW << "If you want to servers from config file to database press [y/Y] : " << RESET;
+		cin >> choice;
 		if (choice == 'y' OR choice == 'Y')
 		{
 			servers = Nserver::get_nservers_info_from_config_file();
