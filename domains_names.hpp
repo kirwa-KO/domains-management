@@ -47,14 +47,20 @@ using namespace std;
 #include <ncurses.h>
 
 extern  sql::Statement *	g_stmt;
-vector<string>            get_domains_names(void);
-string                    exec_command_and_return_result(const char* cmd);
-string&                   rtrim(string& s, const char* t);
-string&                   ltrim(string& s, const char* t);
-string&                   trim(string& s, const char* t);
-void                      draw_bottom_bar_menu(WINDOW * bottom_menu_bar, int yMax, int xMax);
-void                      draw_numbers_in_screen_corners(int yMax, int xMax);
-string                    put_string_in_center(string & str, int number_of_case, char to_fill);
-string                    put_string_in_right(string str, int number_of_case, char to_fill);
-string                    put_string_in_left(string str, int number_of_case, char to_fill);
+extern	string				g_database_name;
+extern	string				g_database_user;
+extern	string				g_database_password;
+extern	string				g_path_of_domains_names_files;
+extern	string				g_path_of_config_file_for_servers;
+vector<string>				get_domains_names(void);
+string						exec_command_and_return_result(const char* cmd);
+string&						rtrim(string& s, const char* t);
+string&						ltrim(string& s, const char* t);
+string&						trim(string& s, const char* t);
+void						draw_bottom_bar_menu(WINDOW * bottom_menu_bar, int yMax, int xMax);
+void						draw_numbers_in_screen_corners(int yMax, int xMax);
+string						put_string_in_center(string & str, int number_of_case, char to_fill);
+string						put_string_in_right(string str, int number_of_case, char to_fill);
+string						put_string_in_left(string str, int number_of_case, char to_fill);
+void						get_configuration_info_from_dot_env_file(string dot_env_file_path);
 #endif

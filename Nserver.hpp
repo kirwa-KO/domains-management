@@ -18,6 +18,9 @@ private:
 public:
 	Nserver();
 	Nserver(string host, string ip, string usr);
+	// static member
+	static string selected_nserver_host;
+	static int selected_nserver_size;
 	// getters
 	int get_id();
 	string get_host();

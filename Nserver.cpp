@@ -142,7 +142,10 @@ vector<Nserver> Nserver::get_nservers_from_database()
 	sql::ResultSet *	res;
 	vector<Nserver>	nservers;
 
-	res = g_stmt->executeQuery("SELECT * FROM nservers;");
+	res = g_stmt->executeQuery(	"SELECT * FROM nservers WHERE host LIKE '%" +	\
+								Nserver::selected_nserver_host +				\
+								"%' AND CHAR_LENGTH(host) <= " +
+								to_string(Nserver::selected_nserver_size) + ";");
 	while (res->next())
 	{
 		Nserver temp_nserver;

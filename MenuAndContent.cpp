@@ -197,28 +197,55 @@ void	MenuAndContent::bottom_bar()
 void	MenuAndContent::press_t_to_select_filter_tld_bar()
 {
 	char	filter[10];
-	string	chosen_tld;
+	string	chosen_name_filter;
 
 	this->domains.clear();
 	this->highlight = 0;
 	mvwprintw(this->win, idm_command_index, 6, "t  f>");
 	wmove(this->win, idm_command_index, 11);
 	wgetstr(this->win, filter);
-	chosen_tld = static_cast<string>(filter);
-	if (chosen_tld == "a")
-		this->domains = Domain::get_domains_from_database();
-	else if (chosen_tld == "c")
-		this->domains = Domain::get_dot_tld_domains_from_database("com");
-	else if (chosen_tld == "o")
-		this->domains = Domain::get_dot_tld_domains_from_database("org");
-	else if (chosen_tld == "n")
-		this->domains = Domain::get_dot_tld_domains_from_database("net");
-	else if (chosen_tld == "i")
-		this->domains = Domain::get_dot_tld_domains_from_database("io");
-	else if (chosen_tld == "m")
-		this->domains = Domain::get_dot_tld_domains_from_database("mx");
+	chosen_name_filter = static_cast<string>(filter);
+	if (this->selected_tab == 0)
+	{
+		if (chosen_name_filter == "a")
+			this->domains = Domain::get_domains_from_database();
+		else if (chosen_name_filter == "c")
+			this->domains = Domain::get_dot_tld_domains_from_database("com");
+		else if (chosen_name_filter == "o")
+			this->domains = Domain::get_dot_tld_domains_from_database("org");
+		else if (chosen_name_filter == "n")
+			this->domains = Domain::get_dot_tld_domains_from_database("net");
+		else if (chosen_name_filter == "i")
+			this->domains = Domain::get_dot_tld_domains_from_database("io");
+		else if (chosen_name_filter == "m")
+			this->domains = Domain::get_dot_tld_domains_from_database("mx");
+		else
+			this->domains = Domain::get_dot_tld_domains_from_database(chosen_name_filter);
+	}
+	else if (this->selected_tab == 1)
+	{
+		if (chosen_name_filter == "a")
+			Registrar::selected_registrar_name = "";
+		else
+			Registrar::selected_registrar_name = chosen_name_filter;
+		this->registrars = Registrar::get_registrars_from_database();
+	}
+	else if (this->selected_tab == 2)
+	{
+		if (chosen_name_filter == "a")
+			Person::selected_person_name = "";
+		else
+			Person::selected_person_name = chosen_name_filter;
+		this->persons = Person::get_persons_from_database();
+	}
 	else
-		this->domains = Domain::get_dot_tld_domains_from_database(chosen_tld);
+	{
+		if (chosen_name_filter == "a")
+			Nserver::selected_nserver_host = "";
+		else
+			Nserver::selected_nserver_host = chosen_name_filter;
+		this->nservers = Nserver::get_nservers_from_database();
+	}
 }
 
 
@@ -234,7 +261,23 @@ void	MenuAndContent::press_s_to_select_filter_size_bar()
 	wgetstr(this->win, filter);
 	chosen_size_str = static_cast<string>(filter);
 	int	selected_size_int = stoi(chosen_size_str);
-	this->domains = Domain::get_domains_where_equal_or_less_that_specfied_size_from_database(selected_size_int);
+	if (this->selected_tab == 0)
+		this->domains = Domain::get_domains_where_equal_or_less_that_specfied_size_from_database(selected_size_int);
+	if (this->selected_tab == 1)
+	{
+		Registrar::selected_registrar_size = selected_size_int;
+		this->registrars = Registrar::get_registrars_from_database();
+	}
+	if (this->selected_tab == 2)
+	{
+		Person::selected_person_size = selected_size_int;
+		this->persons = Person::get_persons_from_database();
+	}
+	else
+	{
+		Nserver::selected_nserver_size = selected_size_int;
+		this->nservers = Nserver::get_nservers_from_database();
+	}
 }
 
 void    MenuAndContent::draw()

@@ -14,6 +14,9 @@ private:
 
 public:
 	Person();
+	// static member
+	static string selected_person_name;
+	static int selected_person_size;
 	// getters
 	int		get_id();
 	string	get_name();

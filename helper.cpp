@@ -123,3 +123,53 @@ string  put_string_in_left(string str, int number_of_case, char to_fill)
         str_to_ret += to_fill;
     return str_to_ret;
 }
+
+void	get_configuration_info_from_dot_env_file(string dot_env_file_path)
+{
+	fstream		_env;
+	string		search_for;
+
+	_env.open(dot_env_file_path, ios::in);
+	if (_env.is_open())
+	{
+		string line;
+		while (getline(_env, line))
+		{
+			line = trim(line, " \t\n\r");
+
+			// get the database name
+			if (line.find("DATABASE_NAME=") != string::npos)
+			{
+				search_for = "DATABASE_NAME=";
+				g_database_name = trim(line.erase(0, search_for.length()), " \t\n\r");
+			}
+			// get the database user
+			else if (line.find("DATABASE_USER=") != string::npos)
+			{
+				search_for = "DATABASE_USER=";
+				g_database_user = trim(line.erase(0, search_for.length()), " \t\n\r");
+			}
+			// get the database password
+			else if (line.find("DATABASE_PASSWORD=") != string::npos)
+			{
+				search_for = "DATABASE_PASSWORD=";
+				g_database_password = trim(line.erase(0, search_for.length()), " \t\n\r");
+			}
+			// get the path of domains names files
+			else if (line.find("PATH_OF_DOMAINS_NAMES_FILES=") != string::npos)
+			{
+				search_for = "PATH_OF_DOMAINS_NAMES_FILES=";
+				g_path_of_domains_names_files = trim(line.erase(0, search_for.length()), " \t\n\r");
+			}
+			// get the path of config file for serves data
+			else if (line.find("PATH_OF_CONFIG_FILE_FOR_SERVERS_DATA=") != string::npos)
+			{
+				search_for = "PATH_OF_CONFIG_FILE_FOR_SERVERS_DATA=";
+				g_path_of_config_file_for_servers = trim(line.erase(0, search_for.length()), " \t\n\r");
+			}
+		}
+		_env.close();
+	}
+	else
+		cout << BOLDRED << "Please if the .env file exist...!!" << RESET << endl;
+}

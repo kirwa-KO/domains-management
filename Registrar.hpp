@@ -11,6 +11,9 @@ private:
 
 public:
 	Registrar(string name, string url);
+	// static member
+	static string selected_registrar_name;
+	static int selected_registrar_size;
 	// getters
 	int		get_id();
 	string	get_name();

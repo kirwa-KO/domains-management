@@ -30,7 +30,10 @@ vector<Registrar> Registrar::get_registrars_from_database()
 	sql::ResultSet *	res;
 	vector<Registrar>	registrars;
 
-	res = g_stmt->executeQuery("SELECT * FROM registrar;");
+	res = g_stmt->executeQuery(	"SELECT * FROM registrar WHERE name LIKE '%" +	\
+								Registrar::selected_registrar_name +			\
+								"%' AND CHAR_LENGTH(name) <= " +				\
+								to_string(Registrar::selected_registrar_size) + ";");
 	while (res->next())
 	{
 		Registrar temp_registrar(res->getString("name"), res->getString("url"));

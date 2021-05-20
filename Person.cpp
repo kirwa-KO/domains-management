@@ -23,11 +23,11 @@ void	Person::set_phone(string phone) { this->phone = phone; };
 // static database methods
 void	Person::add_person_in_database(Person & person)
 {
-	g_stmt->execute("INSERT INTO person(name, first, last, email, phone)							\
-					SELECT * FROM (SELECT '" + person.get_name() + "' as name, '"
-					+ person.get_first_name() + "', '"
-					+ person.get_last_name() + "', '"
-					+ person.get_email() + "', '"
+	g_stmt->execute("INSERT INTO person(name, first, last, email, phone)			\
+					SELECT * FROM (SELECT '" + person.get_name() + "' as name, '"	\
+					+ person.get_first_name() + "', '"								\
+					+ person.get_last_name() + "', '"								\
+					+ person.get_email() + "', '"									\
 					+ person.get_phone()	+ "') AS tmp_alias						\
 					WHERE tmp_alias.name  NOT IN (SELECT name from person);");
 	cout << BOLDYELLOW << "The Person " << RESET << BOLDWHITE << person.get_name() << RESET << BOLDYELLOW << " Added To Database Successfully..!!" << RESET << '\n';
@@ -38,7 +38,10 @@ vector<Person> Person::get_persons_from_database()
 	sql::ResultSet *	res;
 	vector<Person>	persons;
 
-	res = g_stmt->executeQuery("SELECT * FROM person;");
+	res = g_stmt->executeQuery(	"SELECT * FROM person WHERE name LIKE '%" +	\
+								Person::selected_person_name +				\
+								"%' AND CHAR_LENGTH(name) <= " +			\
+								to_string(Person::selected_person_size) + ";");
 	while (res->next())
 	{
 		Person temp_person;
