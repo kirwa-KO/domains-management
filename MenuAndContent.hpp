@@ -2,6 +2,7 @@
 #define MENUANDCONTENT_HPP
 #include "Domain.hpp"
 #include "Nservers.hpp"
+#include "Person.hpp"
 
 class MenuAndContent
 {
@@ -26,6 +27,7 @@ class MenuAndContent
 		int 				idm_command_index;
 		vector<Domain> 		domains;
 		vector<Registrar>	registrars;
+		vector<Person>		persons;
 		vector<Nservers>	nservers;
 
 	public:

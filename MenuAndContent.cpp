@@ -15,8 +15,9 @@ MenuAndContent::MenuAndContent(int height, int width, int y, int x)
 	this->popup = newwin(height, width, y, x);
 	this->selected_tab = 0;
 	this->domains = Domain::get_domains_from_database();
-	this->registrars = Registrar::get_registrar_from_database();
+	this->registrars = Registrar::get_registrars_from_database();
 	this->nservers = Nservers::get_nservers_from_database();
+	this->persons = Person::get_persons_from_database();
 }
 
 // getters
@@ -131,8 +132,22 @@ void	MenuAndContent::draw_persons_tab_content()
 	int		i;
 	string	fields[7] = {	" id ", "name------------", "first name------", "last name-------", "email-----------", "phone-----------"};
 
-	this->fields_name_bar(fields, 7);
+	this->fields_name_bar(fields, 7, 4);
 	// persons data here
+	for (i = this->start; i < this->start + DOMAIN_PER_WIN && i < this->persons.size(); i++)
+	{
+		string	all_info = "";
+		if (i == this->highlight)
+			wattron(this->win, A_REVERSE);
+		all_info += put_string_in_right(to_string(this->persons[i].get_id()), 3, ' ');
+		all_info += "  " + put_string_in_left(this->persons[i].get_name(), 16, ' ');
+		all_info += "  " + put_string_in_left(this->persons[i].get_first_name(), 16, ' ');
+		all_info += "  " + put_string_in_left(this->persons[i].get_last_name(), 16, ' ');
+		all_info += "  " + put_string_in_left(this->persons[i].get_email(), 16, ' ');
+		all_info += "  " + put_string_in_left(this->persons[i].get_phone(), 16, ' ');
+		mvwprintw(this->win, i - this->start + 4, 5, all_info.c_str());
+		wattroff(this->win, A_REVERSE);
+	}
 }
 
 void	MenuAndContent::draw_servers_tab_content()
@@ -299,6 +314,8 @@ bool	MenuAndContent::get_pressed_key(int select_domain)
 				Domain::press_delete_domain(win, popup, domains, highlight);
 			else if (this->selected_tab == 1)
 				Registrar::press_delete_registrar(win, popup, registrars, highlight);
+			else if (this->selected_tab == 2)
+				Person::press_delete_person(win, popup, persons, highlight);
 			break;
 		case 'Q':
 		case 'q':
@@ -322,13 +339,21 @@ bool	MenuAndContent::get_pressed_key(int select_domain)
 		case 'X':
 			this->selected_tab = 3; break;
 		case PRESS_ENTER:
-			this->domains = Domain::press_enter(popup, domains, highlight); break;
+			if (this->selected_tab == 0)
+				Domain::press_enter(popup, domains, highlight);
+			else if (this->selected_tab == 1)
+				Registrar::press_enter(popup, registrars, highlight);
+			else if (this->selected_tab == 2)
+				Person::press_enter(popup, persons, highlight);
+			break;
 		case 'a':
 		case 'A':
 			if (this->selected_tab == 0)
 				Domain::press_add_domain(popup, domains);
 			else if (this->selected_tab == 1)
 				Registrar::press_add_registrar(popup, registrars);
+			else if (this->selected_tab == 2)
+				Person::press_add_person(popup, persons);
 			break;
 		case PRESS_ESC:
 			this->press_esc(); break;

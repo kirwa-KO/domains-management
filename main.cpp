@@ -30,6 +30,7 @@ int main(void)
         g_stmt->execute("ALTER DATABASE domains CHARACTER SET utf8 COLLATE utf8_general_ci;");
         g_stmt->execute("ALTER TABLE domains CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;");
         g_stmt->execute("ALTER TABLE registrar CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;");
+        g_stmt->execute("ALTER TABLE person CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;");
         g_stmt->execute("ALTER TABLE nservers CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;");
     
         // check if the user want to add domains from directory

@@ -71,7 +71,7 @@ public:
 	static vector<Domain>	get_domains_from_database();
 	static vector<Domain>	get_dot_tld_domains_from_database(string tld);
 	static vector<Domain>	get_domains_where_equal_or_less_that_specfied_size_from_database(int &select_size);
-	static vector<Domain>	press_enter(WINDOW * popup, vector<Domain> domains, int selected_domain);
+	static void				press_enter(WINDOW * popup, vector<Domain> & domains, int & selected_domain);
 	static void				press_delete_domain(WINDOW * win, WINDOW * popup, vector<Domain> & domains, int & selected_domain);
 	static void				press_add_domain(WINDOW * popup, vector<Domain> & domains);
 	~Domain();

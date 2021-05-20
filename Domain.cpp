@@ -140,7 +140,6 @@ void Domain::display_domain_info()
 // members function for database
 void Domain::update_domain_attribute_in_database(string attribute, string &new_value)
 {
-	cout << "we update the "  << attribute << " in database with |" << "|" << endl;
 	g_stmt->executeUpdate("UPDATE domains SET " + attribute + "='" + new_value + "' WHERE name='" + this->name + "'");
 }
 
@@ -272,7 +271,7 @@ vector<Domain> Domain::get_domains_where_equal_or_less_that_specfied_size_from_d
 	return domains;
 }
 
-vector<Domain> Domain::press_enter(WINDOW * popup, vector<Domain> domains, int selected_domain)
+void		Domain::press_enter(WINDOW * popup, vector<Domain> & domains, int & selected_domain)
 {
 	int		i;
 	vector<pair<string, string>>	attributes_and_values;
@@ -305,7 +304,7 @@ vector<Domain> Domain::press_enter(WINDOW * popup, vector<Domain> domains, int s
 	wgetstr(popup, index);
 	index_str = static_cast<string>(index);
 	if (index_str == "q" OR index_str == "Q")
-		return domains;
+		return ;
 	int j;
 	for(itr = attributes_and_values.begin(), j = 0;itr != attributes_and_values.end() AND j < stoi(index_str) - 1;itr++, j++);
 	mvwprintw(popup, i + 4, 1, ("***  Please Enter the new value of " + itr->first).c_str());
@@ -336,7 +335,8 @@ vector<Domain> Domain::press_enter(WINDOW * popup, vector<Domain> domains, int s
 		domains[selected_domain].update_domain_attribute_in_database("url", new_value_str);
 	else if (stoi(index_str) == 11)
 		domains[selected_domain].update_domain_attribute_in_database("sale_price", new_value_str);
-	return (Domain::get_domains_from_database());
+	domains.clear();
+	domains = Domain::get_domains_from_database();
 }
 
 void	Domain::press_delete_domain(WINDOW * win, WINDOW * popup, vector<Domain> & domains, int & selected_domain)

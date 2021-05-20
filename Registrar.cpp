@@ -25,7 +25,7 @@ void	Registrar::add_registrar_in_database(Registrar & registrar)
 	cout << BOLDYELLOW << "The Registrar " << RESET << BOLDWHITE << registrar.get_name() << RESET << BOLDYELLOW << " Added To Database Successfully..!!" << RESET << '\n';
 }
 
-vector<Registrar> Registrar::get_registrar_from_database()
+vector<Registrar> Registrar::get_registrars_from_database()
 {
 	sql::ResultSet *	res;
 	vector<Registrar>	registrars;
@@ -73,7 +73,7 @@ void    Registrar::press_add_registrar(WINDOW * popup, vector<Registrar> & regis
 	Registrar::add_registrar_in_database(*tmp_registrar);
 
 	registrars.clear();
-	registrars = Registrar::get_registrar_from_database();
+	registrars = Registrar::get_registrars_from_database();
 	delete tmp_registrar;
 }
 
@@ -104,6 +104,10 @@ void	Registrar::press_delete_registrar(WINDOW * win, WINDOW * popup, vector<Regi
 	wrefresh(win);
 }
 
+void Registrar::update_registrar_attribute_in_database(string attribute, string &new_value)
+{
+	g_stmt->executeUpdate("UPDATE registrar SET " + attribute + "='" + new_value + "' WHERE name='" + this->name + "'");
+}
 
 void	Registrar::press_enter(WINDOW * popup, vector<Registrar> & registrars, int & selected_registrar)
 {
@@ -112,8 +116,8 @@ void	Registrar::press_enter(WINDOW * popup, vector<Registrar> & registrars, int 
 	vector<pair<string, string>>::iterator	itr;
 	stringstream temp_stream;
 
-	attributes_and_values.push_back(pair<string, string>("Registrar name : ", domains[selected_domain].get_name()));
-	attributes_and_values.push_back(pair<string, string>("Registrar url  : ", domains[selected_domain].get_url()));
+	attributes_and_values.push_back(pair<string, string>("Registrar name : ", registrars[selected_registrar].get_name()));
+	attributes_and_values.push_back(pair<string, string>("Registrar url  : ", registrars[selected_registrar].get_url()));
 
 	wbkgd(popup, COLOR_PAIR(1));
 	box(popup, 0, 0);
@@ -136,32 +140,14 @@ void	Registrar::press_enter(WINDOW * popup, vector<Registrar> & registrars, int 
 	string new_value_str;
 	wgetstr(popup, new_value);
 	new_value_str = static_cast<string>(new_value);
-	// need to update the domains info here
+	// need to update the registrars info here
 	if (stoi(index_str) == 1)
-		domains[selected_domain].update_domain_attribute_in_database("name", new_value_str);
+		registrars[selected_registrar].update_registrar_attribute_in_database("name", new_value_str);
 	else if (stoi(index_str) == 2)
-		domains[selected_domain].update_domain_attribute_in_database("ns1", new_value_str);
-	else if (stoi(index_str) == 3)
-		domains[selected_domain].update_domain_attribute_in_database("ns2", new_value_str);
-	else if (stoi(index_str) == 4)
-		domains[selected_domain].update_domain_attribute_in_database("ns3", new_value_str);
-	else if (stoi(index_str) == 5)
-		domains[selected_domain].update_domain_attribute_in_database("ns4", new_value_str);
-	else if (stoi(index_str) == 6)
-		domains[selected_domain].update_domain_attribute_in_database("adminp", new_value_str);
-	else if (stoi(index_str) == 7)
-		domains[selected_domain].update_domain_attribute_in_database("techp", new_value_str);
-	else if (stoi(index_str) == 8)
-		domains[selected_domain].update_domain_attribute_in_database("registrar", new_value_str);
-	else if (stoi(index_str) == 9)
-		domains[selected_domain].update_domain_attribute_in_database("whois", new_value_str);
-	else if (stoi(index_str) == 10)
-		domains[selected_domain].update_domain_attribute_in_database("url", new_value_str);
-	else if (stoi(index_str) == 11)
-		domains[selected_domain].update_domain_attribute_in_database("sale_price", new_value_str);
+		registrars[selected_registrar].update_registrar_attribute_in_database("url", new_value_str);
 	
-	domains.clear();
-	domains = Domain::get_domains_from_database();
+	registrars.clear();
+	registrars = Registrar::get_registrars_from_database();
 }
 
 Registrar::~Registrar()
