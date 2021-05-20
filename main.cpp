@@ -63,15 +63,19 @@ int main(void)
 		g_stmt->execute("ALTER TABLE nservers CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;");
 		
 		// check if the user want to add domains from directory
-		// cout << BOLDYELLOW << "If you want to add domains to database press [y/Y] : " << RESET;
-		// cin >> choice;
-		// if (choice == 'y' OR choice == 'Y')
-		// {
+		cout << BOLDYELLOW << "If you want to add domains to database press [y/Y] : " << RESET;
+		cin >> choice;
+		if (choice == 'y' OR choice == 'Y')
+		{
 			domains = Domain::get_domains_names_from_directory();
 			Domain::add_domains_to_database(domains);
+		}
+		cout << BOLDYELLOW << "If you want to servers from config file to database press [y/Y] : " << RESET;
+		if (choice == 'y' OR choice == 'Y')
+		{
 			servers = Nserver::get_nservers_info_from_config_file();
 			Nserver::put_nservers_info_in_database(servers);
-		// }
+		}
 
 		initscr();
 		if(!has_colors())
