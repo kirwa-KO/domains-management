@@ -59,7 +59,7 @@ vector<Nserver>    Nserver::get_nservers_info_from_config_file()
 	vector<Nserver>    nservers;
 	fstream             config_file;
 
-	config_file.open("./config", ios::in);
+	config_file.open(g_path_of_config_file_for_servers, ios::in);
 	if (config_file.is_open())
 	{
 		string line;

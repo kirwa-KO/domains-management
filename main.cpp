@@ -56,7 +56,7 @@ int main(void)
 		// create statement to get and update data in database
 		g_stmt = con->createStatement();
 		g_stmt->execute("SET collation_connection = 'utf8_general_ci';");
-		g_stmt->execute("ALTER DATABASE domains CHARACTER SET utf8 COLLATE utf8_general_ci;");
+		g_stmt->execute("ALTER DATABASE " + g_database_name + " CHARACTER SET utf8 COLLATE utf8_general_ci;");
 		g_stmt->execute("ALTER TABLE domains CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;");
 		g_stmt->execute("ALTER TABLE registrar CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;");
 		g_stmt->execute("ALTER TABLE person CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;");

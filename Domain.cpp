@@ -147,7 +147,8 @@ void Domain::update_domain_attribute_in_database(string attribute, string &new_v
 vector<Domain> Domain::get_domains_names_from_directory(void)
 {
 	// get the output of ls command in a string
-	string domains_name_result_of_ls_command = exec_command_and_return_result("ls named_dev");
+	string command = "ls " + g_path_of_domains_names_files;
+	string domains_name_result_of_ls_command = exec_command_and_return_result(command.c_str());
 	// change from string to stringstream to easy split it with newline
 	stringstream domains_name_from_string_to_stream(domains_name_result_of_ls_command);
 	vector<Domain> domains;
