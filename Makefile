@@ -9,7 +9,7 @@ SRCS		= 	main.cpp			\
 				MenuAndContent.cpp	\
 				Registrar.cpp		\
 				Person.cpp			\
-				Nservers.cpp
+				Nserver.cpp
 
 NAME 		= domains
 

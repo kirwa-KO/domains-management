@@ -16,7 +16,7 @@ MenuAndContent::MenuAndContent(int height, int width, int y, int x)
 	this->selected_tab = 0;
 	this->domains = Domain::get_domains_from_database();
 	this->registrars = Registrar::get_registrars_from_database();
-	this->nservers = Nservers::get_nservers_from_database();
+	this->nservers = Nserver::get_nservers_from_database();
 	this->persons = Person::get_persons_from_database();
 }
 
@@ -316,6 +316,8 @@ bool	MenuAndContent::get_pressed_key(int select_domain)
 				Registrar::press_delete_registrar(win, popup, registrars, highlight);
 			else if (this->selected_tab == 2)
 				Person::press_delete_person(win, popup, persons, highlight);
+			else
+				Nserver::press_delete_nserver(win, popup, nservers, highlight);
 			break;
 		case 'Q':
 		case 'q':
@@ -345,6 +347,8 @@ bool	MenuAndContent::get_pressed_key(int select_domain)
 				Registrar::press_enter(popup, registrars, highlight);
 			else if (this->selected_tab == 2)
 				Person::press_enter(popup, persons, highlight);
+			else
+				Nserver::press_enter(popup, nservers, highlight);
 			break;
 		case 'a':
 		case 'A':
@@ -354,6 +358,8 @@ bool	MenuAndContent::get_pressed_key(int select_domain)
 				Registrar::press_add_registrar(popup, registrars);
 			else if (this->selected_tab == 2)
 				Person::press_add_person(popup, persons);
+			else
+				Nserver::press_add_nserver(popup, nservers);
 			break;
 		case PRESS_ESC:
 			this->press_esc(); break;

@@ -1,7 +1,7 @@
 #ifndef MENUANDCONTENT_HPP
 #define MENUANDCONTENT_HPP
 #include "Domain.hpp"
-#include "Nservers.hpp"
+#include "Nserver.hpp"
 #include "Person.hpp"
 
 class MenuAndContent
@@ -28,7 +28,7 @@ class MenuAndContent
 		vector<Domain> 		domains;
 		vector<Registrar>	registrars;
 		vector<Person>		persons;
-		vector<Nservers>	nservers;
+		vector<Nserver>	nservers;
 
 	public:
 		// bool            is_in_edit_mode;

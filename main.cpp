@@ -17,7 +17,7 @@ int main(void)
         int xMax, yMax, select_domain;
         char choice = '\0';
         bool    quit_loop = false;
-        vector<Nservers> servers;
+        vector<Nserver> servers;
 
         // Create a connection
         driver = get_driver_instance();

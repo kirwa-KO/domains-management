@@ -34,8 +34,8 @@ public:
 	static	void				add_person_in_database(Person & person);
 	static	vector<Person>		get_persons_from_database();
 	static	void				press_add_person(WINDOW * popup, vector<Person> & persons);
-	static	void				press_delete_person(WINDOW * win, WINDOW * popup, vector<Person> & persons, int & selected_registrar);
-	static	void				press_enter(WINDOW * popup, vector<Person> & persons, int & selected_registrar);
+	static	void				press_delete_person(WINDOW * win, WINDOW * popup, vector<Person> & persons, int & selected_person);
+	static	void				press_enter(WINDOW * popup, vector<Person> & persons, int & selected_person);
 	~Person();
 };
 
