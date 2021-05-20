@@ -242,13 +242,25 @@ void    MenuAndContent::draw()
 	this->erase();
 	this->top_tabs();
 	if(this->selected_tab == 0)
+	{
 		this->draw_domains_tab_content();
+		this->tab_content_size = this->domains.size();
+	}
 	else if (this->selected_tab == 1)
+	{
 		this->draw_registries_tab_content();
+		this->tab_content_size = this->registrars.size();
+	}
 	else if(this->selected_tab == 2)
+	{
 		this->draw_persons_tab_content();
+		this->tab_content_size = this->persons.size();
+	}
 	else
+	{
 		this->draw_servers_tab_content();
+		this->tab_content_size = this->nservers.size();
+	}
 	this->bottom_bar();
 }
 
@@ -265,9 +277,9 @@ void    MenuAndContent::press_up_arrow()
 
 void    MenuAndContent::press_down_arrow()
 {
-	if (this->highlight < this->start + DOMAIN_PER_WIN - 1 AND this->highlight < this->domains.size() - 1)
+	if (this->highlight < this->start + DOMAIN_PER_WIN - 1 AND this->highlight < tab_content_size - 1)
 		this->highlight += 1;
-	else if (this->highlight < this->domains.size() - 1)
+	else if (this->highlight < tab_content_size - 1)
 	{
 		this->highlight += 1;
 		this->start += 1;
@@ -324,7 +336,7 @@ bool	MenuAndContent::get_pressed_key(int select_domain)
 			return true;
 		case 'd':
 		case 'D':
-			this->selected_tab = 0; break;
+			this->selected_tab = 0; this->start = 0; this->highlight = 0; break;
 		case 't':
 		case 'T':
 			this->press_t_to_select_filter_tld_bar(); break;
@@ -333,13 +345,13 @@ bool	MenuAndContent::get_pressed_key(int select_domain)
 			this->press_s_to_select_filter_size_bar(); break;
 		case 'r':
 		case 'R':
-			this->selected_tab = 1; break;
+			this->selected_tab = 1; this->start = 0; this->highlight = 0; break;
 		case 'p':
 		case 'P':
-			this->selected_tab = 2; break;
+			this->selected_tab = 2; this->start = 0; this->highlight = 0; break;
 		case 'x':
 		case 'X':
-			this->selected_tab = 3; break;
+			this->selected_tab = 3; this->start = 0; this->highlight = 0; break;
 		case PRESS_ENTER:
 			if (this->selected_tab == 0)
 				Domain::press_enter(popup, domains, highlight);

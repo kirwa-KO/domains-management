@@ -28,8 +28,8 @@ class MenuAndContent
 		vector<Domain> 		domains;
 		vector<Registrar>	registrars;
 		vector<Person>		persons;
-		vector<Nserver>	nservers;
-
+		vector<Nserver>		nservers;
+		int					tab_content_size;
 	public:
 		// bool            is_in_edit_mode;
 		MenuAndContent(int height, int width, int y, int x);
