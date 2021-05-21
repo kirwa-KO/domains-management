@@ -263,6 +263,7 @@ void	MenuAndContent::press_s_to_select_filter_size_bar()
 {
 	char	filter[10];
 	string	chosen_size_str;
+	int	selected_size_int;
 
 	this->domains.clear();
 	this->highlight = 0;
@@ -277,10 +278,22 @@ void	MenuAndContent::press_s_to_select_filter_size_bar()
 		mvwprintw(this->win, idm_command_index - 1, 6, ("old selected size : " + to_string(Nserver::selected_nserver_size)).c_str());
 
 	mvwprintw(this->win, idm_command_index, 6, "s #>");
-	wmove(this->win, idm_command_index, 10);
-	wgetstr(this->win, filter);
-	chosen_size_str = static_cast<string>(filter);
-	int	selected_size_int = stoi(chosen_size_str);
+
+	while (1)
+	{
+		try
+		{
+			wmove(this->win, idm_command_index, 10);
+			wgetstr(this->win, filter);
+			chosen_size_str = static_cast<string>(filter);
+			selected_size_int = stoi(chosen_size_str);
+			break ;
+		}
+		catch(const std::exception& e)
+		{
+			continue ;
+		}
+	}
 	if (this->selected_tab == 0)
 		this->domains = Domain::get_domains_where_equal_or_less_that_specfied_size_from_database(selected_size_int);
 	if (this->selected_tab == 1)

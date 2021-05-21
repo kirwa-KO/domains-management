@@ -243,25 +243,42 @@ void		Nserver::press_enter(WINDOW * popup, vector<Nserver> & nservers, int & sel
 	mvwprintw(popup, i + 2, 1, "***  Please Enter the number of attribute you want to edit or q/Q to quit : ");
 	char index[20];
 	string index_str;
-	wgetstr(popup, index);
-	index_str = static_cast<string>(index);
-	if (index_str == "q" OR index_str == "Q")
-		return ;
+	int index_str_int;
+
+	while (1)
+	{
+		try
+		{
+			wmove(popup, i + 2, 77);
+			wgetstr(popup, index);
+			index_str = static_cast<string>(index);
+			if (index_str == "q" OR index_str == "Q")
+				return ;
+			index_str_int = stoi(index_str);
+			break ;
+		}
+		catch(const std::exception& e)
+		{
+			continue ;
+		}
+		
+	}
+	
 	int j;
-	for(itr = attributes_and_values.begin(), j = 0;itr != attributes_and_values.end() AND j < stoi(index_str) - 1;itr++, j++);
+	for(itr = attributes_and_values.begin(), j = 0;itr != attributes_and_values.end() AND j < index_str_int - 1;itr++, j++);
 	mvwprintw(popup, i + 4, 1, ("***  Please Enter the new value of " + itr->first).c_str());
 	char new_value[255];
 	string new_value_str;
 	wgetstr(popup, new_value);
 	new_value_str = static_cast<string>(new_value);
 	// need to update the nservers info here
-	if (stoi(index_str) == 1)
+	if (index_str_int == 1)
 		nservers[selected_server].update_nserver_attribute_in_database("host", new_value_str);
-	else if (stoi(index_str) == 2)
+	else if (index_str_int == 2)
 		nservers[selected_server].update_nserver_attribute_in_database("ip", new_value_str);
-	else if (stoi(index_str) == 3)
+	else if (index_str_int == 3)
 		nservers[selected_server].update_nserver_attribute_in_database("port", new_value_str);
-	else if (stoi(index_str) == 4)
+	else if (index_str_int == 4)
 		nservers[selected_server].update_nserver_attribute_in_database("usr", new_value_str);
 	
 	nservers.clear();

@@ -306,39 +306,58 @@ void		Domain::press_enter(WINDOW * popup, vector<Domain> & domains, int & select
 	mvwprintw(popup, i + 2, 1, "***  Please Enter the number of attribute you want to edit or q/Q to quit : ");
 	char index[20];
 	string index_str;
-	wgetstr(popup, index);
-	index_str = static_cast<string>(index);
-	if (index_str == "q" OR index_str == "Q")
-		return ;
+	int	index_str_int;
+
+	while (1)
+	{
+		try
+		{
+			wmove(popup, i + 2, 77);
+			wgetstr(popup, index);
+			index_str = static_cast<string>(index);
+			if (index_str == "q" OR index_str == "Q")
+				return ;
+			index_str_int = stoi(index_str);
+			break ;
+		}
+		catch(const std::exception& e)
+		{
+			continue ;
+		}
+	}
+	
 	int j;
-	for(itr = attributes_and_values.begin(), j = 0;itr != attributes_and_values.end() AND j < stoi(index_str) - 1;itr++, j++);
+	for(itr = attributes_and_values.begin(), j = 0;itr != attributes_and_values.end() AND j < index_str_int - 1;itr++, j++);
+	
 	mvwprintw(popup, i + 4, 1, ("***  Please Enter the new value of " + itr->first).c_str());
 	char new_value[255];
 	string new_value_str;
+
 	wgetstr(popup, new_value);
 	new_value_str = static_cast<string>(new_value);
+
 	// need to update the domains info here
-	if (stoi(index_str) == 1)
+	if (index_str_int == 1)
 		domains[selected_domain].update_domain_attribute_in_database("name", new_value_str);
-	else if (stoi(index_str) == 2)
+	else if (index_str_int == 2)
 		domains[selected_domain].update_domain_attribute_in_database("ns1", new_value_str);
-	else if (stoi(index_str) == 3)
+	else if (index_str_int == 3)
 		domains[selected_domain].update_domain_attribute_in_database("ns2", new_value_str);
-	else if (stoi(index_str) == 4)
+	else if (index_str_int == 4)
 		domains[selected_domain].update_domain_attribute_in_database("ns3", new_value_str);
-	else if (stoi(index_str) == 5)
+	else if (index_str_int == 5)
 		domains[selected_domain].update_domain_attribute_in_database("ns4", new_value_str);
-	else if (stoi(index_str) == 6)
+	else if (index_str_int == 6)
 		domains[selected_domain].update_domain_attribute_in_database("adminp", new_value_str);
-	else if (stoi(index_str) == 7)
+	else if (index_str_int == 7)
 		domains[selected_domain].update_domain_attribute_in_database("techp", new_value_str);
-	else if (stoi(index_str) == 8)
+	else if (index_str_int == 8)
 		domains[selected_domain].update_domain_attribute_in_database("registrar", new_value_str);
-	else if (stoi(index_str) == 9)
+	else if (index_str_int == 9)
 		domains[selected_domain].update_domain_attribute_in_database("whois", new_value_str);
-	// else if (stoi(index_str) == 10)
+	// else if (index_str_int == 10)
 	// 	domains[selected_domain].update_domain_attribute_in_database("url", new_value_str);
-	else if (stoi(index_str) == 10)
+	else if (index_str_int == 10)
 		domains[selected_domain].update_domain_attribute_in_database("sale_price", new_value_str);
 	domains.clear();
 	domains = Domain::get_domains_from_database();
