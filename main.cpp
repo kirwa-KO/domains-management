@@ -3,19 +3,19 @@
 sql::Statement *	g_stmt;
 
 // selected filter data of variabels in Domain class
-string				Domain::selected_domain_tld = "%";
+string				Domain::selected_domain_tld = "";
 int					Domain::selected_domain_size = 255;
 
 // selected filter data of variabels in Registrar class
-string				Registrar::selected_registrar_name = "%";
+string				Registrar::selected_registrar_name = "";
 int					Registrar::selected_registrar_size = 255;
 
 // selected filter data of variabels in Person class
-string				Person::selected_person_name = "%";
+string				Person::selected_person_name = "";
 int					Person::selected_person_size = 255;
 
 // selected filter data of variabels in Nserver class
-string				Nserver::selected_nserver_host = "%";
+string				Nserver::selected_nserver_host = "";
 int					Nserver::selected_nserver_size = 255;
 
 // array of registrar of domain to not insert a registrar that already exist

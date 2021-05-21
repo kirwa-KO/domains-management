@@ -201,6 +201,16 @@ void	MenuAndContent::press_t_to_select_filter_tld_bar()
 
 	this->domains.clear();
 	this->highlight = 0;
+
+	if (this->selected_tab == 0)
+		mvwprintw(this->win, idm_command_index - 1, 6, ("old selected name : " + Domain::selected_domain_tld).c_str());
+	else if (this->selected_tab == 1)
+		mvwprintw(this->win, idm_command_index - 1, 6, ("old selected name : " + Registrar::selected_registrar_name).c_str());
+	else if (this->selected_tab == 2)
+		mvwprintw(this->win, idm_command_index - 1, 6, ("old selected name : " + Person::selected_person_name).c_str());
+	else
+		mvwprintw(this->win, idm_command_index - 1, 6, ("old selected name : " + Nserver::selected_nserver_host).c_str());
+
 	mvwprintw(this->win, idm_command_index, 6, "t  f>");
 	wmove(this->win, idm_command_index, 11);
 	wgetstr(this->win, filter);
@@ -256,6 +266,16 @@ void	MenuAndContent::press_s_to_select_filter_size_bar()
 
 	this->domains.clear();
 	this->highlight = 0;
+
+	if (this->selected_tab == 0)
+		mvwprintw(this->win, idm_command_index - 1, 6, ("old selected size : " + to_string(Domain::selected_domain_size)).c_str());
+	else if (this->selected_tab == 1)
+		mvwprintw(this->win, idm_command_index - 1, 6, ("old selected size : " + to_string(Registrar::selected_registrar_size)).c_str());
+	else if (this->selected_tab == 2)
+		mvwprintw(this->win, idm_command_index - 1, 6, ("old selected size : " + to_string(Person::selected_person_size)).c_str());
+	else
+		mvwprintw(this->win, idm_command_index - 1, 6, ("old selected size : " + to_string(Nserver::selected_nserver_size)).c_str());
+
 	mvwprintw(this->win, idm_command_index, 6, "s #>");
 	wmove(this->win, idm_command_index, 10);
 	wgetstr(this->win, filter);
