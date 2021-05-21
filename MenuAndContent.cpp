@@ -354,6 +354,9 @@ void    MenuAndContent::press_esc()
 
 bool	MenuAndContent::get_pressed_key(int select_domain)
 {
+	vector<Domain> domains_tmp;
+	vector<Nserver> servers_tmp;
+
 	switch (select_domain)
 	{
 		case KEY_UP:
@@ -418,6 +421,32 @@ bool	MenuAndContent::get_pressed_key(int select_domain)
 			break;
 		case PRESS_ESC:
 			this->press_esc(); break;
+		case 'k':
+		case 'K':
+			wbkgd(popup, COLOR_PAIR(1));
+			box(popup, 0, 0);
+			werase(popup);
+			mvwprintw(popup, 0, 1, "Adding domains from directory:");
+			mvwprintw(popup, 2, 1, "Please wait untill we finish it: Adding...");
+			wrefresh(popup);
+			domains_tmp = Domain::get_domains_names_from_directory();
+			Domain::add_domains_to_database(domains_tmp);
+			mvwprintw(popup, 5, 1, "All domains added succesfly please press any charactere to quit..!!");
+			wgetch(popup);
+			break;
+		case 'i':
+		case 'I':
+			wbkgd(popup, COLOR_PAIR(1));
+			box(popup, 0, 0);
+			werase(popup);
+			mvwprintw(popup, 0, 1, "Adding servers from config file:");
+			mvwprintw(popup, 2, 1, "Please wait untill we finish it: Adding...");
+			wrefresh(popup);
+			servers_tmp = Nserver::get_nservers_info_from_config_file();
+			Nserver::put_nservers_info_in_database(servers_tmp);
+			mvwprintw(popup, 5, 1, "All servers added succesfly please press any charactere to quit..!!");
+			wgetch(popup);
+			break;
 		default:
 			break;
 	}

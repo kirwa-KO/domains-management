@@ -120,7 +120,7 @@ void	Nserver::add_server_in_database(Nserver & nserver)
 													+ to_string(nserver.get_port()) + "' as port) AS tmp_alias 	\
 										WHERE tmp_alias.host  NOT IN (SELECT host FROM nservers);");
 
-	cout << BOLDCYAN << "The Server " << RESET << BOLDWHITE << nserver.get_host() << RESET << BOLDCYAN << " Added To Database Successfully..!!" << RESET << '\n';
+	// cout << BOLDCYAN << "The Server " << RESET << BOLDWHITE << nserver.get_host() << RESET << BOLDCYAN << " Added To Database Successfully..!!" << RESET << '\n';
 }
 
 void	Nserver::put_nservers_info_in_database(vector<Nserver> & nservers)

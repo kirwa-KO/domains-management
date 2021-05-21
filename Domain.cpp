@@ -197,7 +197,7 @@ void Domain::add_domain_to_database(Domain domain)
 												+ domain.get_url() + " as url') AS tmp_alias 	\
 											WHERE tmp_alias.name  NOT IN (SELECT name from domains);");
 
-	cout << BOLDGREEN << "The Domain " << RESET << BOLDWHITE << domain.get_name() << RESET << BOLDGREEN << " Added To Database Successfully..!!" << RESET << '\n';
+	// cout << BOLDGREEN << "The Domain " << RESET << BOLDWHITE << domain.get_name() << RESET << BOLDGREEN << " Added To Database Successfully..!!" << RESET << '\n';
 }
 void Domain::add_domains_to_database(vector<Domain> domains)
 {
