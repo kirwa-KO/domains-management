@@ -173,6 +173,8 @@ vector<Domain> Domain::get_domains_names_from_directory(void)
 void Domain::add_domain_to_database(Domain domain)
 {
 	vector<string> domain_ips;
+	sql::ResultSet *res;
+	int		how_many_result_exist = 0;
 
 	if (domain.get_registrar() == "")
 		domain.set_status("U");
@@ -183,6 +185,18 @@ void Domain::add_domain_to_database(Domain domain)
 	for (int i = 0;i < domain_ips.size();i++)
 	{
 		// need to check if the domain exist in out server table
+		res = g_stmt->executeQuery("SELECT ip FROM nservers WHERE ip = '" + domain_ips[i] + "';");
+		while (res->next())
+			how_many_result_exist += 1;
+	}
+
+	// the ip of the domain dont exist in server table
+	if (how_many_result_exist == 0)
+		domain.set_status("T");
+	else
+	{
+		// if the ip of domain exist in server table
+		// we need to check if it is close to 45 of expiration
 	}
 
 	g_stmt->execute("INSERT INTO domains(	name, ns1, ns2, ns3, ns4,mx1, mx2, www,										\
@@ -214,6 +228,7 @@ void Domain::add_domain_to_database(Domain domain)
 											WHERE tmp_alias.name  NOT IN (SELECT name from domains);");
 
 	// cout << BOLDGREEN << "The Domain " << RESET << BOLDWHITE << domain.get_name() << RESET << BOLDGREEN << " Added To Database Successfully..!!" << RESET << '\n';
+	delete res;
 }
 void Domain::add_domains_to_database(vector<Domain> domains)
 {
