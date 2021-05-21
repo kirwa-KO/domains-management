@@ -292,7 +292,7 @@ void		Domain::press_enter(WINDOW * popup, vector<Domain> & domains, int & select
 	attributes_and_values.push_back(pair<string, string>("tech		 : ", domains[selected_domain].get_tech()));
 	attributes_and_values.push_back(pair<string, string>("registrar	: ", domains[selected_domain].get_registrar()));
 	attributes_and_values.push_back(pair<string, string>("whois		: ", domains[selected_domain].get_whois()));
-	attributes_and_values.push_back(pair<string, string>("url		  : ", domains[selected_domain].get_url()));
+	// attributes_and_values.push_back(pair<string, string>("url		  : ", domains[selected_domain].get_url()));
 	temp_stream << fixed << setprecision(2) << domains[selected_domain].get_sale_price();
 	attributes_and_values.push_back(pair<string, string>("sale price   : ", temp_stream.str()));
 
@@ -336,9 +336,9 @@ void		Domain::press_enter(WINDOW * popup, vector<Domain> & domains, int & select
 		domains[selected_domain].update_domain_attribute_in_database("registrar", new_value_str);
 	else if (stoi(index_str) == 9)
 		domains[selected_domain].update_domain_attribute_in_database("whois", new_value_str);
+	// else if (stoi(index_str) == 10)
+	// 	domains[selected_domain].update_domain_attribute_in_database("url", new_value_str);
 	else if (stoi(index_str) == 10)
-		domains[selected_domain].update_domain_attribute_in_database("url", new_value_str);
-	else if (stoi(index_str) == 11)
 		domains[selected_domain].update_domain_attribute_in_database("sale_price", new_value_str);
 	domains.clear();
 	domains = Domain::get_domains_from_database();
