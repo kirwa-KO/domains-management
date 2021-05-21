@@ -172,12 +172,19 @@ vector<Domain> Domain::get_domains_names_from_directory(void)
 
 void Domain::add_domain_to_database(Domain domain)
 {
+	vector<string> domain_ips;
 
 	if (domain.get_registrar() == "")
 		domain.set_status("U");
 	else
 		domain.set_status("A");
 	
+	domain_ips = get_ips_of_the_domain(domain.get_name());
+	for (int i = 0;i < domain_ips.size();i++)
+	{
+		// need to check if the domain exist in out server table
+	}
+
 	g_stmt->execute("INSERT INTO domains(	name, ns1, ns2, ns3, ns4,mx1, mx2, www,										\
 											owner, adminp, techp, billp, registrar,										\
 											vpwd, expire, costperyear, sale_price, 										\

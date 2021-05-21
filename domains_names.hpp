@@ -52,7 +52,7 @@ extern	string				g_database_user;
 extern	string				g_database_password;
 extern	string				g_path_of_domains_names_files;
 extern	string				g_path_of_config_file_for_servers;
-vector<string>				get_domains_names(void);
+// vector<string>				get_domains_names(void);
 string						exec_command_and_return_result(const char* cmd);
 string&						rtrim(string& s, const char* t);
 string&						ltrim(string& s, const char* t);

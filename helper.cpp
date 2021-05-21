@@ -173,3 +173,18 @@ void	get_configuration_info_from_dot_env_file(string dot_env_file_path)
 	else
 		cout << BOLDRED << "Please if the .env file exist...!!" << RESET << endl;
 }
+
+vector<string>	get_ips_of_the_domain(string & domain_name)
+{
+	string result = exec_command_and_return_result(("host " + domain_name).c_str()), line;
+	stringstream result_stream(result);
+	vector<string> ips;
+
+	while (getline(result_stream, line, '\n'))
+	{
+		line = trim(line, " \t\r\n");
+		if (line.find("has address") != string::npos)
+			ips.push_back(trim(line.erase(0, domain_name.length() + 13), " \t\n\r"));
+	}
+	return ips;
+}
