@@ -35,6 +35,7 @@ double Domain::get_cost_per_year() { return cost_per_year; }
 double Domain::get_sale_price() { return sale_price; }
 string Domain::get_whois() { return whois; }
 string Domain::get_url() { return url; }
+string Domain::get_status() { return status; }
 
 // setters
 void Domain::set_name(string x) { this->name = trim(x, " \t"); }
@@ -71,6 +72,7 @@ void Domain::set_cost_per_year(double x) { this->cost_per_year = x; }
 void Domain::set_sale_price(double x) { this->sale_price = x; }
 void Domain::set_whois(string x) { this->whois = trim(x, " \t"); }
 void Domain::set_url(string x) { this->url = trim(x, " \t"); }
+void Domain::set_status(string x) { this->status = trim(x, " \t"); }
 
 // other function
 void Domain::get_info_from_whois_query()
@@ -170,10 +172,16 @@ vector<Domain> Domain::get_domains_names_from_directory(void)
 
 void Domain::add_domain_to_database(Domain domain)
 {
+
+	if (domain.get_registrar() == "")
+		domain.set_status("U");
+	else
+		domain.set_status("A");
+	
 	g_stmt->execute("INSERT INTO domains(	name, ns1, ns2, ns3, ns4,mx1, mx2, www,										\
 											owner, adminp, techp, billp, registrar,										\
 											vpwd, expire, costperyear, sale_price, 										\
-											whois, url) 																\
+											whois, status, url) 																\
 											SELECT * 																	\
 											FROM																		\
 											(SELECT '" + domain.get_name() + "' as name, '"
@@ -194,7 +202,8 @@ void Domain::add_domain_to_database(Domain domain)
 												+ to_string(domain.get_cost_per_year())  + "AS cost_column, "
 												+ to_string(domain.get_sale_price()) + " AS sale_price_column, '"
 												+ domain.get_whois() + "' as whois, '"
-												+ domain.get_url() + " as url') AS tmp_alias 	\
+												+ domain.get_status() + "' as status, '"
+												+ domain.get_url() + "' as url) AS tmp_alias 	\
 											WHERE tmp_alias.name  NOT IN (SELECT name from domains);");
 
 	// cout << BOLDGREEN << "The Domain " << RESET << BOLDWHITE << domain.get_name() << RESET << BOLDGREEN << " Added To Database Successfully..!!" << RESET << '\n';

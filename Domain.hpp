@@ -20,6 +20,7 @@ private:
 	double sale_price;
 	string whois;
 	string url;
+	string status;
 
 public:
 	static string selected_domain_tld;
@@ -42,6 +43,7 @@ public:
 	double get_sale_price();
 	string get_whois();
 	string get_url();
+	string get_status();
 	// setters
 	void set_name(string);
 	void set_name_server(string);
@@ -58,6 +60,7 @@ public:
 	void set_sale_price(double);
 	void set_whois(string);
 	void set_url(string);
+	void set_status(string);
 	// other function
 	void get_info_from_whois_query();
 	void display_domain_info();

@@ -9,6 +9,9 @@ CREATE TABLE nservers (
  status  VARCHAR(255),
  lping   DOUBLE,
  port   INT,
+ dns BOOLEAN,
+ web BOOLEAN,
+ email BOOLEAN,
  INDEX (host)
 );
 
@@ -66,6 +69,7 @@ CREATE TABLE domains (
  registrar    VARCHAR(255),
  vpwd         VARCHAR(255),
  expire       VARCHAR(255),
+ status       VARCHAR(255),
  costperyear  DOUBLE,
  sale_price  DOUBLE,
  whois        VARCHAR(255) DEFAULT '',

@@ -464,6 +464,8 @@ bool	MenuAndContent::get_pressed_key(int select_domain)
 			wrefresh(popup);
 			domains_tmp = Domain::get_domains_names_from_directory();
 			Domain::add_domains_to_database(domains_tmp);
+			this->domains.clear();
+			this->domains = Domain::get_domains_from_database();
 			mvwprintw(popup, 5, 1, "All domains added succesfly please press any charactere to quit..!!");
 			wgetch(popup);
 			break;
@@ -477,6 +479,8 @@ bool	MenuAndContent::get_pressed_key(int select_domain)
 			wrefresh(popup);
 			servers_tmp = Nserver::get_nservers_info_from_config_file();
 			Nserver::put_nservers_info_in_database(servers_tmp);
+			this->nservers.clear();
+			this->nservers = Nserver::get_nservers_from_database();
 			mvwprintw(popup, 5, 1, "All servers added succesfly please press any charactere to quit..!!");
 			wgetch(popup);
 			break;
