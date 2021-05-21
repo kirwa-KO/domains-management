@@ -174,7 +174,7 @@ void	get_configuration_info_from_dot_env_file(string dot_env_file_path)
 		cout << BOLDRED << "Please if the .env file exist...!!" << RESET << endl;
 }
 
-vector<string>	get_ips_of_the_domain(string & domain_name)
+vector<string>	get_ips_of_the_domain(string domain_name)
 {
 	string result = exec_command_and_return_result(("host " + domain_name).c_str()), line;
 	stringstream result_stream(result);

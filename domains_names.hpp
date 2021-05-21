@@ -39,6 +39,7 @@ using namespace std;
   (and mysql_connection.h). This will reduce your build time!
 */
 #include "mysql_connection.h"
+#include <boost/algorithm/string.hpp>
 
 #include <cppconn/driver.h>
 #include <cppconn/exception.h>
@@ -63,4 +64,5 @@ string						put_string_in_center(string & str, int number_of_case, char to_fill)
 string						put_string_in_right(string str, int number_of_case, char to_fill);
 string						put_string_in_left(string str, int number_of_case, char to_fill);
 void						get_configuration_info_from_dot_env_file(string dot_env_file_path);
+vector<string>				get_ips_of_the_domain(string domain_name);
 #endif

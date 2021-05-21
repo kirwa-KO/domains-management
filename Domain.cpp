@@ -193,11 +193,11 @@ void Domain::add_domain_to_database(Domain domain)
 	// the ip of the domain dont exist in server table
 	if (how_many_result_exist == 0)
 		domain.set_status("T");
-	else
-	{
-		// if the ip of domain exist in server table
-		// we need to check if it is close to 45 of expiration
-	}
+	// else
+	// {
+	// 	// if the ip of domain exist in server table
+	// 	// we need to check if it is close to 45 of expiration
+	// }
 
 	g_stmt->execute("INSERT INTO domains(	name, ns1, ns2, ns3, ns4,mx1, mx2, www,										\
 											owner, adminp, techp, billp, registrar,										\
