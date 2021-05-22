@@ -111,23 +111,3 @@ int main(void)
 
 	return EXIT_SUCCESS;
 }
-
-
-#include "domains_names.hpp"
-
-#include <bits/stdc++.h>
-#include <boost/algorithm/string.hpp>
-using namespace std;
-
-
-int main() 
-{
-	string expire_date_string = "2022-03-29T16:20:59Z";
-	vector<string> expire_date_vector;
-	vector<string> year_mounth_day;
-
-	boost::split(expire_date_vector, expire_date_string, boost::is_any_of("T"));
-	boost::split(year_mounth_day, expire_date_vector[0], boost::is_any_of("-"));
-	for (auto x : year_mounth_day)
-		cout << x << endl;
-}

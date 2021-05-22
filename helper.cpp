@@ -188,3 +188,22 @@ vector<string>	get_ips_of_the_domain(string domain_name)
 	}
 	return ips;
 }
+
+bool	get_if_the_difference_between_current_date_and_given_greater_thet_45_days(string expire_date)
+{
+	time_t timer;
+	std::stringstream ss("2021-04-07T10:46:01Z");
+	struct tm expire_date_struct = {0};
+	double seconds;
+
+	ss >> std::get_time(&expire_date_struct, "%Y-%m-%dT%H:%M:%S");
+
+	time(&timer);  /* get current time; same as: timer = time(NULL)  */
+
+	seconds = difftime(timer,mktime(&expire_date_struct));
+
+	// 3888000 is 45 days in seconds
+	if (seconds <= 3888000)
+		return true;
+	return false;
+}

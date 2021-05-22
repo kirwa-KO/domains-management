@@ -53,7 +53,7 @@ extern	string				g_database_user;
 extern	string				g_database_password;
 extern	string				g_path_of_domains_names_files;
 extern	string				g_path_of_config_file_for_servers;
-// vector<string>				get_domains_names(void);
+
 string						exec_command_and_return_result(const char* cmd);
 string&						rtrim(string& s, const char* t);
 string&						ltrim(string& s, const char* t);
@@ -65,4 +65,5 @@ string						put_string_in_right(string str, int number_of_case, char to_fill);
 string						put_string_in_left(string str, int number_of_case, char to_fill);
 void						get_configuration_info_from_dot_env_file(string dot_env_file_path);
 vector<string>				get_ips_of_the_domain(string domain_name);
+bool						get_if_the_difference_between_current_date_and_given_greater_thet_45_days(string expire_date);
 #endif
