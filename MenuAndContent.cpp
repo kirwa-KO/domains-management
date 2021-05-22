@@ -401,13 +401,13 @@ bool	MenuAndContent::get_pressed_key(int select_domain)
 		case KEY_LEFT:
 			this->press_left_arrow(); break;
 		case KEY_DC:
-			if (this->selected_tab == 0)
+			if (this->selected_tab == 0 && this->domains.size() > 0)
 				Domain::press_delete_domain(win, popup, domains, highlight);
-			else if (this->selected_tab == 1)
+			else if (this->selected_tab == 1 && this->registrars.size() > 0)
 				Registrar::press_delete_registrar(win, popup, registrars, highlight);
-			else if (this->selected_tab == 2)
+			else if (this->selected_tab == 2 && this->persons.size() > 0)
 				Person::press_delete_person(win, popup, persons, highlight);
-			else
+			else if (this->selected_tab == 3 && this->nservers.size() > 0)
 				Nserver::press_delete_nserver(win, popup, nservers, highlight);
 			break;
 		case 'Q':
