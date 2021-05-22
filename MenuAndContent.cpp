@@ -432,13 +432,13 @@ bool	MenuAndContent::get_pressed_key(int select_domain)
 		case 'X':
 			this->selected_tab = 3; this->start = 0; this->highlight = 0; break;
 		case PRESS_ENTER:
-			if (this->selected_tab == 0)
+			if (this->selected_tab == 0 && this->domains.size() > 0)
 				Domain::press_enter(popup, domains, highlight);
-			else if (this->selected_tab == 1)
+			else if (this->selected_tab == 1 && this->registrars.size() > 0)
 				Registrar::press_enter(popup, registrars, highlight);
-			else if (this->selected_tab == 2)
+			else if (this->selected_tab == 2 && this->persons.size() > 0)
 				Person::press_enter(popup, persons, highlight);
-			else
+			else if (this->nservers.size() > 0)
 				Nserver::press_enter(popup, nservers, highlight);
 			break;
 		case 'a':
