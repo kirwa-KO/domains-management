@@ -192,7 +192,7 @@ vector<string>	get_ips_of_the_domain(string domain_name)
 bool	get_if_the_difference_between_current_date_and_given_greater_thet_45_days(string expire_date)
 {
 	time_t timer;
-	std::stringstream ss("2021-04-07T10:46:01Z");
+	std::stringstream ss(expire_date);
 	struct tm expire_date_struct = {0};
 	double seconds;
 

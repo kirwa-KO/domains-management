@@ -188,6 +188,7 @@ void Domain::add_domain_to_database(Domain domain)
 		res = g_stmt->executeQuery("SELECT ip FROM nservers WHERE ip = '" + domain_ips[i] + "';");
 		while (res->next())
 			how_many_result_exist += 1;
+		delete res;
 	}
 
 	// the ip of the domain dont exist in server table
@@ -230,7 +231,6 @@ void Domain::add_domain_to_database(Domain domain)
 											WHERE tmp_alias.name  NOT IN (SELECT name from domains);");
 
 	// cout << BOLDGREEN << "The Domain " << RESET << BOLDWHITE << domain.get_name() << RESET << BOLDGREEN << " Added To Database Successfully..!!" << RESET << '\n';
-	delete res;
 }
 void Domain::add_domains_to_database(vector<Domain> domains)
 {

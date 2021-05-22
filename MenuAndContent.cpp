@@ -438,7 +438,7 @@ bool	MenuAndContent::get_pressed_key(int select_domain)
 				Registrar::press_enter(popup, registrars, highlight);
 			else if (this->selected_tab == 2 && this->persons.size() > 0)
 				Person::press_enter(popup, persons, highlight);
-			else if (this->nservers.size() > 0)
+			else if (this->selected_tab == 3 && this->nservers.size() > 0)
 				Nserver::press_enter(popup, nservers, highlight);
 			break;
 		case 'a':
