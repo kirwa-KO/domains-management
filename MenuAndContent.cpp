@@ -465,7 +465,9 @@ bool	MenuAndContent::get_pressed_key(int select_domain)
 			domains_tmp = Domain::get_domains_names_from_directory();
 			Domain::add_domains_to_database(domains_tmp);
 			this->domains.clear();
+			this->registrars.clear();
 			this->domains = Domain::get_domains_from_database();
+			this->registrars = Registrar::get_registrars_from_database();
 			mvwprintw(popup, 5, 1, "All domains added succesfly please press any charactere to quit..!!");
 			wgetch(popup);
 			break;
