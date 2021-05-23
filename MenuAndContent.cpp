@@ -99,8 +99,15 @@ void	MenuAndContent::draw_domains_tab_content()
 		stringstream temp_str_stream;
 		temp_str_stream << fixed << setprecision(2) << this->domains[i].get_cost_per_year();
 		all_info += "  " + put_string_in_right(temp_str_stream.str(), 4, ' ');
-		all_info += "  " + put_string_in_left(this->domains[i].get_names_servers()[0], 12, ' ');
-		all_info += "  " + put_string_in_left(this->domains[i].get_names_servers()[1], 12, ' ');
+		if (this->domains[i].get_names_servers().size() < 1)
+			all_info += "  " + put_string_in_left("", 12, ' ');
+		else
+			all_info += "  " + put_string_in_left(this->domains[i].get_names_servers()[0], 12, ' ');
+		
+		if (this->domains[i].get_names_servers().size() < 2)
+			all_info += "  " + put_string_in_left("", 12, ' ');
+		else
+			all_info += "  " + put_string_in_left(this->domains[i].get_names_servers()[1], 12, ' ');
 		all_info += "  " + put_string_in_left(this->domains[i].get_admin(), 19, ' ');
 		mvwprintw(this->win, i - this->start + 4, 1, all_info.c_str());
 		wattroff(this->win, A_REVERSE);
