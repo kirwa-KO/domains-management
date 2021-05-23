@@ -26,7 +26,7 @@
 #define DOMAIN_INFO_LENGTH 10
 #define TABS_NUMBER 4
 #define TAB_LENGTH 16
-#define FIELDS_NAME_NUMBER 8
+#define FIELDS_NAME_NUMBER 9
 #define ctrl(x) (x & 0x1F)
 #define INDICATE_LONG_STRING '\\'
 
@@ -60,7 +60,7 @@ string&						ltrim(string& s, const char* t);
 string&						trim(string& s, const char* t);
 void						draw_bottom_bar_menu(WINDOW * bottom_menu_bar, int yMax, int xMax);
 void						draw_numbers_in_screen_corners(int yMax, int xMax);
-string						put_string_in_center(string & str, int number_of_case, char to_fill);
+string						put_string_in_center(string str, int number_of_case, char to_fill);
 string						put_string_in_right(string str, int number_of_case, char to_fill);
 string						put_string_in_left(string str, int number_of_case, char to_fill);
 void						get_configuration_info_from_dot_env_file(string dot_env_file_path);

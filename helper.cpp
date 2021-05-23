@@ -79,7 +79,7 @@ void	draw_numbers_in_screen_corners(int yMax, int xMax)
     }
 }
 
-string  put_string_in_center(string & str, int number_of_case, char to_fill)
+string  put_string_in_center(string str, int number_of_case, char to_fill)
 {
     if (str.length() > number_of_case)
     {

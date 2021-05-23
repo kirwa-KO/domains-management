@@ -179,28 +179,31 @@ void Domain::add_domain_to_database(Domain domain)
 	if (domain.get_registrar() == "")
 		domain.set_status("U");
 	else
+	{
 		domain.set_status("A");
-	
-	domain_ips = get_ips_of_the_domain(domain.get_name());
-	for (int i = 0;i < domain_ips.size();i++)
-	{
-		// need to check if the domain exist in out server table
-		res = g_stmt->executeQuery("SELECT ip FROM nservers WHERE ip = '" + domain_ips[i] + "';");
-		while (res->next())
-			how_many_result_exist += 1;
-		delete res;
-	}
+		domain_ips = get_ips_of_the_domain(domain.get_name());
+		for (int i = 0;i < domain_ips.size();i++)
+		{
+			// need to check if the domain exist in out server table
+			res = g_stmt->executeQuery("SELECT ip FROM nservers WHERE ip = '" + domain_ips[i] + "';");
+			while (res->next())
+				how_many_result_exist += 1;
+			delete res;
+		}
 
-	// the ip of the domain dont exist in server table
-	if (how_many_result_exist == 0)
-		domain.set_status("T");
-	else
-	{
-		// if the ip of domain exist in server table
-		// we need to check if it is close to 45 of expiration
-		if (get_if_the_difference_between_current_date_and_given_greater_thet_45_days(domain.get_expire()) == true)
-			domain.set_status("X");
+		// the ip of the domain dont exist in server table
+		if (how_many_result_exist == 0)
+			domain.set_status("T");
+		else
+		{
+			// if the ip of domain exist in server table
+			// we need to check if it is close to 45 of expiration
+			if (get_if_the_difference_between_current_date_and_given_greater_thet_45_days(domain.get_expire()) == true)
+				domain.set_status("X");
+		}
+
 	}
+	
 
 	g_stmt->execute("INSERT INTO domains(	name, ns1, ns2, ns3, ns4,mx1, mx2, www,										\
 											owner, adminp, techp, billp, registrar,										\
@@ -265,6 +268,7 @@ vector<Domain> Domain::return_getted_domains_from_sql_query(sql::ResultSet *res)
 		temp_domain.set_whois(res->getString("whois"));
 		temp_domain.set_url(res->getString("url"));
 		temp_domain.set_sale_price(res->getDouble("sale_price"));
+		temp_domain.set_status(res->getString("status"));
 
 		domains.push_back(temp_domain);
 	}
@@ -337,9 +341,9 @@ void		Domain::press_enter(WINDOW * popup, vector<Domain> & domains, int & select
 	attributes_and_values.push_back(pair<string, string>("tech		 : ", domains[selected_domain].get_tech()));
 	attributes_and_values.push_back(pair<string, string>("registrar	: ", domains[selected_domain].get_registrar()));
 	attributes_and_values.push_back(pair<string, string>("whois		: ", domains[selected_domain].get_whois()));
-	// attributes_and_values.push_back(pair<string, string>("url		  : ", domains[selected_domain].get_url()));
 	temp_stream << fixed << setprecision(2) << domains[selected_domain].get_sale_price();
 	attributes_and_values.push_back(pair<string, string>("sale price   : ", temp_stream.str()));
+	// attributes_and_values.push_back(pair<string, string>("url		  : ", domains[selected_domain].get_url()));
 
 	wbkgd(popup, COLOR_PAIR(1));
 	box(popup, 0, 0);
@@ -400,10 +404,10 @@ void		Domain::press_enter(WINDOW * popup, vector<Domain> & domains, int & select
 		domains[selected_domain].update_domain_attribute_in_database("registrar", new_value_str);
 	else if (index_str_int == 9)
 		domains[selected_domain].update_domain_attribute_in_database("whois", new_value_str);
-	// else if (index_str_int == 10)
-	// 	domains[selected_domain].update_domain_attribute_in_database("url", new_value_str);
 	else if (index_str_int == 10)
 		domains[selected_domain].update_domain_attribute_in_database("sale_price", new_value_str);
+	// else if (index_str_int == 10)
+	// 	domains[selected_domain].update_domain_attribute_in_database("url", new_value_str);
 	domains.clear();
 	domains = Domain::get_domains_from_database();
 }

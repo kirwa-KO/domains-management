@@ -79,7 +79,7 @@ void	MenuAndContent::draw_domains_tab_content()
 {
 	int		i;
 	string	fields[FIELDS_NAME_NUMBER] = {	" M ", "Name------------", "Registry--", "Expiration",
-										"Cost", "ns0---------", "ns1---------", "Owner--------------"};
+										"Cost", "ns0---------", "ns1---------", "Owner--------------", "Status"};
 
 	// remove the M charactere in the first case of fields table in case we have domains above scroll
 	if (this->highlight < DOMAIN_PER_WIN)
@@ -109,6 +109,7 @@ void	MenuAndContent::draw_domains_tab_content()
 		else
 			all_info += "  " + put_string_in_left(this->domains[i].get_names_servers()[1], 12, ' ');
 		all_info += "  " + put_string_in_left(this->domains[i].get_admin(), 19, ' ');
+		all_info += "  " + put_string_in_center(this->domains[i].get_status(), 6, ' ');
 		mvwprintw(this->win, i - this->start + 4, 1, all_info.c_str());
 		wattroff(this->win, A_REVERSE);
 	}
