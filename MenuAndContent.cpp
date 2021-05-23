@@ -175,6 +175,7 @@ void	MenuAndContent::draw_servers_tab_content()
 void	MenuAndContent::bottom_bar()
 {
 	int		index = 4;
+	string	old_filter;
 	string	vertical_line = " V " + put_string_in_right("", 96, '-');
 
 	if (this->domains.size() < this->start + DOMAIN_PER_WIN)
@@ -182,7 +183,23 @@ void	MenuAndContent::bottom_bar()
 	mvwprintw(this->win, DOMAIN_PER_WIN + (index++), 0, vertical_line.c_str());
 	mvwprintw(this->win, DOMAIN_PER_WIN + (index++), 66, "I");
 	mvwprintw(this->win, DOMAIN_PER_WIN + index, 66, "I");
-	mvwprintw(this->win, DOMAIN_PER_WIN + index, 68, "f: ALL      s:ALL");
+
+	if (this->selected_tab == 0)
+	{
+		old_filter = "f: ";
+		if (Domain::selected_domain_tld == "")
+			old_filter += "ALL";
+		else
+			old_filter += Domain::selected_domain_tld;
+		old_filter += "    s: ";
+		if (Domain::selected_domain_size == 255)
+			old_filter += "ALL";
+		else
+			old_filter += to_string(Domain::selected_domain_size);
+	}
+
+	// mvwprintw(this->win, DOMAIN_PER_WIN + index, 68, "f: ALL      s:ALL");
+	mvwprintw(this->win, DOMAIN_PER_WIN + index, 68, old_filter.c_str());
 	idm_command_index = DOMAIN_PER_WIN + index;
 	mvwprintw(this->win, DOMAIN_PER_WIN + (index++), 1, "idm> ");
 	// mvwprintw(this->win, DOMAIN_PER_WIN + (index++), 66, "I");
@@ -201,15 +218,6 @@ void	MenuAndContent::press_t_to_select_filter_tld_bar()
 
 	this->domains.clear();
 	this->highlight = 0;
-
-	if (this->selected_tab == 0)
-		mvwprintw(this->win, idm_command_index - 1, 6, ("old selected name : " + Domain::selected_domain_tld).c_str());
-	else if (this->selected_tab == 1)
-		mvwprintw(this->win, idm_command_index - 1, 6, ("old selected name : " + Registrar::selected_registrar_name).c_str());
-	else if (this->selected_tab == 2)
-		mvwprintw(this->win, idm_command_index - 1, 6, ("old selected name : " + Person::selected_person_name).c_str());
-	else
-		mvwprintw(this->win, idm_command_index - 1, 6, ("old selected name : " + Nserver::selected_nserver_host).c_str());
 
 	mvwprintw(this->win, idm_command_index, 6, "t  f>");
 	wmove(this->win, idm_command_index, 11);
@@ -268,17 +276,7 @@ void	MenuAndContent::press_s_to_select_filter_size_bar()
 	this->domains.clear();
 	this->highlight = 0;
 
-	if (this->selected_tab == 0)
-		mvwprintw(this->win, idm_command_index - 1, 6, ("old selected size : " + to_string(Domain::selected_domain_size)).c_str());
-	else if (this->selected_tab == 1)
-		mvwprintw(this->win, idm_command_index - 1, 6, ("old selected size : " + to_string(Registrar::selected_registrar_size)).c_str());
-	else if (this->selected_tab == 2)
-		mvwprintw(this->win, idm_command_index - 1, 6, ("old selected size : " + to_string(Person::selected_person_size)).c_str());
-	else
-		mvwprintw(this->win, idm_command_index - 1, 6, ("old selected size : " + to_string(Nserver::selected_nserver_size)).c_str());
-
 	mvwprintw(this->win, idm_command_index, 6, "s #>");
-
 	while (1)
 	{
 		try
@@ -419,7 +417,7 @@ bool	MenuAndContent::get_pressed_key(int select_domain)
 		case 't':
 		case 'T':
 			this->press_t_to_select_filter_tld_bar(); break;
-		case 's':
+		case 's': 
 		case 'S':
 			this->press_s_to_select_filter_size_bar(); break;
 		case 'r':
