@@ -317,10 +317,22 @@ void		Domain::press_enter(WINDOW * popup, vector<Domain> & domains, int & select
 	stringstream temp_stream;
 
 	attributes_and_values.push_back(pair<string, string>("Domain name  : ", domains[selected_domain].get_name()));
-	attributes_and_values.push_back(pair<string, string>("name server 1: ", domains[selected_domain].get_names_servers()[0]));
-	attributes_and_values.push_back(pair<string, string>("name server 2: ", domains[selected_domain].get_names_servers()[1]));
-	attributes_and_values.push_back(pair<string, string>("name server 3: ", domains[selected_domain].get_names_servers()[2]));
-	attributes_and_values.push_back(pair<string, string>("name server 4: ", domains[selected_domain].get_names_servers()[3]));
+	if (domains[selected_domain].get_names_servers().size() < 1)
+		attributes_and_values.push_back(pair<string, string>("name server 1: ", ""));
+	else
+		attributes_and_values.push_back(pair<string, string>("name server 1: ", domains[selected_domain].get_names_servers()[0]));
+	if (domains[selected_domain].get_names_servers().size() < 2)
+		attributes_and_values.push_back(pair<string, string>("name server 2: ", ""));
+	else
+		attributes_and_values.push_back(pair<string, string>("name server 2: ", domains[selected_domain].get_names_servers()[1]));
+	if (domains[selected_domain].get_names_servers().size() < 3)
+		attributes_and_values.push_back(pair<string, string>("name server 3: ", ""));
+	else
+		attributes_and_values.push_back(pair<string, string>("name server 3: ", domains[selected_domain].get_names_servers()[2]));
+	if (domains[selected_domain].get_names_servers().size() < 4)
+		attributes_and_values.push_back(pair<string, string>("name server 4: ", ""));
+	else
+		attributes_and_values.push_back(pair<string, string>("name server 4: ", domains[selected_domain].get_names_servers()[3]));
 	attributes_and_values.push_back(pair<string, string>("admin		: ", domains[selected_domain].get_admin()));
 	attributes_and_values.push_back(pair<string, string>("tech		 : ", domains[selected_domain].get_tech()));
 	attributes_and_values.push_back(pair<string, string>("registrar	: ", domains[selected_domain].get_registrar()));
