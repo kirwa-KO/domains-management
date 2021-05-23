@@ -321,29 +321,50 @@ void		Domain::press_enter(WINDOW * popup, vector<Domain> & domains, int & select
 	stringstream temp_stream;
 
 	attributes_and_values.push_back(pair<string, string>("Domain name  : ", domains[selected_domain].get_name()));
+	
 	if (domains[selected_domain].get_names_servers().size() < 1)
-		attributes_and_values.push_back(pair<string, string>("name server 1: ", ""));
+		attributes_and_values.push_back(pair<string, string>("name server 1 : ", ""));
 	else
-		attributes_and_values.push_back(pair<string, string>("name server 1: ", domains[selected_domain].get_names_servers()[0]));
+		attributes_and_values.push_back(pair<string, string>("name server 1 : ", domains[selected_domain].get_names_servers()[0]));
 	if (domains[selected_domain].get_names_servers().size() < 2)
-		attributes_and_values.push_back(pair<string, string>("name server 2: ", ""));
+		attributes_and_values.push_back(pair<string, string>("name server 2 : ", ""));
 	else
-		attributes_and_values.push_back(pair<string, string>("name server 2: ", domains[selected_domain].get_names_servers()[1]));
+		attributes_and_values.push_back(pair<string, string>("name server 2 : ", domains[selected_domain].get_names_servers()[1]));
 	if (domains[selected_domain].get_names_servers().size() < 3)
-		attributes_and_values.push_back(pair<string, string>("name server 3: ", ""));
+		attributes_and_values.push_back(pair<string, string>("name server 3 : ", ""));
 	else
-		attributes_and_values.push_back(pair<string, string>("name server 3: ", domains[selected_domain].get_names_servers()[2]));
+		attributes_and_values.push_back(pair<string, string>("name server 3 : ", domains[selected_domain].get_names_servers()[2]));
 	if (domains[selected_domain].get_names_servers().size() < 4)
-		attributes_and_values.push_back(pair<string, string>("name server 4: ", ""));
+		attributes_and_values.push_back(pair<string, string>("name server 4 : ", ""));
 	else
-		attributes_and_values.push_back(pair<string, string>("name server 4: ", domains[selected_domain].get_names_servers()[3]));
-	attributes_and_values.push_back(pair<string, string>("admin		: ", domains[selected_domain].get_admin()));
-	attributes_and_values.push_back(pair<string, string>("tech		 : ", domains[selected_domain].get_tech()));
-	attributes_and_values.push_back(pair<string, string>("registrar	: ", domains[selected_domain].get_registrar()));
-	attributes_and_values.push_back(pair<string, string>("whois		: ", domains[selected_domain].get_whois()));
+		attributes_and_values.push_back(pair<string, string>("name server 4 : ", domains[selected_domain].get_names_servers()[3]));
+	
+	attributes_and_values.push_back(pair<string, string>("admin         : ", domains[selected_domain].get_admin()));
+	attributes_and_values.push_back(pair<string, string>("tech          : ", domains[selected_domain].get_tech()));
+	attributes_and_values.push_back(pair<string, string>("registrar     : ", domains[selected_domain].get_registrar()));
+	attributes_and_values.push_back(pair<string, string>("whois         : ", domains[selected_domain].get_whois()));
 	temp_stream << fixed << setprecision(2) << domains[selected_domain].get_sale_price();
-	attributes_and_values.push_back(pair<string, string>("sale price   : ", temp_stream.str()));
-	// attributes_and_values.push_back(pair<string, string>("url		  : ", domains[selected_domain].get_url()));
+	attributes_and_values.push_back(pair<string, string>("sale price    : ", temp_stream.str()));
+	attributes_and_values.push_back(pair<string, string>("url           : ", domains[selected_domain].get_url()));
+
+	if (domains[selected_domain].get_mx().size() < 1)
+		attributes_and_values.push_back(pair<string, string>("mx1           : ", ""));
+	else
+		attributes_and_values.push_back(pair<string, string>("mx1           : ", domains[selected_domain].get_mx()[0]));
+	if (domains[selected_domain].get_mx().size() < 2)
+		attributes_and_values.push_back(pair<string, string>("mx2           : ", ""));
+	else
+		attributes_and_values.push_back(pair<string, string>("mx2           : ", domains[selected_domain].get_mx()[1]));
+
+	attributes_and_values.push_back(pair<string, string>("www           : ", domains[selected_domain].get_www()));
+	attributes_and_values.push_back(pair<string, string>("bill          : ", domains[selected_domain].get_bill()));
+	attributes_and_values.push_back(pair<string, string>("vpwd          : ", domains[selected_domain].get_vpwd()));
+	attributes_and_values.push_back(pair<string, string>("expiration    : ", domains[selected_domain].get_expire()));
+	attributes_and_values.push_back(pair<string, string>("owner         : ", domains[selected_domain].get_owner()));
+	stringstream temp_stream_2;
+	temp_stream_2 << fixed << setprecision(2) << domains[selected_domain].get_cost_per_year();
+	attributes_and_values.push_back(pair<string, string>("cost          : ", temp_stream_2.str()));
+	attributes_and_values.push_back(pair<string, string>("status        : ", domains[selected_domain].get_status()));
 
 	wbkgd(popup, COLOR_PAIR(1));
 	box(popup, 0, 0);
@@ -406,8 +427,28 @@ void		Domain::press_enter(WINDOW * popup, vector<Domain> & domains, int & select
 		domains[selected_domain].update_domain_attribute_in_database("whois", new_value_str);
 	else if (index_str_int == 10)
 		domains[selected_domain].update_domain_attribute_in_database("sale_price", new_value_str);
-	// else if (index_str_int == 10)
-	// 	domains[selected_domain].update_domain_attribute_in_database("url", new_value_str);
+	else if (index_str_int == 11)
+		domains[selected_domain].update_domain_attribute_in_database("url", new_value_str);
+	else if (index_str_int == 12)
+		domains[selected_domain].update_domain_attribute_in_database("mx1", new_value_str);
+	else if (index_str_int == 13)
+		domains[selected_domain].update_domain_attribute_in_database("mx2", new_value_str);
+	else if (index_str_int == 14)
+		domains[selected_domain].update_domain_attribute_in_database("www", new_value_str);
+	else if (index_str_int == 15)
+		domains[selected_domain].update_domain_attribute_in_database("billp", new_value_str);
+	else if (index_str_int == 16)
+		domains[selected_domain].update_domain_attribute_in_database("vpwd", new_value_str);
+	else if (index_str_int == 17)
+		domains[selected_domain].update_domain_attribute_in_database("expire", new_value_str);
+	else if (index_str_int == 18)
+		domains[selected_domain].update_domain_attribute_in_database("owner", new_value_str);
+	else if (index_str_int == 19)
+		domains[selected_domain].update_domain_attribute_in_database("costperyear", new_value_str);
+	else if (index_str_int == 20)
+		domains[selected_domain].update_domain_attribute_in_database("status", new_value_str);
+
+
 	domains.clear();
 	domains = Domain::get_domains_from_database();
 }
