@@ -90,6 +90,8 @@ void	MenuAndContent::draw_domains_tab_content()
 	for (i = this->start; i < this->start + DOMAIN_PER_WIN && i < this->domains.size(); i++)
 	{
 		string	all_info = "";
+		if (this->domains[i].get_status() == "X")
+			wattron(this->win, COLOR_PAIR(2));
 		if (i == this->highlight)
 			wattron(this->win, A_REVERSE);
 		all_info += put_string_in_right(to_string(i + 1), 3, ' ');
@@ -112,6 +114,7 @@ void	MenuAndContent::draw_domains_tab_content()
 		all_info += "  " + put_string_in_center(this->domains[i].get_status(), 6, ' ');
 		mvwprintw(this->win, i - this->start + 4, 1, all_info.c_str());
 		wattroff(this->win, A_REVERSE);
+		wattroff(this->win, COLOR_PAIR(2));
 	}
 }
 
@@ -491,6 +494,11 @@ bool	MenuAndContent::get_pressed_key(int select_domain)
 			this->nservers = Nserver::get_nservers_from_database();
 			mvwprintw(popup, 5, 1, "All servers added succesfly please press any charactere to quit..!!");
 			wgetch(popup);
+			break;
+		case 'o':
+		case 'O':
+			this->domains.clear();
+			this->domains = Domain::get_domains_from_database_sorted_descending();
 			break;
 		default:
 			break;

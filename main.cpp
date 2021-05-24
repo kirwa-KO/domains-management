@@ -74,6 +74,7 @@ int main(void)
 		start_color();
 		// make a color pair
 		init_pair(1, COLOR_BLACK, COLOR_WHITE);
+		init_pair(2, COLOR_RED, COLOR_BLACK);
 
 		getmaxyx(stdscr, yMax, xMax);
 		// draw_numbers_in_screen_corners(yMax, xMax);

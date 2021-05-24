@@ -3,6 +3,7 @@
 Domain::Domain(string name) : name(name)
 {
 	www = "";
+	www2 = "";
 	owner = "";
 	admin = "";
 	tech = "";
@@ -24,6 +25,7 @@ string Domain::get_name() { return name; }
 vector<string> Domain::get_names_servers() { return names_servers; }
 vector<string> Domain::get_mx() { return mx; }
 string Domain::get_www() { return www; }
+string Domain::get_www2() { return www2; }
 string Domain::get_owner() { return owner; }
 string Domain::get_admin() { return admin; }
 string Domain::get_tech() { return tech; }
@@ -69,6 +71,7 @@ void Domain::set_mx(string mx)
 }
 
 void Domain::set_www(string x) { this->www = trim(x, " \t"); }
+void Domain::set_www2(string x) { this->www2 = trim(x, " \t"); }
 void Domain::set_owner(string x) { this->owner = trim(x, " \t"); }
 void Domain::set_admin(string x) { this->admin = trim(x, " \t"); }
 void Domain::set_tech(string x) { this->tech = trim(x, " \t"); }
@@ -211,12 +214,20 @@ void Domain::add_domain_to_database(Domain domain)
 		}
 
 	}
-	
 
-	g_stmt->execute("INSERT INTO domains(	name, ns1, ns2, ns3, ns4,mx1, mx2, www,										\
+	// put 1970-01-01 in expire date if empty otherwise
+	// remove the Z charactere from expire date string
+	string tmp_string = domain.get_expire();
+	if (tmp_string == "")
+		tmp_string = "1970-01-01";
+	else
+		tmp_string.erase(remove(tmp_string.begin(), tmp_string.end(), 'Z'), tmp_string.end());
+	domain.set_expire(tmp_string);
+
+	g_stmt->execute("INSERT INTO domains(	name, ns1, ns2, ns3, ns4,mx1, mx2, www, www2,								\
 											owner, adminp, techp, billp, registrar,										\
 											vpwd, expire, costperyear, sale_price, 										\
-											whois, status, url) 																\
+											whois, status, url) 														\
 											SELECT * 																	\
 											FROM																		\
 											(SELECT '" + domain.get_name() + "' as name, '"
@@ -227,6 +238,7 @@ void Domain::add_domain_to_database(Domain domain)
 												+ domain.get_mx()[0] + "' as mx1, '"
 												+ domain.get_mx()[1] + "' as mx2, '"
 												+ domain.get_www() + "' as www, '"
+												+ domain.get_www2() + "' as www2, '"
 												+ domain.get_owner() + "' as owner, '"
 												+ domain.get_admin() + "' as admin, '"
 												+ domain.get_tech() + "' as tech, '"
@@ -265,6 +277,7 @@ vector<Domain> Domain::return_getted_domains_from_sql_query(sql::ResultSet *res)
 		temp_domain.set_mx(res->getString("mx1"));
 		temp_domain.set_mx(res->getString("mx2"));
 		temp_domain.set_www(res->getString("www"));
+		temp_domain.set_www2(res->getString("www2"));
 		temp_domain.set_owner(res->getString("owner"));
 		temp_domain.set_admin(res->getString("adminp"));
 		temp_domain.set_tech(res->getString("techp"));
@@ -278,6 +291,11 @@ vector<Domain> Domain::return_getted_domains_from_sql_query(sql::ResultSet *res)
 		temp_domain.set_sale_price(res->getDouble("sale_price"));
 		temp_domain.set_status(res->getString("status"));
 
+		// if a domain have 1970-01-01 00:00:00 that mean is the
+		// default value so we remplace it with empty string
+		if (temp_domain.get_expire() == "1970-01-01 00:00:00")
+			temp_domain.set_expire("");
+
 		domains.push_back(temp_domain);
 	}
 	return domains;
@@ -290,6 +308,18 @@ vector<Domain> Domain::get_domains_from_database()
 
 	Domain::selected_domain_tld = "";
 	res = g_stmt->executeQuery("SELECT * FROM domains");
+	domains = Domain::return_getted_domains_from_sql_query(res);
+	delete res;
+	return domains;
+}
+
+vector<Domain> Domain::get_domains_from_database_sorted_descending()
+{
+	sql::ResultSet *res;
+	vector<Domain> domains;
+
+	Domain::selected_domain_tld = "";
+	res = g_stmt->executeQuery("SELECT * FROM domains ORDER BY expire DESC");
 	domains = Domain::return_getted_domains_from_sql_query(res);
 	delete res;
 	return domains;
@@ -365,6 +395,7 @@ void		Domain::press_enter(WINDOW * popup, vector<Domain> & domains, int & select
 		attributes_and_values.push_back(pair<string, string>("mx2           : ", domains[selected_domain].get_mx()[1]));
 
 	attributes_and_values.push_back(pair<string, string>("www           : ", domains[selected_domain].get_www()));
+	attributes_and_values.push_back(pair<string, string>("www2          : ", domains[selected_domain].get_www2()));
 	attributes_and_values.push_back(pair<string, string>("bill          : ", domains[selected_domain].get_bill()));
 	attributes_and_values.push_back(pair<string, string>("vpwd          : ", domains[selected_domain].get_vpwd()));
 	attributes_and_values.push_back(pair<string, string>("expiration    : ", domains[selected_domain].get_expire()));
@@ -454,14 +485,16 @@ void		Domain::press_enter(WINDOW * popup, vector<Domain> & domains, int & select
 	else if (index_str_int == 14)
 		domains[selected_domain].update_domain_attribute_in_database("www", new_value_str);
 	else if (index_str_int == 15)
-		domains[selected_domain].update_domain_attribute_in_database("billp", new_value_str);
+		domains[selected_domain].update_domain_attribute_in_database("www2", new_value_str);
 	else if (index_str_int == 16)
-		domains[selected_domain].update_domain_attribute_in_database("vpwd", new_value_str);
+		domains[selected_domain].update_domain_attribute_in_database("billp", new_value_str);
 	else if (index_str_int == 17)
-		domains[selected_domain].update_domain_attribute_in_database("expire", new_value_str);
+		domains[selected_domain].update_domain_attribute_in_database("vpwd", new_value_str);
 	else if (index_str_int == 18)
-		domains[selected_domain].update_domain_attribute_in_database("owner", new_value_str);
+		domains[selected_domain].update_domain_attribute_in_database("expire", new_value_str);
 	else if (index_str_int == 19)
+		domains[selected_domain].update_domain_attribute_in_database("owner", new_value_str);
+	else if (index_str_int == 20)
 	{
 		try {
 			double tmp_double = stod(new_value_str);
@@ -472,7 +505,7 @@ void		Domain::press_enter(WINDOW * popup, vector<Domain> & domains, int & select
 			
 		}
 	}
-	else if (index_str_int == 20)
+	else if (index_str_int == 21)
 		domains[selected_domain].update_domain_attribute_in_database("status", new_value_str);
 
 
@@ -512,7 +545,7 @@ void    Domain::press_add_domain(WINDOW * popup, vector<Domain> & domains)
 {
 	int i;
 
-	string				attributes_name[18] = {
+	string				attributes_name[19] = {
 												"Please type the Domain name  : ",
 												"Please type the name server 1: ",
 												"Please type the name server 2: ",
@@ -524,16 +557,17 @@ void    Domain::press_add_domain(WINDOW * popup, vector<Domain> & domains)
 												"Please type the whois        : ",
 												"Please type the url          : ",
 												"Please type the www          : ",
+												"Please type the www2          : ",
 												"Please type the owner        : ",
 												"Please type the bill         : ",
 												"Please type the vpwd         : ",
 												"Please type the expire       : ",
 												"Please type the status       : ",
 												"Please type the mx1          : ",
-												"Please type the mx2          : ",
+												"Please type the mx2          : "
 												};
 
-	DomainFuncPointer	attributes_set_function[18] = {
+	DomainFuncPointer	attributes_set_function[19] = {
 												&Domain::set_name,
 												&Domain::set_name_server,
 												&Domain::set_name_server,
@@ -545,13 +579,14 @@ void    Domain::press_add_domain(WINDOW * popup, vector<Domain> & domains)
 												&Domain::set_whois,
 												&Domain::set_url,
 												&Domain::set_www,
+												&Domain::set_www2,
 												&Domain::set_owner,
 												&Domain::set_bill,
 												&Domain::set_vpwd,
 												&Domain::set_expire,
 												&Domain::set_status,
 												&Domain::set_mx,
-												&Domain::set_mx,
+												&Domain::set_mx
 												};
 	Domain *tmp_domain = new Domain("");
 
@@ -563,7 +598,7 @@ void    Domain::press_add_domain(WINDOW * popup, vector<Domain> & domains)
 	char attribute_value[255];
 	string attribute_value_str;
 
-	for (i = 0; i < 18;i++)
+	for (i = 0; i < 19;i++)
 	{
 		mvwprintw(popup, i + 1, 1, (put_string_in_right(to_string(i + 1), 2, ' ') + " - " + attributes_name[i]).c_str());
 		wgetstr(popup, attribute_value);

@@ -9,6 +9,7 @@ private:
 	vector<string> names_servers;
 	vector<string> mx;
 	string www;
+	string www2;
 	string owner;
 	string admin;
 	string tech;
@@ -32,6 +33,7 @@ public:
 	vector<string> get_names_servers();
 	vector<string> get_mx();
 	string get_www();
+	string get_www2();
 	string get_owner();
 	string get_admin();
 	string get_tech();
@@ -49,6 +51,7 @@ public:
 	void set_name_server(string);
 	void set_mx(string);
 	void set_www(string);
+	void set_www2(string);
 	void set_owner(string);
 	void set_admin(string);
 	void set_tech(string);
@@ -72,6 +75,7 @@ public:
 	static void				add_domains_to_database(vector<Domain> domains);
 	static vector<Domain>	return_getted_domains_from_sql_query(sql::ResultSet *res);
 	static vector<Domain>	get_domains_from_database();
+	static vector<Domain>	get_domains_from_database_sorted_descending();
 	static vector<Domain>	get_dot_tld_domains_from_database(string tld);
 	static vector<Domain>	get_domains_where_equal_or_less_that_specfied_size_from_database(int &select_size);
 	static void				press_enter(WINDOW * popup, vector<Domain> & domains, int & selected_domain);
