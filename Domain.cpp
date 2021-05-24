@@ -319,7 +319,7 @@ vector<Domain> Domain::get_domains_from_database_sorted_descending()
 	vector<Domain> domains;
 
 	Domain::selected_domain_tld = "";
-	res = g_stmt->executeQuery("SELECT * FROM domains ORDER BY expire DESC");
+	res = g_stmt->executeQuery("SELECT * FROM domains ORDER BY expire ASC");
 	domains = Domain::return_getted_domains_from_sql_query(res);
 	delete res;
 	return domains;
