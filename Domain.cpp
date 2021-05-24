@@ -54,10 +54,18 @@ void Domain::set_name_server(string ns)
 	this->names_servers.push_back(ns);
 }
 
-void Domain::set_mx(string x)
+void Domain::set_mx(string mx)
 {
-	// we will add it later
-	(void)x;
+	// change the mx to lowercase
+	transform(mx.begin(), mx.end(), mx.begin(), ::tolower);
+	// remove white spaces from right and left of the string
+	mx = trim(mx, " \t");
+
+	// check if the mx already exist in the mx vector
+	for (size_t i = 0; i < this->mx.size(); i++)
+		if (this->mx[i] == mx)
+			return;
+	this->mx.push_back(mx);
 }
 
 void Domain::set_www(string x) { this->www = trim(x, " \t"); }
@@ -426,7 +434,17 @@ void		Domain::press_enter(WINDOW * popup, vector<Domain> & domains, int & select
 	else if (index_str_int == 9)
 		domains[selected_domain].update_domain_attribute_in_database("whois", new_value_str);
 	else if (index_str_int == 10)
-		domains[selected_domain].update_domain_attribute_in_database("sale_price", new_value_str);
+	{
+		try {
+			double tmp_double = stod(new_value_str);
+			domains[selected_domain].update_domain_attribute_in_database("sale_price", new_value_str);
+		}
+		catch(const exception& e)
+		{
+			
+		}
+		
+	}
 	else if (index_str_int == 11)
 		domains[selected_domain].update_domain_attribute_in_database("url", new_value_str);
 	else if (index_str_int == 12)
@@ -444,7 +462,16 @@ void		Domain::press_enter(WINDOW * popup, vector<Domain> & domains, int & select
 	else if (index_str_int == 18)
 		domains[selected_domain].update_domain_attribute_in_database("owner", new_value_str);
 	else if (index_str_int == 19)
-		domains[selected_domain].update_domain_attribute_in_database("costperyear", new_value_str);
+	{
+		try {
+			double tmp_double = stod(new_value_str);
+			domains[selected_domain].update_domain_attribute_in_database("costperyear", new_value_str);
+		}
+		catch(const exception& e)
+		{
+			
+		}
+	}
 	else if (index_str_int == 20)
 		domains[selected_domain].update_domain_attribute_in_database("status", new_value_str);
 
@@ -483,7 +510,9 @@ void	Domain::press_delete_domain(WINDOW * win, WINDOW * popup, vector<Domain> & 
 
 void    Domain::press_add_domain(WINDOW * popup, vector<Domain> & domains)
 {
-	string				attributes_name[10] = {
+	int i;
+
+	string				attributes_name[18] = {
 												"Please type the Domain name  : ",
 												"Please type the name server 1: ",
 												"Please type the name server 2: ",
@@ -493,10 +522,18 @@ void    Domain::press_add_domain(WINDOW * popup, vector<Domain> & domains)
 												"Please type the tech         : ",
 												"Please type the registrar    : ",
 												"Please type the whois        : ",
-												"Please type the url          : "
+												"Please type the url          : ",
+												"Please type the www          : ",
+												"Please type the owner        : ",
+												"Please type the bill         : ",
+												"Please type the vpwd         : ",
+												"Please type the expire       : ",
+												"Please type the status       : ",
+												"Please type the mx1          : ",
+												"Please type the mx2          : ",
 												};
 
-	DomainFuncPointer	attributes_set_function[10] = {
+	DomainFuncPointer	attributes_set_function[18] = {
 												&Domain::set_name,
 												&Domain::set_name_server,
 												&Domain::set_name_server,
@@ -506,7 +543,15 @@ void    Domain::press_add_domain(WINDOW * popup, vector<Domain> & domains)
 												&Domain::set_tech,
 												&Domain::set_registrar,
 												&Domain::set_whois,
-												&Domain::set_url
+												&Domain::set_url,
+												&Domain::set_www,
+												&Domain::set_owner,
+												&Domain::set_bill,
+												&Domain::set_vpwd,
+												&Domain::set_expire,
+												&Domain::set_status,
+												&Domain::set_mx,
+												&Domain::set_mx,
 												};
 	Domain *tmp_domain = new Domain("");
 
@@ -518,13 +563,40 @@ void    Domain::press_add_domain(WINDOW * popup, vector<Domain> & domains)
 	char attribute_value[255];
 	string attribute_value_str;
 
-	for (int i = 0; i < 10;i++)
+	for (i = 0; i < 18;i++)
 	{
 		mvwprintw(popup, i + 1, 1, (put_string_in_right(to_string(i + 1), 2, ' ') + " - " + attributes_name[i]).c_str());
 		wgetstr(popup, attribute_value);
 		attribute_value_str = static_cast<string>(attribute_value);
 		(tmp_domain->*(attributes_set_function[i]))(attribute_value);
 	}
+
+	// get the cost per year of domain
+	mvwprintw(popup, i + 1, 1, (put_string_in_right(to_string(i + 1), 2, ' ') + " - Please type the cost per year : ").c_str());
+	wgetstr(popup, attribute_value);
+	attribute_value_str = static_cast<string>(attribute_value);
+	try
+	{
+		double tmp_double = stod(attribute_value_str);
+		tmp_domain->set_cost_per_year(tmp_double);
+	}
+	catch(const std::exception& e)
+	{
+	}
+
+	// get the sale price of domain
+	mvwprintw(popup, i + 2, 1, (put_string_in_right(to_string(i + 1), 2, ' ') + " - Please type the sale price  : ").c_str());
+	wgetstr(popup, attribute_value);
+	attribute_value_str = static_cast<string>(attribute_value);
+	try
+	{
+		double tmp_double = stod(attribute_value_str);
+		tmp_domain->set_sale_price(tmp_double);
+	}
+	catch(const std::exception& e)
+	{
+	}
+
 	Domain::add_domain_to_database(*tmp_domain);
 
 	domains.clear();
