@@ -40,6 +40,7 @@ using namespace std;
 */
 #include "mysql_connection.h"
 #include <boost/algorithm/string.hpp>
+#include <sys/stat.h>
 
 #include <cppconn/driver.h>
 #include <cppconn/exception.h>
@@ -53,6 +54,7 @@ extern	string				g_database_user;
 extern	string				g_database_password;
 extern	string				g_path_of_domains_names_files;
 extern	string				g_path_of_config_file_for_servers;
+extern	string				g_path_to_html_files;
 
 string						exec_command_and_return_result(const char* cmd);
 string&						rtrim(string& s, const char* t);

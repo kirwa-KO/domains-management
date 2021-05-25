@@ -469,6 +469,19 @@ void		Domain::press_enter(WINDOW * popup, vector<Domain> & domains, int & select
 		try {
 			double tmp_double = stod(new_value_str);
 			domains[selected_domain].update_domain_attribute_in_database("sale_price", new_value_str);
+			if (tmp_double > 0)
+			{
+				string tmp_path = g_path_to_html_files + "/" + domains[selected_domain].get_name();
+				fstream	index_file;
+
+				mkdir(tmp_path.c_str(), 0777);
+				tmp_path += "/html";
+				mkdir(tmp_path.c_str(), 0777);
+				tmp_path += "/index.html";
+				index_file.open(tmp_path, ios::out);
+				index_file << "This domain " + domains[selected_domain].get_name() + " is for sale for " << fixed << setprecision(2) << tmp_double << "$" << endl;
+				index_file.close();
+			}
 		}
 		catch(const exception& e)
 		{

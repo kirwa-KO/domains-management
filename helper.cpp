@@ -167,6 +167,12 @@ void	get_configuration_info_from_dot_env_file(string dot_env_file_path)
 				search_for = "PATH_OF_CONFIG_FILE_FOR_SERVERS_DATA=";
 				g_path_of_config_file_for_servers = trim(line.erase(0, search_for.length()), " \t\n\r");
 			}
+			// get the path to put the html files
+			else if (line.find("PATH_TO_PUT_HTML_FILES=") != string::npos)
+			{
+				search_for = "PATH_TO_PUT_HTML_FILES=";
+				g_path_to_html_files = trim(line.erase(0, search_for.length()), " \t\n\r");
+			}
 		}
 		_env.close();
 	}

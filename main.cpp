@@ -30,6 +30,8 @@ string				g_database_password;
 string				g_path_of_domains_names_files;
 // the path of config file for servers get it from .env file
 string				g_path_of_config_file_for_servers;
+// the path to put the html files
+string				g_path_to_html_files;
 
 int main(void)
 {
