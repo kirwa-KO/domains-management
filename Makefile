@@ -18,10 +18,10 @@ LIBRARY = -l mysqlcppconn -lncurses
 all: $(NAME)
 
 # $(NAME) : $(SRCS)
-# @$(COMPILER) $(SRCS) $(LIBRARY) -o $(NAME)
+#@$(COMPILER) $(FLAGS) $(SRCS) $(LIBRARY) -o $(NAME)
 
 $(NAME) : $(SRCS)
-	@$(COMPILER) $(FLAGS) $(SRCS) $(LIBRARY) -o $(NAME)
+	@$(COMPILER) $(SRCS) $(LIBRARY) -o $(NAME)
 
 clean:
 	@rm -rf $(NAME)
