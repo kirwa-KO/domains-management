@@ -206,7 +206,7 @@ bool	get_if_the_difference_between_current_date_and_given_greater_thet_45_days(s
 
 	time(&timer);  /* get current time; same as: timer = time(NULL)  */
 
-	seconds = difftime(timer,mktime(&expire_date_struct));
+	seconds = difftime(mktime(&expire_date_struct), timer);
 
 	// 3888000 is 45 days in seconds
 	if (seconds <= 3888000)

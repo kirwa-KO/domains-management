@@ -56,7 +56,21 @@ void    Registrar::press_add_registrar(WINDOW * popup, vector<Registrar> & regis
 												&Registrar::set_name,
 												&Registrar::set_url
 												};
-	Registrar *tmp_registrar = new Registrar("", "");
+
+	Registrar *tmp_registrar;
+
+	try
+	{
+		// if we fill to allocate the new Registrar object
+		tmp_registrar = new Registrar("", "");
+		if (tmp_registrar == NULL)
+			return ;
+	}
+	catch(const std::exception& e)
+	{
+		return ;
+	}
+	
 
 	wbkgd(popup, COLOR_PAIR(1));
 	box(popup, 0, 0);

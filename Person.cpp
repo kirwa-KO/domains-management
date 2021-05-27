@@ -76,7 +76,20 @@ void    Person::press_add_person(WINDOW * popup, vector<Person> & persons)
 												&Person::set_email,
 												&Person::set_phone
 												};
-	Person *tmp_person = new Person();
+	Person *tmp_person;
+
+	try
+	{
+		// if we fill to allocate the new person object
+		tmp_person = new Person();
+		if (tmp_person == NULL)
+			return ;
+	}
+	catch(const std::exception& e)
+	{
+		return ;
+	}
+	
 
 	wbkgd(popup, COLOR_PAIR(1));
 	box(popup, 0, 0);

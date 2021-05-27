@@ -169,7 +169,21 @@ void		Nserver::press_add_nserver(WINDOW * popup, vector<Nserver> & nservers)
 												&Nserver::set_port,
 												&Nserver::set_usr
 												};
-	Nserver *tmp_nserver = new Nserver();
+
+	Nserver *tmp_nserver;
+
+	try
+	{
+		// if we fill to allocate the new nserver object
+		tmp_nserver = new Nserver();
+		if (tmp_nserver == NULL)
+			return ;
+	}
+	catch(const std::exception& e)
+	{
+		return ;
+	}
+	
 
 	wbkgd(popup, COLOR_PAIR(1));
 	box(popup, 0, 0);

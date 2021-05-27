@@ -601,7 +601,20 @@ void    Domain::press_add_domain(WINDOW * popup, vector<Domain> & domains)
 												&Domain::set_mx,
 												&Domain::set_mx
 												};
-	Domain *tmp_domain = new Domain("");
+	Domain *tmp_domain;
+	
+	try
+	{
+		// if we fill to allocate the new domain object
+		tmp_domain = new Domain("");
+		if (tmp_domain == NULL)
+			return ;
+	}
+	catch(const std::exception& e)
+	{
+		return ;
+	}
+	
 
 	wbkgd(popup, COLOR_PAIR(1));
 	box(popup, 0, 0);
