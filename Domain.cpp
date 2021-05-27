@@ -234,7 +234,7 @@ void Domain::add_domain_to_database(Domain domain)
 												+ domain.get_names_servers()[0] + "' as ns1, '"
 												+ domain.get_names_servers()[1] + "' as ns2, '"
 												+ domain.get_names_servers()[2] + "' as ns3, '"
-												+ domain.get_names_servers()[4] + "' as ns4, '"
+												+ domain.get_names_servers()[3] + "' as ns4, '"
 												+ domain.get_mx()[0] + "' as mx1, '"
 												+ domain.get_mx()[1] + "' as mx2, '"
 												+ domain.get_www() + "' as www, '"
