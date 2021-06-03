@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<BorlandProject>
-	<Transactions>
-    <Transaction>2012/06/29 14:43:50.000.371,=C:\Download\New\IDM\Unit1.pas</Transaction>
-    <Transaction>2012/06/29 14:45:35.000.834,C:\Download\New\IDM\Unit1.dfm=C:\Download\New\IDM\uReporteExpiracion.dfm</Transaction>
-    <Transaction>2012/06/29 14:45:35.000.834,C:\Download\New\IDM\Unit1.pas=C:\Download\New\IDM\uReporteExpiracion.pas</Transaction>
-  </Transactions>
-</BorlandProject>
